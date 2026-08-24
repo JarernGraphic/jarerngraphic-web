@@ -312,3 +312,365 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+
+
+// ═══════════════════════════════════════════
+// VISUAL LIVE PAGE EDITOR MODULE (JarernGraphic)
+// ═══════════════════════════════════════════
+(function initVisualLiveEditor() {
+  // Avoid running on admin.html to prevent nested admin toolbars
+  const currentPath = window.location.pathname.replace(/\\.html$/, '').replace(/^\\//, '') || 'index';
+  if (currentPath.includes('admin')) return;
+
+  const storageKey = 'jg_content_edits_' + (currentPath || 'index');
+  let isEditing = false;
+  let isPreview = false;
+
+  // 1. Auto-hydrate saved edits on page load
+  function applySavedEdits() {
+    try {
+      const raw = localStorage.getItem(storageKey);
+      if (!raw) return;
+      const edits = JSON.parse(raw);
+      if (Array.isArray(edits)) {
+        edits.forEach(item => {
+          const els = document.querySelectorAll(item.selector);
+          if (els && els[item.index]) {
+            els[item.index].innerHTML = item.html;
+          }
+        });
+      }
+    } catch (e) {
+      console.warn('Could not load saved page edits:', e);
+    }
+  }
+
+  applySavedEdits();
+
+  // 2. Selectors for text elements that can be visually edited
+  const EDITABLE_SELECTORS = [
+    'h1', 'h2', 'h3', 'h4', 'h5',
+    'p',
+    '.promo-line',
+    '.hero-copy p',
+    '.hero-subcopy p',
+    '.app-name',
+    '.app-category',
+    '.fan-tag',
+    '.fan-badge',
+    '.chip',
+    '.tag',
+    '.card-price',
+    '.pdp-price',
+    '.compat-pill span',
+    '.section-eyebrow',
+    '.section-head h2',
+    '.section-head span',
+    '.feature-card h3',
+    '.feature-card p',
+    '.process-step h4',
+    '.process-step p',
+    '.trust-card h3',
+    '.trust-card p',
+    '.faq-q h3',
+    '.faq-a p',
+    '.pdp-spec-info strong',
+    '.pdp-spec-info span',
+    '.display-title',
+    '.display-sub'
+  ].join(', ');
+
+  // 3. Create and show floating toggle button
+  function createFloatingTrigger() {
+    const btn = document.createElement('button');
+    btn.id = 'jgFloatingEditBtn';
+    btn.className = 'jg-floating-edit-btn';
+    btn.setAttribute('aria-label', 'เปิดโหมดแก้ไขข้อความ');
+    btn.innerHTML = `
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+      </svg>
+      <span>แก้ไขข้อความหน้าเว็บ</span>
+    `;
+    btn.addEventListener('click', toggleVisualEditor);
+    document.body.appendChild(btn);
+  }
+
+  // 4. Toggle Editor
+  function toggleVisualEditor() {
+    if (isEditing) {
+      exitVisualEditor();
+    } else {
+      startVisualEditor();
+    }
+  }
+
+  function startVisualEditor() {
+    isEditing = true;
+    isPreview = false;
+    document.body.classList.add('jg-editor-active');
+    document.body.classList.remove('jg-editor-preview');
+
+    const floatBtn = document.getElementById('jgFloatingEditBtn');
+    if (floatBtn) floatBtn.style.display = 'none';
+
+    // Make target text elements editable
+    const targets = document.querySelectorAll(EDITABLE_SELECTORS);
+    targets.forEach(el => {
+      // Skip anything inside navigation or editor controls
+      if (el.closest('.nav') || el.closest('.jg-live-editor-bar') || el.closest('.admin-nav') || el.closest('#checkoutModal')) return;
+      el.setAttribute('contenteditable', 'true');
+      el.setAttribute('spellcheck', 'false');
+    });
+
+    createEditorBar();
+    showToastNotification('เข้าสู่โหมดแก้ไขข้อความสด สามารถคลิกพิมพ์บนหน้าเว็บได้ทันทีครับ');
+  }
+
+  function exitVisualEditor() {
+    isEditing = false;
+    isPreview = false;
+    document.body.classList.remove('jg-editor-active', 'jg-editor-preview');
+
+    const targets = document.querySelectorAll('[contenteditable="true"]');
+    targets.forEach(el => el.removeAttribute('contenteditable'));
+
+    const bar = document.getElementById('jgLiveEditorBar');
+    if (bar) bar.remove();
+
+    const floatBtn = document.getElementById('jgFloatingEditBtn');
+    if (floatBtn) floatBtn.style.display = 'inline-flex';
+  }
+
+  // 5. Build Top Toolbar
+  function createEditorBar() {
+    let bar = document.getElementById('jgLiveEditorBar');
+    if (bar) bar.remove();
+
+    bar = document.createElement('div');
+    bar.id = 'jgLiveEditorBar';
+    bar.className = 'jg-live-editor-bar';
+
+    const pageLabel = currentPath === 'index' ? 'หน้าแรก (Home)' : currentPath;
+
+    bar.innerHTML = `
+      <div class="jg-editor-badge">
+        <span class="jg-editor-pill">Live Editor</span>
+        <span>โหมดแก้ไขข้อความสด</span>
+        <span class="jg-editor-page-tag">${pageLabel}</span>
+      </div>
+
+      <div class="jg-editor-actions">
+        <button class="jg-editor-btn jg-editor-btn-primary" id="jgBtnSaveEdits" title="บันทึกข้อความทั้งหมดลงเบราว์เซอร์">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+            <polyline points="17 21 17 13 7 13 7 21"></polyline>
+            <polyline points="7 3 7 8 15 8"></polyline>
+          </svg>
+          <span>บันทึกข้อความ</span>
+        </button>
+
+        <button class="jg-editor-btn jg-editor-btn-outline" id="jgBtnCopyHtml" title="คัดลอกโค้ด HTML ที่แก้ไขแล้วเพื่อนำไปบันทึกถาวร">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span>คัดลอก HTML</span>
+        </button>
+
+        <button class="jg-editor-btn jg-editor-btn-outline" id="jgBtnDownloadHtml" title="ดาวน์โหลดไฟล์ .html ที่แก้ไขแล้ว">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          <span>ดาวน์โหลด</span>
+        </button>
+
+        <button class="jg-editor-btn jg-editor-btn-outline" id="jgBtnTogglePreview" title="สลับซ่อน/แสดงกรอบไฮไลต์เพื่อดูพรีวิวเสมือนจริง">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+            <circle cx="12" cy="12" r="3"></circle>
+          </svg>
+          <span id="jgPreviewText">ดูตัวอย่างจริง</span>
+        </button>
+
+        <button class="jg-editor-btn jg-editor-btn-outline" id="jgBtnResetEdits" title="รีเซ็ตข้อความกลับเป็นค่าเริ่มต้นเดิม">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+            <path d="M3 3v5h5"></path>
+          </svg>
+          <span>รีเซ็ต</span>
+        </button>
+
+        <button class="jg-editor-btn jg-editor-btn-danger" id="jgBtnExitEditor" title="ปิดโหมดแก้ไข">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+          <span>ปิด</span>
+        </button>
+      </div>
+    `;
+
+    document.body.prepend(bar);
+
+    // Bind toolbar events
+    document.getElementById('jgBtnSaveEdits').addEventListener('click', saveCurrentEdits);
+    document.getElementById('jgBtnCopyHtml').addEventListener('click', copyCleanHtml);
+    document.getElementById('jgBtnDownloadHtml').addEventListener('click', downloadCleanHtml);
+    document.getElementById('jgBtnTogglePreview').addEventListener('click', togglePreviewMode);
+    document.getElementById('jgBtnResetEdits').addEventListener('click', resetCurrentEdits);
+    document.getElementById('jgBtnExitEditor').addEventListener('click', exitVisualEditor);
+  }
+
+  // 6. Save Edits to LocalStorage
+  function saveCurrentEdits() {
+    const edits = [];
+    const targets = document.querySelectorAll(EDITABLE_SELECTORS);
+    
+    // Group elements by tag/class selector to store efficiently
+    targets.forEach(el => {
+      if (el.closest('.nav') || el.closest('.jg-live-editor-bar') || el.closest('.admin-nav') || el.closest('#checkoutModal')) return;
+      
+      // Determine unique selector
+      const tag = el.tagName.toLowerCase();
+      const cls = el.className ? '.' + el.className.trim().split(/\\s+/)[0] : '';
+      const selector = cls ? tag + cls : tag;
+      
+      const siblings = Array.from(document.querySelectorAll(selector));
+      const index = siblings.indexOf(el);
+
+      if (index !== -1) {
+        edits.push({
+          selector: selector,
+          index: index,
+          html: el.innerHTML
+        });
+      }
+    });
+
+    try {
+      localStorage.setItem(storageKey, JSON.stringify(edits));
+      showToastNotification('บันทึกการแก้ไขข้อความหน้าเว็บเรียบร้อยแล้ว!');
+    } catch (e) {
+      alert('ไม่สามารถบันทึกข้อความได้: ' + e.message);
+    }
+  }
+
+  // 7. Toggle Preview Mode (Hide outlines)
+  function togglePreviewMode() {
+    isPreview = !isPreview;
+    const txt = document.getElementById('jgPreviewText');
+    if (isPreview) {
+      document.body.classList.add('jg-editor-preview');
+      if (txt) txt.textContent = 'กลับไปแก้ไข';
+      showToastNotification('กำลังแสดงพรีวิวผลลัพธ์จริง (ซ่อนกรอบแก้ไข)');
+    } else {
+      document.body.classList.remove('jg-editor-preview');
+      if (txt) txt.textContent = 'ดูตัวอย่างจริง';
+    }
+  }
+
+  // 8. Generate Clean HTML without Editor UI
+  function getCleanHtml() {
+    const clone = document.documentElement.cloneNode(true);
+    
+    // Remove editor bar and floating button from clone
+    const editorBar = clone.querySelector('#jgLiveEditorBar');
+    if (editorBar) editorBar.remove();
+    const floatBtn = clone.querySelector('#jgFloatingEditBtn');
+    if (floatBtn) floatBtn.remove();
+    const toast = clone.querySelector('#jgEditorToast');
+    if (toast) toast.remove();
+
+    // Remove contenteditable attributes
+    clone.querySelectorAll('[contenteditable]').forEach(el => {
+      el.removeAttribute('contenteditable');
+      el.removeAttribute('spellcheck');
+    });
+
+    // Remove jg-editor classes from body
+    const body = clone.querySelector('body');
+    if (body) {
+      body.classList.remove('jg-editor-active', 'jg-editor-preview');
+    }
+
+    return '<!DOCTYPE html>\n' + clone.outerHTML;
+  }
+
+  // 9. Copy Clean HTML to Clipboard
+  function copyCleanHtml() {
+    const html = getCleanHtml();
+    navigator.clipboard.writeText(html).then(() => {
+      showToastNotification('คัดลอกโค้ด HTML ที่แก้ไขแล้วเรียบร้อย! สามารถนำไปบันทึกลงไฟล์ได้ทันทีครับ');
+    }).catch(err => {
+      // Fallback
+      const ta = document.createElement('textarea');
+      ta.value = html;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      ta.remove();
+      showToastNotification('คัดลอกโค้ด HTML เรียบร้อยแล้ว!');
+    });
+  }
+
+  // 10. Download Clean HTML File
+  function downloadCleanHtml() {
+    const html = getCleanHtml();
+    const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+    const filename = (currentPath === 'index' ? 'index' : currentPath) + '.html';
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+    link.click();
+    URL.revokeObjectURL(link.href);
+    showToastNotification('ดาวน์โหลดไฟล์ ' + filename + ' เรียบร้อยแล้ว!');
+  }
+
+  // 11. Reset Edits to original defaults
+  function resetCurrentEdits() {
+    if (confirm('ต้องการรีเซ็ตข้อความทั้งหมดของหน้านี้กลับเป็นค่าเริ่มต้นเดิมหรือไม่?')) {
+      localStorage.removeItem(storageKey);
+      window.location.reload();
+    }
+  }
+
+  // 12. Toast Notification
+  function showToastNotification(msg) {
+    let t = document.getElementById('jgEditorToast');
+    if (!t) {
+      t = document.createElement('div');
+      t.id = 'jgEditorToast';
+      t.className = 'toast-msg';
+      document.body.appendChild(t);
+    }
+    t.innerHTML = `
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <polyline points="20 6 9 17 4 12"></polyline>
+      </svg>
+      <span>${msg}</span>
+    `;
+    t.className = 'toast-msg show';
+    setTimeout(() => { t.className = 'toast-msg'; }, 3200);
+  }
+
+  // Keyboard shortcut Ctrl+Shift+E or Cmd+Shift+E
+  window.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === 'e') {
+      e.preventDefault();
+      toggleVisualEditor();
+    }
+  });
+
+  // Auto-launch if URL has ?edit=1
+  window.addEventListener('DOMContentLoaded', () => {
+    createFloatingTrigger();
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('edit') === '1') {
+      startVisualEditor();
+    }
+  });
+})();

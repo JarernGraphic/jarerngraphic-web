@@ -255,6 +255,10 @@
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
       รายการสั่งซื้อ <span class="tab-count" id="tabCountOrders">0</span>
     </button>
+    <button class="admin-tab-btn" onclick="switchTab('editor', this)">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+      แก้ไขข้อความหน้าเว็บสด (Visual Editor)
+    </button>
   </div>
 
   <div id="tab-products" class="admin-panel">
@@ -298,6 +302,108 @@
       </button>
     </div>
     <div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Order ID</th><th>ลูกค้า</th><th>สินค้า</th><th>ยอดเงิน</th><th>ช่องทาง</th><th>เวลา</th><th>สถานะ</th><th>จัดการ</th></tr></thead><tbody id="orderListBody"></tbody></table></div>
+  </div>
+
+  <!-- TAB 4: VISUAL PAGE EDITOR LAUNCHER -->
+  <div id="tab-editor" class="admin-panel" style="display:none;">
+    <div class="panel-header">
+      <div>
+        <h3>แก้ไขข้อความหน้าเว็บแบบ Live Preview</h3>
+        <div class="panel-sub">เลือกหน้าที่ต้องการเพื่อเปิดโหมดคลิกพิมพ์แก้ข้อความบนหน้าเว็บจริงได้ทันที</div>
+      </div>
+    </div>
+
+    <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:18px;">
+      <!-- Page 1: Home -->
+      <div style="background:#f8f9fc; border:1px solid rgba(0,0,0,.06); border-radius:16px; padding:20px; display:flex; flex-direction:column; justify-content:space-between; gap:14px;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+            <strong style="font-size:16px; color:var(--ink);">หน้าแรก (Home)</strong>
+            <span style="font-size:11px; font-weight:700; background:rgba(0,113,227,.08); color:var(--blue); padding:3px 8px; border-radius:999px;">index.html</span>
+          </div>
+          <p style="font-size:13px; color:var(--muted); margin:0; line-height:1.5;">แก้ไขหัวข้อใหญ่ Hero, ป้ายแท็ก, จุดเด่นระบบ, ราคาสินค้าหน้าร้าน และคำถาม FAQ</p>
+        </div>
+        <a href="index?edit=1" target="_blank" class="btn btn-primary btn-small" style="width:100%; gap:6px; font-size:13px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+          เปิดแก้ไขข้อความหน้าแรก
+        </a>
+      </div>
+
+      <!-- Page 2: saiscale -->
+      <div style="background:#f8f9fc; border:1px solid rgba(0,0,0,.06); border-radius:16px; padding:20px; display:flex; flex-direction:column; justify-content:space-between; gap:14px;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+            <strong style="font-size:16px; color:var(--ink);">saiscale</strong>
+            <span style="font-size:11px; font-weight:700; background:rgba(3,105,161,.08); color:#0284c7; padding:3px 8px; border-radius:999px;">saiscale.html</span>
+          </div>
+          <p style="font-size:13px; color:var(--muted); margin:0; line-height:1.5;">แก้ไขสเปก, ฟีเจอร์ใส่เส้นบอกขนาด, คำอธิบายระบบ, ราคา และข้อกำหนดการใช้งาน</p>
+        </div>
+        <a href="saiscale?edit=1" target="_blank" class="btn btn-primary btn-small" style="width:100%; gap:6px; font-size:13px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+          เปิดแก้ไขหน้ารายละเอียด saiscale
+        </a>
+      </div>
+
+      <!-- Page 3: ez nest -->
+      <div style="background:#f8f9fc; border:1px solid rgba(0,0,0,.06); border-radius:16px; padding:20px; display:flex; flex-direction:column; justify-content:space-between; gap:14px;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+            <strong style="font-size:16px; color:var(--ink);">ez nest</strong>
+            <span style="font-size:11px; font-weight:700; background:rgba(225,29,72,.08); color:#e11d48; padding:3px 8px; border-radius:999px;">eznest.html</span>
+          </div>
+          <p style="font-size:13px; color:var(--muted); margin:0; line-height:1.5;">แก้ไขข้อมูล True-Shape Nesting, ฟังก์ชันจัดเรียงประหยัดเนื้อที่ และตารางสเปก</p>
+        </div>
+        <a href="eznest?edit=1" target="_blank" class="btn btn-primary btn-small" style="width:100%; gap:6px; font-size:13px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+          เปิดแก้ไขหน้ารายละเอียด ez nest
+        </a>
+      </div>
+
+      <!-- Page 4: CutPrep -->
+      <div style="background:#f8f9fc; border:1px solid rgba(0,0,0,.06); border-radius:16px; padding:20px; display:flex; flex-direction:column; justify-content:space-between; gap:14px;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+            <strong style="font-size:16px; color:var(--ink);">CutPrep</strong>
+            <span style="font-size:11px; font-weight:700; background:rgba(99,102,241,.08); color:#6366f1; padding:3px 8px; border-radius:999px;">cutprep.html</span>
+          </div>
+          <p style="font-size:13px; color:var(--muted); margin:0; line-height:1.5;">แก้ไขรายละเอียดระบบล้างเส้นซ้อน, เชื่อมเส้นเปิด, บริดจ์สะพาน และส่งออก DXF</p>
+        </div>
+        <a href="cutprep?edit=1" target="_blank" class="btn btn-primary btn-small" style="width:100%; gap:6px; font-size:13px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+          เปิดแก้ไขหน้ารายละเอียด CutPrep
+        </a>
+      </div>
+
+      <!-- Page 5: Print & Cost -->
+      <div style="background:#f8f9fc; border:1px solid rgba(0,0,0,.06); border-radius:16px; padding:20px; display:flex; flex-direction:column; justify-content:space-between; gap:14px;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+            <strong style="font-size:16px; color:var(--ink);">Print & Cost</strong>
+            <span style="font-size:11px; font-weight:700; background:rgba(16,185,129,.08); color:#059669; padding:3px 8px; border-radius:999px;">costboard.html</span>
+          </div>
+          <p style="font-size:13px; color:var(--muted); margin:0; line-height:1.5;">แก้ไขฟังก์ชันมาร์กพิมพ์ตัด, คำนวณตารางเมตร, คำนวณต้นทุน และตารางเปรียบเทียบ</p>
+        </div>
+        <a href="costboard?edit=1" target="_blank" class="btn btn-primary btn-small" style="width:100%; gap:6px; font-size:13px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+          เปิดแก้ไขหน้ารายละเอียด Print & Cost
+        </a>
+      </div>
+
+      <!-- Page 6: Pricing -->
+      <div style="background:#f8f9fc; border:1px solid rgba(0,0,0,.06); border-radius:16px; padding:20px; display:flex; flex-direction:column; justify-content:space-between; gap:14px;">
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+            <strong style="font-size:16px; color:var(--ink);">ตารางราคา (Pricing)</strong>
+            <span style="font-size:11px; font-weight:700; background:rgba(0,113,227,.08); color:var(--blue); padding:3px 8px; border-radius:999px;">pricing.html</span>
+          </div>
+          <p style="font-size:13px; color:var(--muted); margin:0; line-height:1.5;">แก้ไขราคาแพ็กเกจเดี่ยว, แพ็กเกจ Bundle รวม และเงื่อนไขการรับประกัน</p>
+        </div>
+        <a href="pricing?edit=1" target="_blank" class="btn btn-primary btn-small" style="width:100%; gap:6px; font-size:13px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+          เปิดแก้ไขหน้าตารางราคา
+        </a>
+      </div>
+    </div>
   </div>
 </main>
 
@@ -400,7 +506,7 @@ function saveData(){try{localStorage.setItem('jg_admin_products',JSON.stringify(
 function showToast(msg){var t=document.getElementById('toastMsg');if(!t)return;t.innerHTML='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> '+msg;t.className='toast-msg show';setTimeout(function(){t.className='toast-msg';},2800);}
 function handleAdminLogin(){var pass=document.getElementById('adminPassInput').value.trim();if(pass==='admin1234'||pass.length>=6){sessionStorage.setItem('jg_admin_session','active');document.getElementById('adminLoginSection').style.display='none';document.getElementById('adminDashboardSection').style.display='block';document.getElementById('adminLogoutBtn').style.display='inline-flex';loadData();renderAll();showToast('เข้าสู่ระบบสำเร็จ');}else{alert('รหัสผ่านไม่ถูกต้อง (รหัสเริ่มต้น: admin1234)');}}
 document.getElementById('adminLogoutBtn').addEventListener('click',function(){sessionStorage.removeItem('jg_admin_session');document.getElementById('adminDashboardSection').style.display='none';document.getElementById('adminLoginSection').style.display='flex';document.getElementById('adminLogoutBtn').style.display='none';});
-function switchTab(tabId,el){document.querySelectorAll('.admin-tab-btn').forEach(function(b){b.classList.remove('active');});if(el)el.classList.add('active');document.getElementById('tab-products').style.display=tabId==='products'?'block':'none';document.getElementById('tab-licenses').style.display=tabId==='licenses'?'block':'none';document.getElementById('tab-orders').style.display=tabId==='orders'?'block':'none';}
+function switchTab(tabId,el){document.querySelectorAll('.admin-tab-btn').forEach(function(b){b.classList.remove('active');});if(el)el.classList.add('active');document.getElementById('tab-products').style.display=tabId==='products'?'block':'none';document.getElementById('tab-licenses').style.display=tabId==='licenses'?'block':'none';document.getElementById('tab-orders').style.display=tabId==='orders'?'block':'none';document.getElementById('tab-editor').style.display=tabId==='editor'?'block':'none';}
 function renderAll(){renderProducts();renderLicenses();renderOrders();updateKPIs();updateSelectOptions();}
 function updateKPIs(){var totalRevenue=orders.reduce(function(s,o){return s+(Number(o.amount)||0);},0)+products.reduce(function(s,p){return s+((Number(p.price)||0)*(Number(p.sales)||0));},0);var activeKeys=licenses.filter(function(l){return l.status==='Active';}).length;var unlocked=licenses.filter(function(l){return l.hwid&&l.hwid.indexOf('UNLOCKED')!==-1;}).length;document.getElementById('kpiRevenue').textContent='฿'+totalRevenue.toLocaleString();document.getElementById('kpiActiveKeys').textContent=activeKeys+' Keys';document.getElementById('kpiProducts').textContent=products.length+' โปรแกรม';document.getElementById('kpiUnlockedKeys').textContent=unlocked+' Keys';document.getElementById('tabCountProducts').textContent=products.length;document.getElementById('tabCountLicenses').textContent=licenses.length;document.getElementById('tabCountOrders').textContent=orders.length;}
 function renderProducts(){var tbody=document.getElementById('productListBody');tbody.innerHTML=products.map(function(p,i){var isPaused=p.status==='Paused';return '<tr><td><code style="color:var(--blue);font-weight:700;font-size:12px;">'+p.sku+'</code></td><td><strong style="color:var(--ink);font-size:14px;">'+p.name+'</strong>'+(p.url?'<a href="'+p.url+'" target="_blank" style="color:var(--muted);margin-left:6px;font-size:11px;">'+ICON.link+'</a>':'')+'</td><td>'+p.app+'</td><td><strong style="color:var(--red);">฿'+Number(p.price).toLocaleString()+'</strong></td><td>'+(p.sales||0)+' ชิ้น</td><td><span class="badge-status '+(isPaused?'status-paused':'status-active')+'">'+(isPaused?'พักการขาย':'เปิดขาย')+'</span></td><td><button class="action-btn action-btn-primary" onclick="openEditProductModal('+i+')">'+ICON.edit+' แก้ไข</button></td></tr>';}).join('');}

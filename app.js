@@ -318,9 +318,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 // ═══════════════════════════════════════════
-// SITE CONTENT SYNC & LIVE PREVIEW (Admin-controlled)
+// DIRECT VISUAL CONTENT HYDRATION (Admin Sync)
 // ═══════════════════════════════════════════
-(function initSiteContentSync() {
+(function initDirectVisualHydration() {
   const currentPath = window.location.pathname.replace(/\.html$/, '').replace(/^\//, '') || 'index';
   const pageKey = (currentPath.includes('saiscale') ? 'saiscale' :
                    currentPath.includes('eznest') ? 'eznest' :
@@ -329,41 +329,33 @@ document.addEventListener('DOMContentLoaded', () => {
                    currentPath.includes('pricing') ? 'pricing' :
                    currentPath.includes('guide') ? 'guide' : 'index');
 
-  function applyContent(data) {
-    if (!data || typeof data !== 'object') return;
-
-    // Apply by selector mapping
-    Object.keys(data).forEach(selector => {
-      const val = data[selector];
-      if (val === undefined || val === null) return;
-
-      const els = document.querySelectorAll(selector);
-      if (els.length === 1) {
-        els[0].innerHTML = val;
-      } else if (els.length > 1 && Array.isArray(val)) {
-        val.forEach((itemVal, idx) => {
-          if (els[idx]) els[idx].innerHTML = itemVal;
-        });
-      } else if (els.length > 0 && typeof val === 'string') {
-        els[0].innerHTML = val;
-      }
-    });
-  }
-
-  // Load from localStorage on page load
   try {
-    const saved = localStorage.getItem('jg_page_content_' + pageKey);
-    if (saved) {
-      applyContent(JSON.parse(saved));
+    const savedHtml = localStorage.getItem('jg_page_body_' + pageKey);
+    if (savedHtml && !window.location.search.includes('raw=1')) {
+      document.body.innerHTML = savedHtml;
+      
+      // Re-init mobile nav and FAQ if body was replaced
+      setTimeout(() => {
+        const toggle = document.querySelector('.nav-toggle');
+        const links = document.querySelector('.nav-links');
+        if (toggle && links) {
+          toggle.addEventListener('click', () => {
+            const isOpen = links.classList.toggle('mobile-open');
+            toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+          });
+        }
+        document.querySelectorAll('.faq-item').forEach((item) => {
+          const q = item.querySelector('.faq-q');
+          if (!q) return;
+          q.addEventListener('click', () => {
+            const wasOpen = item.classList.contains('open');
+            document.querySelectorAll('.faq-item.open').forEach((el) => el !== item && el.classList.remove('open'));
+            item.classList.toggle('open', !wasOpen);
+          });
+        });
+      }, 50);
     }
   } catch (e) {
-    console.warn('Content hydration error:', e);
+    console.warn('Hydration error:', e);
   }
-
-  // Listen to live preview updates from Admin iframe via postMessage
-  window.addEventListener('message', (e) => {
-    if (e.data && e.data.type === 'JG_ADMIN_LIVE_UPDATE') {
-      applyContent(e.data.content);
-    }
-  });
 })();

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin Dashboard — JarernGraphic Store Management</title>
 <meta name="description" content="ระบบจัดการร้านค้า โปรแกรมเสริม และ License Keys สำหรับผู้ดูแลระบบ JarernGraphic">
-<link rel="stylesheet" href="style.css?v=store-11">
+<link rel="stylesheet" href="style.css?v=store-12">
 <style>
 /* ═══════════════════════════════════════════
    Admin Dashboard — Unified Light Theme
@@ -75,7 +75,6 @@
 /* Forms */
 .admin-input{ background:#f8f9fc; border:1px solid #d1d5db; border-radius:10px; padding:10px 14px; color:var(--ink); font-size:13.5px; width:100%; transition:border-color .2s; }
 .admin-input:focus{ outline:none; border-color:var(--blue); box-shadow:0 0 0 3px rgba(0,113,227,.08); }
-textarea.admin-input{ font-family:inherit; resize:vertical; min-height:76px; }
 
 /* Modals */
 .admin-modal{ display:none; position:fixed; inset:0; background:rgba(0,0,0,.5); backdrop-filter:blur(8px); z-index:9999; justify-content:center; align-items:center; padding:20px; }
@@ -89,28 +88,23 @@ textarea.admin-input{ font-family:inherit; resize:vertical; min-height:76px; }
 .toast-msg.show{ display:flex; align-items:center; gap:8px; animation:slideUpFade .25s ease both; }
 
 /* ═══════════════════════════════════════════
-   Split-Screen Live Editor Layout
+   Full-Canvas Direct Visual Webpage Editor
    ═══════════════════════════════════════════ */
-.editor-split-grid{ display:grid; grid-template-columns:1fr 1fr; gap:24px; align-items:start; }
-.editor-form-col{ display:flex; flex-direction:column; gap:18px; }
-.editor-group-card{ background:#f8f9fc; border:1px solid rgba(0,0,0,.06); border-radius:16px; padding:20px; display:flex; flex-direction:column; gap:14px; }
-.editor-group-header{ display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid rgba(0,0,0,.06); padding-bottom:10px; }
-.editor-group-header h4{ margin:0; font-size:15px; font-weight:700; color:var(--ink); }
+.canvas-editor-panel{ display:flex; flex-direction:column; gap:16px; }
+.canvas-top-bar{ background:#f8f9fc; border:1px solid rgba(0,0,0,.06); border-radius:16px; padding:14px 20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; }
+.canvas-page-picker{ display:flex; align-items:center; gap:10px; }
+.canvas-actions{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
 
-.editor-preview-col{ position:sticky; top:84px; display:flex; flex-direction:column; gap:12px; }
-.preview-header-bar{ display:flex; justify-content:space-between; align-items:center; background:#ffffff; border:1px solid rgba(0,0,0,.06); border-radius:14px; padding:10px 16px; }
-.preview-device-switch{ display:flex; gap:6px; }
-.device-btn{ background:transparent; border:0; padding:5px 10px; border-radius:8px; font-size:12px; font-weight:600; color:var(--muted); cursor:pointer; }
-.device-btn.active{ background:rgba(0,113,227,.1); color:var(--blue); }
+.canvas-device-controls{ display:flex; align-items:center; gap:6px; background:#ffffff; border:1px solid rgba(0,0,0,.06); border-radius:10px; padding:4px 6px; }
+.canvas-device-btn{ background:transparent; border:0; padding:5px 12px; border-radius:6px; font-size:12.5px; font-weight:600; color:var(--muted); cursor:pointer; transition:all .15s ease; }
+.canvas-device-btn.active{ background:rgba(0,113,227,.1); color:var(--blue); }
 
-.preview-frame-wrap{ background:#e9eaee; border:1px solid rgba(0,0,0,.08); border-radius:18px; overflow:hidden; box-shadow:0 14px 40px rgba(0,0,0,.08); height:750px; display:flex; justify-content:center; transition:width .3s ease; }
-.preview-iframe{ width:100%; height:100%; border:0; background:#fff; }
+.canvas-instructions{ background:rgba(0,113,227,.05); border:1px solid rgba(0,113,227,.15); border-radius:12px; padding:10px 16px; font-size:13px; color:var(--blue); display:flex; align-items:center; gap:8px; font-weight:500; }
 
-@media (max-width:1080px){
-  .editor-split-grid{ grid-template-columns:1fr; }
-  .editor-preview-col{ position:static; }
-  .preview-frame-wrap{ height:500px; }
-}
+.canvas-viewport-container{ background:#dadae0; border-radius:20px; padding:20px; display:flex; justify-content:center; overflow-x:auto; }
+.canvas-viewport-frame{ background:#ffffff; border-radius:14px; overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,.15); width:100%; height:820px; transition:width .3s cubic-bezier(.16,1,.3,1); border:1px solid rgba(0,0,0,.1); }
+.canvas-iframe{ width:100%; height:100%; border:0; background:#ffffff; display:block; }
+
 @media (max-width:980px){ .admin-kpi-grid{ grid-template-columns:repeat(2,1fr); } }
 @media (max-width:640px){ .admin-kpi-grid{ grid-template-columns:1fr; } .admin-container{ padding:20px 14px 60px; } }
 </style>
@@ -199,9 +193,9 @@ textarea.admin-input{ font-family:inherit; resize:vertical; min-height:76px; }
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
       รายการสั่งซื้อ <span class="tab-count" id="tabCountOrders">0</span>
     </button>
-    <button class="admin-tab-btn" onclick="switchTab('content-editor', this)">
+    <button class="admin-tab-btn" onclick="switchTab('visual-editor', this)">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
-      แก้ไขข้อความหน้าเว็บ (Live Preview)
+      แก้ไขข้อความบนหน้าเว็บจริง (Direct Visual Editor)
     </button>
   </div>
 
@@ -251,56 +245,61 @@ textarea.admin-input{ font-family:inherit; resize:vertical; min-height:76px; }
     <div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Order ID</th><th>ลูกค้า</th><th>สินค้า</th><th>ยอดเงิน</th><th>ช่องทาง</th><th>เวลา</th><th>สถานะ</th><th>จัดการ</th></tr></thead><tbody id="orderListBody"></tbody></table></div>
   </div>
 
-  <!-- TAB 4: VISUAL CONTENT EDITOR WITH LIVE PREVIEW IFRAME -->
-  <div id="tab-content-editor" class="admin-panel" style="display:none; padding:24px;">
-    <div class="panel-header" style="margin-bottom:18px;">
+  <!-- TAB 4: DIRECT VISUAL WEBPAGE EDITOR (FULL CANVAS) -->
+  <div id="tab-visual-editor" class="admin-panel canvas-editor-panel" style="display:none; padding:24px;">
+    <div class="panel-header" style="margin-bottom:12px;">
       <div>
-        <h3>ระบบแก้ไขข้อความหน้าเว็บ (Site Content & Live Preview)</h3>
-        <div class="panel-sub">พิมพ์แก้ไขข้อความในฟอร์มด้านซ้าย หน้าพรีวิวด้านขวาจะเปลี่ยนตามทันทีแบบ Real-time</div>
+        <h3>แก้ไขข้อความบนหน้าเว็บจริง (Direct Visual Editor)</h3>
+        <div class="panel-sub">คลิกที่ตัวหนังสือบนหน้าเว็บด้านล่างนี้ได้โดยตรงเพื่อพิมพ์แก้ไขข้อความได้ทันที เมื่อแก้ไขเสร็จแล้วกดปุ่มบันทึก</div>
       </div>
-      <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
-        <label style="font-size:13px; font-weight:700; color:var(--ink);">เลือกหน้าที่ต้องการแก้:</label>
-        <select id="editorPageSelect" class="admin-input" style="width:auto; min-width:200px; font-weight:600;" onchange="handleSelectEditorPage()">
+    </div>
+
+    <!-- Instructions Bar -->
+    <div class="canvas-instructions">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+      <span>วิธีใช้งาน: เอาเมาส์คลิกที่หัวข้อ, คำอธิบาย, ราคา หรือปุ่มบนหน้าเว็บด้านล่างนี้ แล้วพิมพ์แก้ไขตัวหนังสือได้สดๆ จากนั้นกดปุ่ม "บันทึกข้อความทั้งหมด"</span>
+    </div>
+
+    <!-- Control Top Bar -->
+    <div class="canvas-top-bar">
+      <div class="canvas-page-picker">
+        <label style="font-size:13px; font-weight:700; color:var(--ink);">เลือกหน้า:</label>
+        <select id="canvasPageSelect" class="admin-input" style="width:auto; min-width:210px; font-weight:600;" onchange="handleSwitchVisualPage()">
           <option value="index">หน้าแรก (index.html)</option>
           <option value="saiscale">saiscale (saiscale.html)</option>
           <option value="eznest">ez nest (eznest.html)</option>
           <option value="cutprep">CutPrep (cutprep.html)</option>
           <option value="costboard">Print & Cost (costboard.html)</option>
           <option value="pricing">ตารางราคา (pricing.html)</option>
+          <option value="guide">คู่มือการใช้งาน (guide.html)</option>
         </select>
-        <button class="btn btn-primary btn-small" onclick="saveSiteContent()" style="gap:6px;">
+      </div>
+
+      <!-- Device Viewport Toggle -->
+      <div class="canvas-device-controls">
+        <button class="canvas-device-btn active" onclick="setCanvasDevice('100%', this)">Desktop (100%)</button>
+        <button class="canvas-device-btn" onclick="setCanvasDevice('768px', this)">Tablet (768px)</button>
+        <button class="canvas-device-btn" onclick="setCanvasDevice('390px', this)">Mobile (390px)</button>
+      </div>
+
+      <div class="canvas-actions">
+        <button class="btn btn-primary btn-small" onclick="saveVisualPageContent()" style="gap:6px;">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
-          บันทึกข้อความหน้านี้
+          บันทึกข้อความทั้งหมด
         </button>
-        <button class="action-btn" onclick="resetPageContentDefaults()">คืนค่าเริ่มต้น</button>
+        <button class="action-btn" id="btnToggleOutline" onclick="toggleCanvasOutline()" style="gap:5px;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+          <span id="txtToggleOutline">ดูตัวอย่างจริง</span>
+        </button>
+        <button class="action-btn" onclick="resetVisualPageDefaults()">คืนค่าเริ่มต้น</button>
+        <a id="canvasExtLink" href="index" target="_blank" class="action-btn" style="text-decoration:none;">เปิดแท็บใหม่</a>
       </div>
     </div>
 
-    <!-- Split Screen: Left = Form Fields, Right = Live iframe Preview -->
-    <div class="editor-split-grid">
-      <!-- Left Column: Form Fields Container -->
-      <div class="editor-form-col" id="editorFormContainer">
-        <!-- Injected dynamically by JS depending on selected page -->
-      </div>
-
-      <!-- Right Column: Live Preview iframe Window -->
-      <div class="editor-preview-col">
-        <div class="preview-header-bar">
-          <div style="display:flex; align-items:center; gap:8px;">
-            <strong style="font-size:13px; color:var(--ink);" id="previewPageTitle">Live Preview: index.html</strong>
-            <span style="font-size:11px; color:#10b981; font-weight:700; background:rgba(16,185,129,.1); padding:2px 8px; border-radius:999px;">Live Sync</span>
-          </div>
-          <div class="preview-device-switch">
-            <button class="device-btn active" onclick="setPreviewWidth('100%', this)">Desktop</button>
-            <button class="device-btn" onclick="setPreviewWidth('768px', this)">Tablet</button>
-            <button class="device-btn" onclick="setPreviewWidth('390px', this)">Mobile</button>
-            <a id="previewExtLink" href="index" target="_blank" class="device-btn" style="text-decoration:none;">เปิดแท็บใหม่</a>
-          </div>
-        </div>
-
-        <div class="preview-frame-wrap" id="previewFrameWrap">
-          <iframe id="previewIframe" src="index" class="preview-iframe" title="Site Live Preview"></iframe>
-        </div>
+    <!-- Direct Visual Frame Canvas -->
+    <div class="canvas-viewport-container">
+      <div class="canvas-viewport-frame" id="canvasViewportFrame">
+        <iframe id="canvasIframe" src="index" class="canvas-iframe" title="Direct Visual Editor" onload="setupIframeDirectEditing()"></iframe>
       </div>
     </div>
   </div>
@@ -405,7 +404,7 @@ var products=[],licenses=[],orders=[];
 function loadData(){try{var p=localStorage.getItem('jg_admin_products');products=p?JSON.parse(p):JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));var l=localStorage.getItem('jg_admin_licenses');licenses=l?JSON.parse(l):JSON.parse(JSON.stringify(DEFAULT_LICENSES));var o=localStorage.getItem('jg_admin_orders');orders=o?JSON.parse(o):JSON.parse(JSON.stringify(DEFAULT_ORDERS));}catch(e){products=JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));licenses=JSON.parse(JSON.stringify(DEFAULT_LICENSES));orders=JSON.parse(JSON.stringify(DEFAULT_ORDERS));}}
 function saveData(){try{localStorage.setItem('jg_admin_products',JSON.stringify(products));localStorage.setItem('jg_admin_licenses',JSON.stringify(licenses));localStorage.setItem('jg_admin_orders',JSON.stringify(orders));}catch(e){}}
 function showToast(msg){var t=document.getElementById('toastMsg');if(!t)return;t.innerHTML='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> '+msg;t.className='toast-msg show';setTimeout(function(){t.className='toast-msg';},2800);}
-function handleAdminLogin(){var pass=document.getElementById('adminPassInput').value.trim();if(pass==='admin1234'||pass.length>=6){sessionStorage.setItem('jg_admin_session','active');document.getElementById('adminLoginSection').style.display='none';document.getElementById('adminDashboardSection').style.display='block';document.getElementById('adminLogoutBtn').style.display='inline-flex';loadData();renderAll();renderEditorForm();showToast('เข้าสู่ระบบสำเร็จ');}else{alert('รหัสผ่านไม่ถูกต้อง (รหัสเริ่มต้น: admin1234)');}}
+function handleAdminLogin(){var pass=document.getElementById('adminPassInput').value.trim();if(pass==='admin1234'||pass.length>=6){sessionStorage.setItem('jg_admin_session','active');document.getElementById('adminLoginSection').style.display='none';document.getElementById('adminDashboardSection').style.display='block';document.getElementById('adminLogoutBtn').style.display='inline-flex';loadData();renderAll();showToast('เข้าสู่ระบบสำเร็จ');}else{alert('รหัสผ่านไม่ถูกต้อง (รหัสเริ่มต้น: admin1234)');}}
 document.getElementById('adminLogoutBtn').addEventListener('click',function(){sessionStorage.removeItem('jg_admin_session');document.getElementById('adminDashboardSection').style.display='none';document.getElementById('adminLoginSection').style.display='flex';document.getElementById('adminLogoutBtn').style.display='none';});
 
 function switchTab(tabId,el){
@@ -414,8 +413,8 @@ function switchTab(tabId,el){
   document.getElementById('tab-products').style.display=tabId==='products'?'block':'none';
   document.getElementById('tab-licenses').style.display=tabId==='licenses'?'block':'none';
   document.getElementById('tab-orders').style.display=tabId==='orders'?'block':'none';
-  document.getElementById('tab-content-editor').style.display=tabId==='content-editor'?'block':'none';
-  if(tabId==='content-editor'){ renderEditorForm(); }
+  document.getElementById('tab-visual-editor').style.display=tabId==='visual-editor'?'flex':'none';
+  if(tabId==='visual-editor'){ setupIframeDirectEditing(); }
 }
 
 function renderAll(){renderProducts();renderLicenses();renderOrders();updateKPIs();updateSelectOptions();}
@@ -436,7 +435,10 @@ function toggleRevokeKey(i){licenses[i].status=licenses[i].status==='Active'?'Re
 function deleteLicense(i){if(confirm('ยืนยันการลบ License Key "'+licenses[i].key+'"?')){licenses.splice(i,1);saveData();renderAll();showToast('ลบ License Key เรียบร้อยแล้ว');}}
 function filterLicenses(){var q=document.getElementById('licenseSearchInput').value.toLowerCase();document.querySelectorAll('#licenseListBody tr').forEach(function(r){r.style.display=r.textContent.toLowerCase().indexOf(q)!==-1?'':'none';});}
 function openGenKeyModal(){document.getElementById('genKeyEmail').value='';document.getElementById('genKeyModal').classList.add('active');}
-function handleManualGenKey(){var product=document.getElementById('genKeyProd').value;var email=document.getElementById('genKeyEmail').value.trim();var code=product.replace(/[^a-zA-Z]/g,'').slice(0,4).toUpperCase()||'PRO';var randKey='JG-'+code+'-'+Math.random().toString(36).substring(2,6).toUpperCase()+'-'+Math.random().toString(36).substring(2,6).toUpperCase();licenses.unshift({key:randKey,product:product,email:email,hwid:'PENDING_FIRST_ACTIVATION',date:new Date().toISOString().split('T')[0],status:'Active'});saveData();renderAll();closeModal('genKeyModal');alert('สร้าง License Key สำเร็จ!\n\nรหัสคีย์: ' + randKey + '\nผู้รับ: ' + email);}
+function handleManualGenKey(){var product=document.getElementById('genKeyProd').value;var email=document.getElementById('genKeyEmail').value.trim();var code=product.replace(/[^a-zA-Z]/g,'').slice(0,4).toUpperCase()||'PRO';var randKey='JG-'+code+'-'+Math.random().toString(36).substring(2,6).toUpperCase()+'-'+Math.random().toString(36).substring(2,6).toUpperCase();licenses.unshift({key:randKey,product:product,email:email,hwid:'PENDING_FIRST_ACTIVATION',date:new Date().toISOString().split('T')[0],status:'Active'});saveData();renderAll();closeModal('genKeyModal');alert('สร้าง License Key สำเร็จ!
+
+รหัสคีย์: ' + randKey + '
+ผู้รับ: ' + email);}
 
 // 3. ORDERS
 function renderOrders(){var tbody=document.getElementById('orderListBody');tbody.innerHTML=orders.map(function(o,i){return '<tr><td><code style="color:var(--ink);font-weight:700;font-size:12px;">'+o.id+'</code></td><td>'+o.customer+'</td><td><strong>'+o.product+'</strong></td><td><strong style="color:#059669;">฿'+Number(o.amount).toLocaleString()+'</strong></td><td>'+o.method+'</td><td>'+o.time+'</td><td><span class="badge-status status-active">สำเร็จ</span></td><td><button class="action-btn action-btn-danger" onclick="deleteOrder('+i+')">'+ICON.trash+' ลบ</button></td></tr>';}).join('');}
@@ -448,223 +450,140 @@ function updateSelectOptions(){var gen=document.getElementById('genKeyProd');var
 function closeModal(id){var el=document.getElementById(id);if(el)el.classList.remove('active');}
 
 // ═══════════════════════════════════════════
-// 4. SITE CONTENT CMS & LIVE IFRAME PREVIEW
+// 4. FULL-CANVAS DIRECT VISUAL WEBPAGE EDITOR
 // ═══════════════════════════════════════════
-var SITE_PAGE_SCHEMAS = {
-  index: {
-    title: 'หน้าแรก (Home)',
-    url: 'index',
-    sections: [
-      {
-        name: 'ส่วนบนสุด (Hero Section)',
-        fields: [
-          { key: '.promo-line', label: 'คำโปรยด้านบน (Promo Line)', type: 'text', default: 'สโตร์รวมโปรแกรมเสริมและสคริปต์สำหรับ Illustrator & Photoshop' },
-          { key: '.hero-copy h1', label: 'หัวข้อหลัก H1 (รองรับแท็ก <br>)', type: 'text', default: 'โปรแกรมเสริมสำหรับงานผลิต<br>ที่พัฒนาเพื่อคนทำงานจริง' },
-          { key: '.hero-subcopy p', label: 'คำอธิบายจุดเด่น Hero', type: 'textarea', default: 'สคริปต์และ CEP Extensions ที่ออกแบบมาเพื่อแก้ปัญหาการทำงานซ้ำซาก จัดวางชิ้นงานแน่น ล้างไฟล์ตัดไว บอกขนาดอัตโนมัติ และคิดต้นทุนแม่นยำ' },
-          { key: '.tag-left', label: 'ป้ายแท็กลอยซ้าย', type: 'text', default: '@Illustrator & PS' },
-          { key: '.tag-right', label: 'ป้ายแท็กลอยขวา', type: 'text', default: '@CNC, Laser & Print' }
-        ]
-      },
-      {
-        name: 'หัวข้อรายการสินค้า (Product Catalog)',
-        fields: [
-          { key: '.section-head h2', label: 'หัวข้อหมวดสินค้า', type: 'text', default: 'โปรแกรมเสริมทั้งหมด <span>เลือกเครื่องมือที่ตอบโจทย์ขั้นตอนการผลิตของคุณ</span>' }
-        ]
-      },
-      {
-        name: 'จุดเด่นระบบ (Why Choose Us)',
-        fields: [
-          { key: '.features-section .section-head h2', label: 'หัวข้อจุดเด่น', type: 'text', default: 'ทำไมต้องใช้เครื่องมือของ JarernGraphic?' },
-          { key: '.feature-card:nth-child(1) h3', label: 'จุดเด่น 1 (หัวข้อ)', type: 'text', default: 'ประหยัดเวลากว่า 80%' },
-          { key: '.feature-card:nth-child(1) p', label: 'จุดเด่น 1 (คำอธิบาย)', type: 'textarea', default: 'ลดขั้นตอนคลิกซ้ำซ้อน งานที่เคยใช้เวลา 1-2 ชั่วโมง เสร็จได้ในคลิกเดียว' },
-          { key: '.feature-card:nth-child(2) h3', label: 'จุดเด่น 2 (หัวข้อ)', type: 'text', default: 'ลดความผิดพลาดคน (Human Error)' },
-          { key: '.feature-card:nth-child(2) p', label: 'จุดเด่น 2 (คำอธิบาย)', type: 'textarea', default: 'คำนวณและประมวลผลด้วยสคริปต์แม่นยำสูง หมดปัญหาลืมเปลี่ยนสเกลหรือเส้นซ้อน' }
-        ]
-      },
-      {
-        name: 'คำถามที่พบบ่อย (FAQ)',
-        fields: [
-          { key: '.faq-item:nth-child(1) .faq-q h3', label: 'คำถามที่ 1', type: 'text', default: 'ซื้อครั้งเดียวใช้ได้ตลอดชีพ (Lifetime) ไหม?' },
-          { key: '.faq-item:nth-child(1) .faq-a p', label: 'คำตอบที่ 1', type: 'textarea', default: 'ใช่ครับ ทุกโปรแกรมจำหน่ายแบบซื้อขาด (One-time payment) ใช้งานได้ตลอดชีพ ไม่มีค่าบริการรายเดือน พร้อมอัปเดตแก้ไขข้อผิดพลาดฟรีตลอดอายุการใช้งาน' },
-          { key: '.faq-item:nth-child(2) .faq-q h3', label: 'คำถามที่ 2', type: 'text', default: '1 License Key สามารถลงได้กี่เครื่อง?' },
-          { key: '.faq-item:nth-child(2) .faq-a p', label: 'คำตอบที่ 2', type: 'textarea', default: '1 License Key ผูกสิทธิ์ใช้งานพร้อมกันได้ 1 เครื่องคอมพิวเตอร์ (Node-Locked) แต่หากเปลี่ยนเครื่องหรือคอมเสีย สามารถกดย้ายสิทธิ์ (Deactivate / Transfer) ไปลงเครื่องใหม่ได้ด้วยตนเองทันทีครับ' }
-        ]
-      }
-    ]
-  },
-  saiscale: {
-    title: 'saiscale (Auto Dimensions)',
-    url: 'saiscale',
-    sections: [
-      {
-        name: 'หัวข้อและรายละเอียด saiscale',
-        fields: [
-          { key: '.display-title', label: 'ชื่อโปรแกรม', type: 'text', default: 'saiscale' },
-          { key: '.display-sub', label: 'สโลแกนใต้ชื่อ', type: 'text', default: 'Auto Dimensions & Scale CEP Panel' },
-          { key: '.pdp-info-col h1', label: 'หัวข้อหลักสินค้า', type: 'text', default: 'saiscale — สคริปต์บอกขนาด ขยาย Canvas และ Export อัตโนมัติ' },
-          { key: '.pdp-desc-main', label: 'คำอธิบายหลักสินค้า', type: 'textarea', default: 'เครื่องมือสร้างเส้นมิติบอกขนาดอัตโนมัติ (Dimensions) ขยายหน้า Canvas พอดีกับตัวงาน ใส่ตัวเลขสเกลจริง และ Export JPG พรีวิวส่งลูกค้าในคลิกเดียว' },
-          { key: '.pdp-price-amount', label: 'ราคาขาย (แสดงผล)', type: 'text', default: '฿2,490' }
-        ]
-      }
-    ]
-  },
-  eznest: {
-    title: 'ez nest (True-Shape Nesting)',
-    url: 'eznest',
-    sections: [
-      {
-        name: 'หัวข้อและรายละเอียด ez nest',
-        fields: [
-          { key: '.display-title', label: 'ชื่อโปรแกรม', type: 'text', default: 'ez nest' },
-          { key: '.display-sub', label: 'สโลแกนใต้ชื่อ', type: 'text', default: 'True-Shape Nesting Engine for Illustrator' },
-          { key: '.pdp-info-col h1', label: 'หัวข้อหลักสินค้า', type: 'text', default: 'ez nest — โปรแกรมจัดเรียงชิ้นงานอัตโนมัติ ประหยัดแผ่นวัสดุ' },
-          { key: '.pdp-desc-main', label: 'คำอธิบายหลักสินค้า', type: 'textarea', default: 'อัลกอริทึม True-Shape Nesting จัดเรียงเวกเตอร์ตามรูปทรงจริง หมุนองศาอิสระ แทรกชิ้นเล็กในช่องว่างชิ้นใหญ่ ลดขยะวัสดุ Laser, CNC และงานพิมพ์ไวนิล' },
-          { key: '.pdp-price-amount', label: 'ราคาขาย (แสดงผล)', type: 'text', default: '฿1,390' }
-        ]
-      }
-    ]
-  },
-  cutprep: {
-    title: 'CutPrep (เตรียมไฟล์ตัด)',
-    url: 'cutprep',
-    sections: [
-      {
-        name: 'หัวข้อและรายละเอียด CutPrep',
-        fields: [
-          { key: '.display-title', label: 'ชื่อโปรแกรม', type: 'text', default: 'CutPrep' },
-          { key: '.display-sub', label: 'สโลแกนใต้ชื่อ', type: 'text', default: 'Laser & CNC Vector Cleanup Tool' },
-          { key: '.pdp-info-col h1', label: 'หัวข้อหลักสินค้า', type: 'text', default: 'jarerngraphic CutPrep — ล้างเส้นซ้อน เชื่อมเส้นเปิด และ Export DXF' },
-          { key: '.pdp-desc-main', label: 'คำอธิบายหลักสินค้า', type: 'textarea', default: 'เครื่องมือเตรียมไฟล์ตัดสำหรับเครื่อง CNC / Fiber Laser / พล็อตเตอร์ ล้างเส้นซ้อน 100% เชื่อมเส้นที่ขาด ใส่สะพานบริดจ์ (Bridges) และ Export DXF ในไม่กี่วินาที' },
-          { key: '.pdp-price-amount', label: 'ราคาขาย (แสดงผล)', type: 'text', default: '฿1,190' }
-        ]
-      }
-    ]
-  },
-  costboard: {
-    title: 'Print & Cost (มาร์กและคิดต้นทุน)',
-    url: 'costboard',
-    sections: [
-      {
-        name: 'หัวข้อและรายละเอียด Print & Cost',
-        fields: [
-          { key: '.display-title', label: 'ชื่อโปรแกรม', type: 'text', default: 'Print & Cost' },
-          { key: '.display-sub', label: 'สโลแกนใต้ชื่อ', type: 'text', default: 'Production Markup & Cost Estimator' },
-          { key: '.pdp-info-col h1', label: 'หัวข้อหลักสินค้า', type: 'text', default: 'jarerngraphic Print & Cost — ใส่จุดมาร์กพิมพ์ตัด และคำนวณราคาต้นทุน' },
-          { key: '.pdp-desc-main', label: 'คำอธิบายหลักสินค้า', type: 'textarea', default: 'สร้างมาร์กพิมพ์ตัด (Crop/Registration Marks) อัตโนมัติ คำนวณตารางเมตร รวมราคาต้นทุนวัสดุและหมึกพิมพ์ พร้อมออกใบสรุปงานทันที' },
-          { key: '.pdp-price-amount', label: 'ราคาขาย (แสดงผล)', type: 'text', default: '฿1,290' }
-        ]
-      }
-    ]
-  },
-  pricing: {
-    title: 'ตารางราคา (Pricing)',
-    url: 'pricing',
-    sections: [
-      {
-        name: 'หัวข้อหน้าตารางราคา',
-        fields: [
-          { key: '.pricing-hero h1', label: 'หัวข้อหลัก H1', type: 'text', default: 'ตารางราคาและแพ็กเกจสโตร์' },
-          { key: '.pricing-hero p', label: 'คำอธิบายใต้หัวข้อ', type: 'textarea', default: 'ลงทุนครั้งเดียว คุ้มค่าตลอดชีพ ไม่มีค่าบริการรายเดือน พร้อมบริการซัพพอร์ตและอัปเดตฟรี' }
-        ]
-      }
-    ]
-  }
-};
+var isCanvasOutlineHidden = false;
 
-function handleSelectEditorPage(){
-  var pageKey = document.getElementById('editorPageSelect').value;
-  var schema = SITE_PAGE_SCHEMAS[pageKey] || SITE_PAGE_SCHEMAS.index;
-  var iframe = document.getElementById('previewIframe');
-  var title = document.getElementById('previewPageTitle');
-  var extLink = document.getElementById('previewExtLink');
+function handleSwitchVisualPage(){
+  var pageKey = document.getElementById('canvasPageSelect').value;
+  var iframe = document.getElementById('canvasIframe');
+  var extLink = document.getElementById('canvasExtLink');
 
-  iframe.src = schema.url;
-  title.textContent = 'Live Preview: ' + schema.url + '.html';
-  extLink.href = schema.url;
-
-  renderEditorForm();
+  iframe.src = pageKey;
+  extLink.href = pageKey;
 }
 
-function renderEditorForm(){
-  var pageKey = document.getElementById('editorPageSelect').value;
-  var schema = SITE_PAGE_SCHEMAS[pageKey] || SITE_PAGE_SCHEMAS.index;
-  var container = document.getElementById('editorFormContainer');
-  if(!container) return;
+function setupIframeDirectEditing(){
+  try {
+    var iframe = document.getElementById('canvasIframe');
+    if (!iframe || !iframe.contentDocument) return;
+    var doc = iframe.contentDocument;
 
-  var savedRaw = localStorage.getItem('jg_page_content_' + pageKey);
-  var savedData = savedRaw ? JSON.parse(savedRaw) : {};
+    // Inject direct editing styles inside the iframe
+    var styleId = 'jg-direct-canvas-styles';
+    var existingStyle = doc.getElementById(styleId);
+    if (!existingStyle) {
+      var style = doc.createElement('style');
+      style.id = styleId;
+      style.textContent = `
+        [contenteditable="true"] {
+          transition: outline 0.15s ease, background 0.15s ease !important;
+          cursor: text !important;
+        }
+        [contenteditable="true"]:hover {
+          outline: 2px dashed #0071e3 !important;
+          outline-offset: 4px !important;
+          border-radius: 4px !important;
+          background: rgba(0, 113, 227, 0.05) !important;
+        }
+        [contenteditable="true"]:focus {
+          outline: 2px solid #0071e3 !important;
+          outline-offset: 4px !important;
+          border-radius: 4px !important;
+          background: rgba(0, 113, 227, 0.08) !important;
+        }
+        body.jg-no-outlines [contenteditable="true"] {
+          outline: none !important;
+          background: transparent !important;
+          cursor: default !important;
+        }
+      `;
+      doc.head.appendChild(style);
+    }
 
-  var html = '';
-  schema.sections.forEach(function(sec, secIdx){
-    html += '<div class="editor-group-card">';
-    html += '<div class="editor-group-header"><h4>' + sec.name + '</h4></div>';
-    
-    sec.fields.forEach(function(field){
-      var currentVal = (savedData[field.key] !== undefined) ? savedData[field.key] : field.default;
-      html += '<div>';
-      html += '<label style="font-size:12px; font-weight:700; color:var(--muted); display:block; margin-bottom:5px;">' + field.label + ' <code style="font-size:10px; color:var(--blue);">' + field.key + '</code></label>';
+    // Make all text elements editable
+    var editables = doc.querySelectorAll('h1, h2, h3, h4, h5, p, span, a, .tag, .chip, .compat-pill, .price, .badge, .promo-line, .action-link');
+    editables.forEach(function(el){
+      if (el.closest('svg') || el.closest('script') || el.closest('style') || el.closest('#checkoutModal')) return;
+      el.setAttribute('contenteditable', 'true');
+      el.setAttribute('spellcheck', 'false');
       
-      if(field.type === 'textarea'){
-        html += '<textarea class="admin-input jg-editor-field" data-page="' + pageKey + '" data-key="' + field.key + '" oninput="syncLivePreview()">' + currentVal + '</textarea>';
-      } else {
-        html += '<input type="text" class="admin-input jg-editor-field" data-page="' + pageKey + '" data-key="' + field.key + '" value="' + currentVal.replace(/"/g, '&quot;') + '" oninput="syncLivePreview()">';
+      // Prevent navigation on click while in edit mode
+      if (el.tagName.toLowerCase() === 'a') {
+        el.addEventListener('click', function(e){
+          e.preventDefault();
+        });
       }
-      html += '</div>';
+    });
+  } catch(e) {
+    console.warn('Iframe edit initialization note:', e);
+  }
+}
+
+function saveVisualPageContent(){
+  try {
+    var pageKey = document.getElementById('canvasPageSelect').value;
+    var iframe = document.getElementById('canvasIframe');
+    if (!iframe || !iframe.contentDocument) {
+      alert('ไม่สามารถเข้าถึงหน้าพรีวิวได้');
+      return;
+    }
+    var doc = iframe.contentDocument;
+
+    // Clone body to clean up edit attributes before saving
+    var clone = doc.body.cloneNode(true);
+    
+    // Remove contenteditable attributes from clone
+    clone.querySelectorAll('[contenteditable]').forEach(function(el){
+      el.removeAttribute('contenteditable');
+      el.removeAttribute('spellcheck');
     });
 
-    html += '</div>';
-  });
+    // Remove any injected edit styles/scripts
+    var injectedStyle = clone.querySelector('#jg-direct-canvas-styles');
+    if (injectedStyle) injectedStyle.remove();
+    clone.classList.remove('jg-no-outlines');
 
-  container.innerHTML = html;
-  setTimeout(syncLivePreview, 400);
-}
+    var cleanBodyHtml = clone.innerHTML;
+    localStorage.setItem('jg_page_body_' + pageKey, cleanBodyHtml);
 
-function syncLivePreview(){
-  var pageKey = document.getElementById('editorPageSelect').value;
-  var fields = document.querySelectorAll('.jg-editor-field[data-page="' + pageKey + '"]');
-  var contentPayload = {};
-
-  fields.forEach(function(f){
-    contentPayload[f.getAttribute('data-key')] = f.value;
-  });
-
-  var iframe = document.getElementById('previewIframe');
-  if(iframe && iframe.contentWindow){
-    iframe.contentWindow.postMessage({
-      type: 'JG_ADMIN_LIVE_UPDATE',
-      content: contentPayload
-    }, '*');
+    showToast('บันทึกการแก้ไขข้อความหน้า "' + pageKey + '" เรียบร้อย! หน้าร้านจริงจะแสดงผลตามนี้ทันที');
+  } catch(e) {
+    alert('เกิดข้อผิดพลาดในการบันทึก: ' + e.message);
   }
 }
 
-function saveSiteContent(){
-  var pageKey = document.getElementById('editorPageSelect').value;
-  var fields = document.querySelectorAll('.jg-editor-field[data-page="' + pageKey + '"]');
-  var contentPayload = {};
+function toggleCanvasOutline(){
+  isCanvasOutlineHidden = !isCanvasOutlineHidden;
+  var iframe = document.getElementById('canvasIframe');
+  var txt = document.getElementById('txtToggleOutline');
 
-  fields.forEach(function(f){
-    contentPayload[f.getAttribute('data-key')] = f.value;
-  });
-
-  localStorage.setItem('jg_page_content_' + pageKey, JSON.stringify(contentPayload));
-  showToast('บันทึกข้อความหน้า "' + pageKey + '" เรียบร้อย! หน้าร้านจริงจะแสดงผลตามนี้ทันที');
+  if (iframe && iframe.contentDocument && iframe.contentDocument.body) {
+    if (isCanvasOutlineHidden) {
+      iframe.contentDocument.body.classList.add('jg-no-outlines');
+      txt.textContent = 'กลับมาแก้ไข';
+      showToast('กำลังแสดงพรีวิวแบบไม่มีกรอบ (เสมือนจริง 100%)');
+    } else {
+      iframe.contentDocument.body.classList.remove('jg-no-outlines');
+      txt.textContent = 'ดูตัวอย่างจริง';
+    }
+  }
 }
 
-function resetPageContentDefaults(){
-  var pageKey = document.getElementById('editorPageSelect').value;
-  if(confirm('ต้องการคืนค่าเริ่มต้นข้อความของหน้า ' + pageKey + ' หรือไม่?')){
-    localStorage.removeItem('jg_page_content_' + pageKey);
-    renderEditorForm();
-    var iframe = document.getElementById('previewIframe');
-    if(iframe) iframe.src = iframe.src;
+function resetVisualPageDefaults(){
+  var pageKey = document.getElementById('canvasPageSelect').value;
+  if (confirm('ต้องการคืนค่าเริ่มต้นข้อความทั้งหมดของหน้า ' + pageKey + ' หรือไม่?')) {
+    localStorage.removeItem('jg_page_body_' + pageKey);
+    var iframe = document.getElementById('canvasIframe');
+    if (iframe) iframe.src = pageKey + '?raw=1&t=' + Date.now();
     showToast('รีเซ็ตข้อความเป็นค่าเริ่มต้นเดิมเรียบร้อย');
   }
 }
 
-function setPreviewWidth(width, btn){
-  document.querySelectorAll('.preview-device-switch .device-btn').forEach(function(b){ b.classList.remove('active'); });
-  if(btn) btn.classList.add('active');
-  document.getElementById('previewFrameWrap').style.width = width;
+function setCanvasDevice(width, btn){
+  document.querySelectorAll('.canvas-device-btn').forEach(function(b){ b.classList.remove('active'); });
+  if (btn) btn.classList.add('active');
+  document.getElementById('canvasViewportFrame').style.width = width;
 }
 
 window.addEventListener('DOMContentLoaded', function(){
@@ -674,7 +593,6 @@ window.addEventListener('DOMContentLoaded', function(){
     document.getElementById('adminLogoutBtn').style.display = 'inline-flex';
     loadData();
     renderAll();
-    renderEditorForm();
   }
 });
 </script>

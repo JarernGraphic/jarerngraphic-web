@@ -5,179 +5,119 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin Dashboard — JarernGraphic Store Management</title>
 <meta name="description" content="ระบบจัดการร้านค้า โปรแกรมเสริม และ License Keys สำหรับผู้ดูแลระบบ JarernGraphic">
-<link rel="stylesheet" href="style.css?v=store-10">
+<link rel="stylesheet" href="style.css?v=store-11">
 <style>
-.admin-page{
-  background:var(--bg, #f5f5f7);
-  color:var(--ink, #1d1d1f);
-  min-height:100vh;
-}
-.admin-nav{
-  position:sticky; top:0; z-index:50;
-  height:64px;
-  background:rgba(250,250,252,.78);
-  backdrop-filter:blur(18px) saturate(180%);
-  border-bottom:1px solid rgba(0,0,0,.05);
-  padding:0 22px;
-}
-.admin-nav-inner{
-  max-width:1200px; height:64px; margin:0 auto;
-  display:flex; justify-content:space-between; align-items:center;
-}
-.admin-brand-link{
-  display:inline-flex; align-items:center; gap:11px;
-  font-size:16px; font-weight:700; color:var(--ink);
-  letter-spacing:-.015em; text-decoration:none;
-  transition:opacity .2s ease;
-}
+/* ═══════════════════════════════════════════
+   Admin Dashboard — Unified Light Theme
+   ═══════════════════════════════════════════ */
+.admin-page{ background:var(--bg, #f5f5f7); color:var(--ink, #1d1d1f); min-height:100vh; font-family:Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+.admin-nav{ position:sticky; top:0; z-index:50; height:64px; background:rgba(250,250,252,.85); backdrop-filter:blur(18px) saturate(180%); border-bottom:1px solid rgba(0,0,0,.06); padding:0 22px; }
+.admin-nav-inner{ max-width:1440px; height:64px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; }
+.admin-brand-link{ display:inline-flex; align-items:center; gap:11px; font-size:16px; font-weight:700; color:var(--ink); letter-spacing:-.015em; text-decoration:none; transition:opacity .2s ease; }
 .admin-brand-link:hover{ opacity:.85; }
-.admin-badge-tag{
-  padding:3px 10px; border-radius:6px;
-  background:var(--red, #e2233f); color:#fff;
-  font-size:10.5px; font-weight:800; letter-spacing:.06em;
-  text-transform:uppercase;
-}
-.admin-container{ max-width:1200px; margin:0 auto; padding:36px 24px 80px; }
+.admin-badge-tag{ padding:3px 10px; border-radius:6px; background:var(--red, #e2233f); color:#fff; font-size:10.5px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; }
+
+.admin-container{ max-width:1440px; margin:0 auto; padding:32px 24px 80px; }
+
+/* Admin Login Card */
 .admin-login-wrapper{ min-height:70vh; display:flex; align-items:center; justify-content:center; }
-.admin-login-card{
-  background:#ffffff; border:1px solid rgba(0,0,0,.06);
-  border-radius:24px; padding:48px 40px; width:100%; max-width:420px;
-  box-shadow:0 12px 40px rgba(0,0,0,.06); text-align:center;
-}
+.admin-login-card{ background:#ffffff; border:1px solid rgba(0,0,0,.06); border-radius:24px; padding:48px 40px; width:100%; max-width:420px; box-shadow:0 12px 40px rgba(0,0,0,.06); text-align:center; }
 .admin-login-card h2{ margin:0 0 8px; font-size:24px; font-weight:700; color:var(--ink); }
 .admin-login-card p{ margin:0 0 28px; font-size:13.5px; color:var(--muted, #6e6e73); }
-.admin-kpi-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:18px; margin-bottom:36px; }
-.admin-kpi-card{
-  background:#ffffff; border:1px solid rgba(0,0,0,.06);
-  border-radius:18px; padding:24px 22px;
-  display:flex; flex-direction:column; gap:10px;
-  box-shadow:0 4px 20px rgba(0,0,0,.025);
-  transition:transform .35s cubic-bezier(.16,1,.3,1), box-shadow .35s ease;
-}
-.admin-kpi-card:hover{ transform:translateY(-3px); box-shadow:0 12px 32px rgba(0,0,0,.06); }
-.kpi-icon{
-  width:40px; height:40px; border-radius:12px;
-  display:flex; align-items:center; justify-content:center;
-}
-.kpi-icon-blue{ background:rgba(0,113,227,.08); color:var(--blue, #0071e3); }
+
+/* KPI Grid */
+.admin-kpi-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:18px; margin-bottom:32px; }
+.admin-kpi-card{ background:#ffffff; border:1px solid rgba(0,0,0,.06); border-radius:18px; padding:22px; display:flex; flex-direction:column; gap:8px; box-shadow:0 4px 20px rgba(0,0,0,.025); transition:transform .25s ease, box-shadow .25s ease; }
+.admin-kpi-card:hover{ transform:translateY(-2px); box-shadow:0 12px 30px rgba(0,0,0,.06); }
+.kpi-icon{ width:38px; height:38px; border-radius:10px; display:flex; align-items:center; justify-content:center; }
 .kpi-icon-green{ background:rgba(16,185,129,.1); color:#10b981; }
+.kpi-icon-blue{ background:rgba(0,113,227,.08); color:var(--blue, #0071e3); }
 .kpi-icon-red{ background:rgba(226,35,63,.08); color:var(--red, #e2233f); }
 .kpi-icon-purple{ background:rgba(99,102,241,.08); color:#6366f1; }
-.admin-kpi-title{ font-size:12.5px; color:var(--muted); font-weight:600; text-transform:uppercase; letter-spacing:.04em; }
-.admin-kpi-val{ font-size:28px; font-weight:800; color:var(--ink); letter-spacing:-.02em; }
-.admin-kpi-sub{ font-size:12px; color:#10b981; font-weight:500; }
-.admin-tabs{
-  display:flex; gap:8px;
-  border-bottom:1px solid rgba(0,0,0,.06);
-  margin-bottom:28px; padding-bottom:0; flex-wrap:wrap;
-}
-.admin-tab-btn{
-  background:transparent; border:0; border-bottom:2px solid transparent;
-  color:var(--muted); font-size:14px; font-weight:700;
-  padding:12px 20px; cursor:pointer; transition:all .2s ease;
-  display:inline-flex; align-items:center; gap:8px;
-}
+.admin-kpi-title{ font-size:12px; color:var(--muted); font-weight:600; text-transform:uppercase; letter-spacing:.04em; }
+.admin-kpi-val{ font-size:26px; font-weight:800; color:var(--ink); letter-spacing:-.02em; }
+.admin-kpi-sub{ font-size:11.5px; color:#10b981; font-weight:500; }
+
+/* Admin Tabs */
+.admin-tabs{ display:flex; gap:6px; border-bottom:1px solid rgba(0,0,0,.06); margin-bottom:28px; padding-bottom:0; flex-wrap:wrap; }
+.admin-tab-btn{ background:transparent; border:0; border-bottom:2px solid transparent; color:var(--muted); font-size:14px; font-weight:700; padding:12px 18px; cursor:pointer; transition:all .2s ease; display:inline-flex; align-items:center; gap:8px; }
 .admin-tab-btn:hover{ color:var(--ink); }
 .admin-tab-btn.active{ color:var(--blue, #0071e3); border-bottom-color:var(--blue, #0071e3); }
-.admin-tab-btn svg{ flex-shrink:0; }
-.tab-count{
-  font-size:11px; font-weight:800;
-  background:rgba(0,113,227,.08); color:var(--blue);
-  padding:2px 7px; border-radius:999px;
-}
+.tab-count{ font-size:11px; font-weight:800; background:rgba(0,113,227,.08); color:var(--blue); padding:2px 7px; border-radius:999px; }
 .admin-tab-btn.active .tab-count{ background:var(--blue); color:#fff; }
-.admin-panel{
-  background:#ffffff; border:1px solid rgba(0,0,0,.06);
-  border-radius:20px; padding:28px;
-  box-shadow:0 4px 20px rgba(0,0,0,.025); margin-bottom:32px;
-}
-.panel-header{
-  display:flex; justify-content:space-between; align-items:center;
-  margin-bottom:22px; flex-wrap:wrap; gap:14px;
-}
+
+/* Panels */
+.admin-panel{ background:#ffffff; border:1px solid rgba(0,0,0,.06); border-radius:20px; padding:28px; box-shadow:0 4px 20px rgba(0,0,0,.025); margin-bottom:32px; }
+.panel-header{ display:flex; justify-content:space-between; align-items:center; margin-bottom:22px; flex-wrap:wrap; gap:14px; }
 .panel-header h3{ margin:0; font-size:20px; font-weight:700; color:var(--ink); letter-spacing:-.015em; }
 .panel-sub{ font-size:13px; color:var(--muted); margin-top:4px; }
+
+/* Tables */
 .admin-table-wrap{ overflow-x:auto; }
 .admin-table{ width:100%; border-collapse:collapse; text-align:left; font-size:13.5px; min-width:680px; }
-.admin-table th{
-  padding:14px 16px; color:var(--muted); font-weight:700;
-  border-bottom:1px solid rgba(0,0,0,.06); font-size:12px;
-  text-transform:uppercase; letter-spacing:.03em;
-}
+.admin-table th{ padding:14px 16px; color:var(--muted); font-weight:700; border-bottom:1px solid rgba(0,0,0,.06); font-size:12px; text-transform:uppercase; letter-spacing:.03em; }
 .admin-table td{ padding:16px; border-bottom:1px solid rgba(0,0,0,.04); color:#3a3a40; vertical-align:middle; }
 .admin-table tr:hover td{ background:rgba(0,113,227,.02); }
-.badge-status{
-  display:inline-flex; align-items:center; gap:5px;
-  padding:4px 10px; border-radius:999px; font-size:11.5px; font-weight:700;
-}
+
+/* Badges & Actions */
+.badge-status{ display:inline-flex; align-items:center; gap:5px; padding:4px 10px; border-radius:999px; font-size:11.5px; font-weight:700; }
 .status-active{ background:rgba(16,185,129,.1); color:#059669; }
 .status-paused{ background:rgba(245,158,11,.1); color:#d97706; }
 .status-revoked{ background:rgba(239,68,68,.1); color:#dc2626; }
-.action-btn{
-  background:#f0f2f5; border:1px solid rgba(0,0,0,.06);
-  color:var(--ink); padding:6px 14px; border-radius:10px;
-  font-size:12px; font-weight:600; cursor:pointer;
-  transition:all .2s ease;
-  display:inline-flex; align-items:center; gap:5px;
-}
+
+.action-btn{ background:#f0f2f5; border:1px solid rgba(0,0,0,.06); color:var(--ink); padding:6px 14px; border-radius:10px; font-size:12px; font-weight:600; cursor:pointer; transition:all .2s ease; display:inline-flex; align-items:center; gap:5px; }
 .action-btn:hover{ background:#e8eaef; transform:translateY(-1px); }
 .action-btn-primary{ background:var(--blue); border-color:var(--blue); color:#fff; }
 .action-btn-primary:hover{ filter:brightness(.92); }
 .action-btn-danger{ background:rgba(239,68,68,.08); border-color:rgba(239,68,68,.15); color:#dc2626; }
 .action-btn-danger:hover{ background:rgba(239,68,68,.16); }
-.admin-input{
-  background:#f8f9fc; border:1px solid #d1d5db;
-  border-radius:10px; padding:10px 14px;
-  color:var(--ink); font-size:13.5px; width:100%; transition:border-color .2s;
-}
+
+/* Forms */
+.admin-input{ background:#f8f9fc; border:1px solid #d1d5db; border-radius:10px; padding:10px 14px; color:var(--ink); font-size:13.5px; width:100%; transition:border-color .2s; }
 .admin-input:focus{ outline:none; border-color:var(--blue); box-shadow:0 0 0 3px rgba(0,113,227,.08); }
-.admin-modal{
-  display:none; position:fixed; inset:0;
-  background:rgba(0,0,0,.5); backdrop-filter:blur(8px);
-  z-index:9999; justify-content:center; align-items:center; padding:20px;
-}
+textarea.admin-input{ font-family:inherit; resize:vertical; min-height:76px; }
+
+/* Modals */
+.admin-modal{ display:none; position:fixed; inset:0; background:rgba(0,0,0,.5); backdrop-filter:blur(8px); z-index:9999; justify-content:center; align-items:center; padding:20px; }
 .admin-modal.active{ display:flex; }
-.admin-modal-box{
-  background:#ffffff; border-radius:24px;
-  max-width:520px; width:100%; padding:36px 30px;
-  box-shadow:0 28px 70px rgba(0,0,0,.2); position:relative;
-  max-height:90vh; overflow-y:auto;
-  animation:slideUpFade .35s cubic-bezier(.16,1,.3,1) both;
-}
-@keyframes slideUpFade{
-  from{ opacity:0; transform:translateY(18px); }
-  to{ opacity:1; transform:translateY(0); }
-}
-.admin-modal-close{
-  position:absolute; top:18px; right:18px;
-  background:transparent; border:0; font-size:22px; color:#888; cursor:pointer;
-  width:32px; height:32px; border-radius:8px;
-  display:flex; align-items:center; justify-content:center; transition:background .15s;
-}
+.admin-modal-box{ background:#ffffff; border-radius:24px; max-width:520px; width:100%; padding:36px 30px; box-shadow:0 28px 70px rgba(0,0,0,.2); position:relative; max-height:90vh; overflow-y:auto; animation:slideUpFade .3s ease both; }
+.admin-modal-close{ position:absolute; top:18px; right:18px; background:transparent; border:0; font-size:22px; color:#888; cursor:pointer; width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; }
 .admin-modal-close:hover{ background:rgba(0,0,0,.05); }
-.admin-modal-title{ margin:0 0 4px; font-size:22px; font-weight:800; color:var(--ink); }
-.admin-modal-sub{ margin:0 0 24px; font-size:13.5px; color:var(--muted); }
-.toast-msg{
-  position:fixed; bottom:24px; right:24px;
-  background:var(--ink, #1d1d1f); color:#fff;
-  padding:12px 20px; border-radius:12px;
-  font-weight:600; font-size:13.5px;
-  box-shadow:0 12px 30px rgba(0,0,0,.2);
-  z-index:10000; display:none;
-  animation:slideUpFade .25s ease both;
+
+/* Toast */
+.toast-msg{ position:fixed; bottom:24px; right:24px; background:var(--ink, #1d1d1f); color:#fff; padding:12px 20px; border-radius:12px; font-weight:600; font-size:13.5px; box-shadow:0 12px 30px rgba(0,0,0,.2); z-index:10000; display:none; }
+.toast-msg.show{ display:flex; align-items:center; gap:8px; animation:slideUpFade .25s ease both; }
+
+/* ═══════════════════════════════════════════
+   Split-Screen Live Editor Layout
+   ═══════════════════════════════════════════ */
+.editor-split-grid{ display:grid; grid-template-columns:1fr 1fr; gap:24px; align-items:start; }
+.editor-form-col{ display:flex; flex-direction:column; gap:18px; }
+.editor-group-card{ background:#f8f9fc; border:1px solid rgba(0,0,0,.06); border-radius:16px; padding:20px; display:flex; flex-direction:column; gap:14px; }
+.editor-group-header{ display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid rgba(0,0,0,.06); padding-bottom:10px; }
+.editor-group-header h4{ margin:0; font-size:15px; font-weight:700; color:var(--ink); }
+
+.editor-preview-col{ position:sticky; top:84px; display:flex; flex-direction:column; gap:12px; }
+.preview-header-bar{ display:flex; justify-content:space-between; align-items:center; background:#ffffff; border:1px solid rgba(0,0,0,.06); border-radius:14px; padding:10px 16px; }
+.preview-device-switch{ display:flex; gap:6px; }
+.device-btn{ background:transparent; border:0; padding:5px 10px; border-radius:8px; font-size:12px; font-weight:600; color:var(--muted); cursor:pointer; }
+.device-btn.active{ background:rgba(0,113,227,.1); color:var(--blue); }
+
+.preview-frame-wrap{ background:#e9eaee; border:1px solid rgba(0,0,0,.08); border-radius:18px; overflow:hidden; box-shadow:0 14px 40px rgba(0,0,0,.08); height:750px; display:flex; justify-content:center; transition:width .3s ease; }
+.preview-iframe{ width:100%; height:100%; border:0; background:#fff; }
+
+@media (max-width:1080px){
+  .editor-split-grid{ grid-template-columns:1fr; }
+  .editor-preview-col{ position:static; }
+  .preview-frame-wrap{ height:500px; }
 }
-.toast-msg.show{ display:flex; align-items:center; gap:8px; }
 @media (max-width:980px){ .admin-kpi-grid{ grid-template-columns:repeat(2,1fr); } }
-@media (max-width:640px){
-  .admin-kpi-grid{ grid-template-columns:1fr; }
-  .admin-container{ padding:20px 14px 60px; }
-  .admin-tabs{ gap:4px; }
-  .admin-tab-btn{ padding:10px 12px; font-size:13px; }
-}
+@media (max-width:640px){ .admin-kpi-grid{ grid-template-columns:1fr; } .admin-container{ padding:20px 14px 60px; } }
 </style>
 </head>
 <body class="admin-page">
 
+<!-- Admin Navigation -->
 <header class="admin-nav">
   <div class="admin-nav-inner">
     <a href="admin" class="admin-brand-link">
@@ -186,27 +126,28 @@
       <span class="admin-badge-tag">Admin</span>
     </a>
     <div style="display:flex; align-items:center; gap:12px;">
-      <a href="index" class="btn btn-outline btn-small" style="gap:6px;">
+      <a href="index" target="_blank" class="btn btn-outline btn-small" style="gap:6px;">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-        ดูหน้าร้าน
+        ดูหน้าร้านจริง
       </a>
       <button class="btn btn-primary btn-small" id="adminLogoutBtn" style="display:none;">ออกจากระบบ</button>
     </div>
   </div>
 </header>
 
+<!-- Login Gateway -->
 <div class="admin-login-wrapper" id="adminLoginSection">
   <div class="admin-login-card">
     <img src="assets/logo.png" alt="Logo" style="width:54px; height:54px; margin-bottom:16px; border-radius:14px;">
     <h2>เข้าสู่ระบบผู้ดูแล</h2>
-    <p>ระบบจัดการโปรแกรมเสริม, License Key และออเดอร์</p>
+    <p>ระบบจัดการโปรแกรมเสริม, License Key และข้อความหน้าเว็บ</p>
     <form id="adminLoginForm" onsubmit="event.preventDefault(); handleAdminLogin();">
       <div style="margin-bottom:16px; text-align:left;">
         <label style="font-size:12px; font-weight:700; color:var(--muted); display:block; margin-bottom:6px;">อีเมลผู้ดูแล / Admin Email</label>
         <input type="email" id="adminEmailInput" class="admin-input" value="admin@jarerngraphic.com" required>
       </div>
       <div style="margin-bottom:24px; text-align:left;">
-        <label style="font-size:12px; font-weight:700; color:var(--muted); display:block; margin-bottom:6px;">รหัสผ่าน / Password</label>
+        <label style="font-size:12px; font-weight:700; color:var(--muted); display:block; margin-bottom:6px;">รหัสผ่าน / Password (ค่าเริ่มต้น: admin1234)</label>
         <input type="password" id="adminPassInput" class="admin-input" value="admin1234" required>
       </div>
       <button type="submit" class="btn btn-primary" style="width:100%; min-height:46px; font-weight:700;">เข้าสู่ระบบ Admin Portal</button>
@@ -214,7 +155,9 @@
   </div>
 </div>
 
+<!-- Main Dashboard -->
 <main class="admin-container" id="adminDashboardSection" style="display:none;">
+  <!-- KPIs -->
   <div class="admin-kpi-grid">
     <div class="admin-kpi-card">
       <div class="kpi-icon kpi-icon-green"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
@@ -242,6 +185,7 @@
     </div>
   </div>
 
+  <!-- Navigation Tabs -->
   <div class="admin-tabs">
     <button class="admin-tab-btn active" onclick="switchTab('products', this)">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
@@ -255,12 +199,13 @@
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
       รายการสั่งซื้อ <span class="tab-count" id="tabCountOrders">0</span>
     </button>
-    <button class="admin-tab-btn" onclick="switchTab('editor', this)">
+    <button class="admin-tab-btn" onclick="switchTab('content-editor', this)">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
-      แก้ไขข้อความหน้าเว็บสด (Visual Editor)
+      แก้ไขข้อความหน้าเว็บ (Live Preview)
     </button>
   </div>
 
+  <!-- TAB 1: PRODUCT MANAGER -->
   <div id="tab-products" class="admin-panel">
     <div class="panel-header">
       <div>
@@ -275,6 +220,7 @@
     <div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>รหัสสินค้า (SKU)</th><th>ชื่อโปรแกรม</th><th>โปรแกรมที่รองรับ</th><th>ราคาขาย</th><th>ยอดขาย</th><th>สถานะ</th><th>จัดการ</th></tr></thead><tbody id="productListBody"></tbody></table></div>
   </div>
 
+  <!-- TAB 2: LICENSE MANAGER -->
   <div id="tab-licenses" class="admin-panel" style="display:none;">
     <div class="panel-header">
       <div>
@@ -290,6 +236,7 @@
     <div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>License Key</th><th>โปรแกรม</th><th>อีเมลลูกค้า</th><th>Machine ID (HWID)</th><th>วันที่สร้าง</th><th>สถานะ</th><th>จัดการ</th></tr></thead><tbody id="licenseListBody"></tbody></table></div>
   </div>
 
+  <!-- TAB 3: ORDERS -->
   <div id="tab-orders" class="admin-panel" style="display:none;">
     <div class="panel-header">
       <div>
@@ -304,109 +251,62 @@
     <div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Order ID</th><th>ลูกค้า</th><th>สินค้า</th><th>ยอดเงิน</th><th>ช่องทาง</th><th>เวลา</th><th>สถานะ</th><th>จัดการ</th></tr></thead><tbody id="orderListBody"></tbody></table></div>
   </div>
 
-  <!-- TAB 4: VISUAL PAGE EDITOR LAUNCHER -->
-  <div id="tab-editor" class="admin-panel" style="display:none;">
-    <div class="panel-header">
+  <!-- TAB 4: VISUAL CONTENT EDITOR WITH LIVE PREVIEW IFRAME -->
+  <div id="tab-content-editor" class="admin-panel" style="display:none; padding:24px;">
+    <div class="panel-header" style="margin-bottom:18px;">
       <div>
-        <h3>แก้ไขข้อความหน้าเว็บแบบ Live Preview</h3>
-        <div class="panel-sub">เลือกหน้าที่ต้องการเพื่อเปิดโหมดคลิกพิมพ์แก้ข้อความบนหน้าเว็บจริงได้ทันที</div>
+        <h3>ระบบแก้ไขข้อความหน้าเว็บ (Site Content & Live Preview)</h3>
+        <div class="panel-sub">พิมพ์แก้ไขข้อความในฟอร์มด้านซ้าย หน้าพรีวิวด้านขวาจะเปลี่ยนตามทันทีแบบ Real-time</div>
+      </div>
+      <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+        <label style="font-size:13px; font-weight:700; color:var(--ink);">เลือกหน้าที่ต้องการแก้:</label>
+        <select id="editorPageSelect" class="admin-input" style="width:auto; min-width:200px; font-weight:600;" onchange="handleSelectEditorPage()">
+          <option value="index">🏠 หน้าแรก (index.html)</option>
+          <option value="saiscale">📐 saiscale (saiscale.html)</option>
+          <option value="eznest">🔲 ez nest (eznest.html)</option>
+          <option value="cutprep">✂️ CutPrep (cutprep.html)</option>
+          <option value="costboard">📊 Print & Cost (costboard.html)</option>
+          <option value="pricing">💳 ตารางราคา (pricing.html)</option>
+        </select>
+        <button class="btn btn-primary btn-small" onclick="saveSiteContent()" style="gap:6px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+          💾 บันทึกข้อความหน้านี้
+        </button>
+        <button class="action-btn" onclick="resetPageContentDefaults()">🔄 คืนค่าเริ่มต้น</button>
       </div>
     </div>
 
-    <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:18px;">
-      <!-- Page 1: Home -->
-      <div style="background:#f8f9fc; border:1px solid rgba(0,0,0,.06); border-radius:16px; padding:20px; display:flex; flex-direction:column; justify-content:space-between; gap:14px;">
-        <div>
-          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
-            <strong style="font-size:16px; color:var(--ink);">หน้าแรก (Home)</strong>
-            <span style="font-size:11px; font-weight:700; background:rgba(0,113,227,.08); color:var(--blue); padding:3px 8px; border-radius:999px;">index.html</span>
-          </div>
-          <p style="font-size:13px; color:var(--muted); margin:0; line-height:1.5;">แก้ไขหัวข้อใหญ่ Hero, ป้ายแท็ก, จุดเด่นระบบ, ราคาสินค้าหน้าร้าน และคำถาม FAQ</p>
-        </div>
-        <a href="index?edit=1" target="_blank" class="btn btn-primary btn-small" style="width:100%; gap:6px; font-size:13px;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-          เปิดแก้ไขข้อความหน้าแรก
-        </a>
+    <!-- Split Screen: Left = Form Fields, Right = Live iframe Preview -->
+    <div class="editor-split-grid">
+      <!-- Left Column: Form Fields Container -->
+      <div class="editor-form-col" id="editorFormContainer">
+        <!-- Injected dynamically by JS depending on selected page -->
       </div>
 
-      <!-- Page 2: saiscale -->
-      <div style="background:#f8f9fc; border:1px solid rgba(0,0,0,.06); border-radius:16px; padding:20px; display:flex; flex-direction:column; justify-content:space-between; gap:14px;">
-        <div>
-          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
-            <strong style="font-size:16px; color:var(--ink);">saiscale</strong>
-            <span style="font-size:11px; font-weight:700; background:rgba(3,105,161,.08); color:#0284c7; padding:3px 8px; border-radius:999px;">saiscale.html</span>
+      <!-- Right Column: Live Preview iframe Window -->
+      <div class="editor-preview-col">
+        <div class="preview-header-bar">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <strong style="font-size:13px; color:var(--ink);" id="previewPageTitle">Live Preview: index.html</strong>
+            <span style="font-size:11px; color:#10b981; font-weight:700; background:rgba(16,185,129,.1); padding:2px 8px; border-radius:999px;">● อัปเดตสด</span>
           </div>
-          <p style="font-size:13px; color:var(--muted); margin:0; line-height:1.5;">แก้ไขสเปก, ฟีเจอร์ใส่เส้นบอกขนาด, คำอธิบายระบบ, ราคา และข้อกำหนดการใช้งาน</p>
+          <div class="preview-device-switch">
+            <button class="device-btn active" onclick="setPreviewWidth('100%', this)">🖥️ Desktop</button>
+            <button class="device-btn" onclick="setPreviewWidth('768px', this)">📱 Tablet</button>
+            <button class="device-btn" onclick="setPreviewWidth('390px', this)">📱 Mobile</button>
+            <a id="previewExtLink" href="index" target="_blank" class="device-btn" style="text-decoration:none;">↗ เปิดแท็บใหม่</a>
+          </div>
         </div>
-        <a href="saiscale?edit=1" target="_blank" class="btn btn-primary btn-small" style="width:100%; gap:6px; font-size:13px;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-          เปิดแก้ไขหน้ารายละเอียด saiscale
-        </a>
-      </div>
 
-      <!-- Page 3: ez nest -->
-      <div style="background:#f8f9fc; border:1px solid rgba(0,0,0,.06); border-radius:16px; padding:20px; display:flex; flex-direction:column; justify-content:space-between; gap:14px;">
-        <div>
-          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
-            <strong style="font-size:16px; color:var(--ink);">ez nest</strong>
-            <span style="font-size:11px; font-weight:700; background:rgba(225,29,72,.08); color:#e11d48; padding:3px 8px; border-radius:999px;">eznest.html</span>
-          </div>
-          <p style="font-size:13px; color:var(--muted); margin:0; line-height:1.5;">แก้ไขข้อมูล True-Shape Nesting, ฟังก์ชันจัดเรียงประหยัดเนื้อที่ และตารางสเปก</p>
+        <div class="preview-frame-wrap" id="previewFrameWrap">
+          <iframe id="previewIframe" src="index" class="preview-iframe" title="Site Live Preview"></iframe>
         </div>
-        <a href="eznest?edit=1" target="_blank" class="btn btn-primary btn-small" style="width:100%; gap:6px; font-size:13px;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-          เปิดแก้ไขหน้ารายละเอียด ez nest
-        </a>
-      </div>
-
-      <!-- Page 4: CutPrep -->
-      <div style="background:#f8f9fc; border:1px solid rgba(0,0,0,.06); border-radius:16px; padding:20px; display:flex; flex-direction:column; justify-content:space-between; gap:14px;">
-        <div>
-          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
-            <strong style="font-size:16px; color:var(--ink);">CutPrep</strong>
-            <span style="font-size:11px; font-weight:700; background:rgba(99,102,241,.08); color:#6366f1; padding:3px 8px; border-radius:999px;">cutprep.html</span>
-          </div>
-          <p style="font-size:13px; color:var(--muted); margin:0; line-height:1.5;">แก้ไขรายละเอียดระบบล้างเส้นซ้อน, เชื่อมเส้นเปิด, บริดจ์สะพาน และส่งออก DXF</p>
-        </div>
-        <a href="cutprep?edit=1" target="_blank" class="btn btn-primary btn-small" style="width:100%; gap:6px; font-size:13px;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-          เปิดแก้ไขหน้ารายละเอียด CutPrep
-        </a>
-      </div>
-
-      <!-- Page 5: Print & Cost -->
-      <div style="background:#f8f9fc; border:1px solid rgba(0,0,0,.06); border-radius:16px; padding:20px; display:flex; flex-direction:column; justify-content:space-between; gap:14px;">
-        <div>
-          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
-            <strong style="font-size:16px; color:var(--ink);">Print & Cost</strong>
-            <span style="font-size:11px; font-weight:700; background:rgba(16,185,129,.08); color:#059669; padding:3px 8px; border-radius:999px;">costboard.html</span>
-          </div>
-          <p style="font-size:13px; color:var(--muted); margin:0; line-height:1.5;">แก้ไขฟังก์ชันมาร์กพิมพ์ตัด, คำนวณตารางเมตร, คำนวณต้นทุน และตารางเปรียบเทียบ</p>
-        </div>
-        <a href="costboard?edit=1" target="_blank" class="btn btn-primary btn-small" style="width:100%; gap:6px; font-size:13px;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-          เปิดแก้ไขหน้ารายละเอียด Print & Cost
-        </a>
-      </div>
-
-      <!-- Page 6: Pricing -->
-      <div style="background:#f8f9fc; border:1px solid rgba(0,0,0,.06); border-radius:16px; padding:20px; display:flex; flex-direction:column; justify-content:space-between; gap:14px;">
-        <div>
-          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
-            <strong style="font-size:16px; color:var(--ink);">ตารางราคา (Pricing)</strong>
-            <span style="font-size:11px; font-weight:700; background:rgba(0,113,227,.08); color:var(--blue); padding:3px 8px; border-radius:999px;">pricing.html</span>
-          </div>
-          <p style="font-size:13px; color:var(--muted); margin:0; line-height:1.5;">แก้ไขราคาแพ็กเกจเดี่ยว, แพ็กเกจ Bundle รวม และเงื่อนไขการรับประกัน</p>
-        </div>
-        <a href="pricing?edit=1" target="_blank" class="btn btn-primary btn-small" style="width:100%; gap:6px; font-size:13px;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-          เปิดแก้ไขหน้าตารางราคา
-        </a>
       </div>
     </div>
   </div>
 </main>
 
+<!-- Modals for Product Add / Edit -->
 <div class="admin-modal" id="addProductModal">
   <div class="admin-modal-box">
     <button class="admin-modal-close" onclick="closeModal('addProductModal')">&times;</button>
@@ -494,34 +394,54 @@ var ICON = {
   unlock: '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>',
   ban: '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>',
   check: '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>',
-  trash: '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>',
-  link: '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>'
+  trash: '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>'
 };
+
 var DEFAULT_PRODUCTS=[{id:'1',sku:'JG-SAISCALE-01',name:'saiscale',app:'Photoshop & AI',price:2490,sales:48,status:'Active',url:'saiscale'},{id:'2',sku:'JG-EZNEST-02',name:'ez nest',app:'Illustrator CC',price:1390,sales:52,status:'Active',url:'eznest'},{id:'3',sku:'JG-CUTPREP-03',name:'jarerngraphic CutPrep',app:'Illustrator CC',price:1190,sales:26,status:'Active',url:'cutprep'},{id:'4',sku:'JG-PRINTCOST-04',name:'jarerngraphic Print & Cost',app:'Photoshop & AI',price:1290,sales:34,status:'Active',url:'costboard'}];
 var DEFAULT_LICENSES=[{key:'JG-SAIS-9A2F-4B1C-8E7D',product:'saiscale',email:'somchai.cut@gmail.com',hwid:'WIN-DESKTOP-98F2A1',date:'2026-08-23',status:'Active'},{key:'JG-NEST-88CD-11FA-992B',product:'ez nest',email:'laser.studio.bkk@gmail.com',hwid:'MAC-M3PRO-33E1D4',date:'2026-08-22',status:'Active'},{key:'JG-PREP-77AA-55DF-2201',product:'jarerngraphic CutPrep',email:'signage.pro@yahoo.com',hwid:'WIN-OFFICE-4422B1',date:'2026-08-21',status:'Active'},{key:'JG-COST-1029-3388-7744',product:'jarerngraphic Print & Cost',email:'printcraft.th@gmail.com',hwid:'MAC-M2-77119A',date:'2026-08-20',status:'Active'}];
 var DEFAULT_ORDERS=[{id:'ORD-9821',customer:'somchai.cut@gmail.com',product:'saiscale',amount:2490,method:'PromptPay QR',time:'10 นาทีที่แล้ว',status:'PAID'},{id:'ORD-9820',customer:'laser.studio.bkk@gmail.com',product:'ez nest',amount:1390,method:'PromptPay QR',time:'2 ชม. ที่แล้ว',status:'PAID'},{id:'ORD-9819',customer:'signage.pro@yahoo.com',product:'jarerngraphic CutPrep',amount:1190,method:'PromptPay QR',time:'5 ชม. ที่แล้ว',status:'PAID'}];
 var products=[],licenses=[],orders=[];
+
 function loadData(){try{var p=localStorage.getItem('jg_admin_products');products=p?JSON.parse(p):JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));var l=localStorage.getItem('jg_admin_licenses');licenses=l?JSON.parse(l):JSON.parse(JSON.stringify(DEFAULT_LICENSES));var o=localStorage.getItem('jg_admin_orders');orders=o?JSON.parse(o):JSON.parse(JSON.stringify(DEFAULT_ORDERS));}catch(e){products=JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));licenses=JSON.parse(JSON.stringify(DEFAULT_LICENSES));orders=JSON.parse(JSON.stringify(DEFAULT_ORDERS));}}
 function saveData(){try{localStorage.setItem('jg_admin_products',JSON.stringify(products));localStorage.setItem('jg_admin_licenses',JSON.stringify(licenses));localStorage.setItem('jg_admin_orders',JSON.stringify(orders));}catch(e){}}
 function showToast(msg){var t=document.getElementById('toastMsg');if(!t)return;t.innerHTML='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> '+msg;t.className='toast-msg show';setTimeout(function(){t.className='toast-msg';},2800);}
-function handleAdminLogin(){var pass=document.getElementById('adminPassInput').value.trim();if(pass==='admin1234'||pass.length>=6){sessionStorage.setItem('jg_admin_session','active');document.getElementById('adminLoginSection').style.display='none';document.getElementById('adminDashboardSection').style.display='block';document.getElementById('adminLogoutBtn').style.display='inline-flex';loadData();renderAll();showToast('เข้าสู่ระบบสำเร็จ');}else{alert('รหัสผ่านไม่ถูกต้อง (รหัสเริ่มต้น: admin1234)');}}
+function handleAdminLogin(){var pass=document.getElementById('adminPassInput').value.trim();if(pass==='admin1234'||pass.length>=6){sessionStorage.setItem('jg_admin_session','active');document.getElementById('adminLoginSection').style.display='none';document.getElementById('adminDashboardSection').style.display='block';document.getElementById('adminLogoutBtn').style.display='inline-flex';loadData();renderAll();renderEditorForm();showToast('เข้าสู่ระบบสำเร็จ');}else{alert('รหัสผ่านไม่ถูกต้อง (รหัสเริ่มต้น: admin1234)');}}
 document.getElementById('adminLogoutBtn').addEventListener('click',function(){sessionStorage.removeItem('jg_admin_session');document.getElementById('adminDashboardSection').style.display='none';document.getElementById('adminLoginSection').style.display='flex';document.getElementById('adminLogoutBtn').style.display='none';});
-function switchTab(tabId,el){document.querySelectorAll('.admin-tab-btn').forEach(function(b){b.classList.remove('active');});if(el)el.classList.add('active');document.getElementById('tab-products').style.display=tabId==='products'?'block':'none';document.getElementById('tab-licenses').style.display=tabId==='licenses'?'block':'none';document.getElementById('tab-orders').style.display=tabId==='orders'?'block':'none';document.getElementById('tab-editor').style.display=tabId==='editor'?'block':'none';}
+
+function switchTab(tabId,el){
+  document.querySelectorAll('.admin-tab-btn').forEach(function(b){b.classList.remove('active');});
+  if(el) el.classList.add('active');
+  document.getElementById('tab-products').style.display=tabId==='products'?'block':'none';
+  document.getElementById('tab-licenses').style.display=tabId==='licenses'?'block':'none';
+  document.getElementById('tab-orders').style.display=tabId==='orders'?'block':'none';
+  document.getElementById('tab-content-editor').style.display=tabId==='content-editor'?'block':'none';
+  if(tabId==='content-editor'){ renderEditorForm(); }
+}
+
 function renderAll(){renderProducts();renderLicenses();renderOrders();updateKPIs();updateSelectOptions();}
 function updateKPIs(){var totalRevenue=orders.reduce(function(s,o){return s+(Number(o.amount)||0);},0)+products.reduce(function(s,p){return s+((Number(p.price)||0)*(Number(p.sales)||0));},0);var activeKeys=licenses.filter(function(l){return l.status==='Active';}).length;var unlocked=licenses.filter(function(l){return l.hwid&&l.hwid.indexOf('UNLOCKED')!==-1;}).length;document.getElementById('kpiRevenue').textContent='฿'+totalRevenue.toLocaleString();document.getElementById('kpiActiveKeys').textContent=activeKeys+' Keys';document.getElementById('kpiProducts').textContent=products.length+' โปรแกรม';document.getElementById('kpiUnlockedKeys').textContent=unlocked+' Keys';document.getElementById('tabCountProducts').textContent=products.length;document.getElementById('tabCountLicenses').textContent=licenses.length;document.getElementById('tabCountOrders').textContent=orders.length;}
-function renderProducts(){var tbody=document.getElementById('productListBody');tbody.innerHTML=products.map(function(p,i){var isPaused=p.status==='Paused';return '<tr><td><code style="color:var(--blue);font-weight:700;font-size:12px;">'+p.sku+'</code></td><td><strong style="color:var(--ink);font-size:14px;">'+p.name+'</strong>'+(p.url?'<a href="'+p.url+'" target="_blank" style="color:var(--muted);margin-left:6px;font-size:11px;">'+ICON.link+'</a>':'')+'</td><td>'+p.app+'</td><td><strong style="color:var(--red);">฿'+Number(p.price).toLocaleString()+'</strong></td><td>'+(p.sales||0)+' ชิ้น</td><td><span class="badge-status '+(isPaused?'status-paused':'status-active')+'">'+(isPaused?'พักการขาย':'เปิดขาย')+'</span></td><td><button class="action-btn action-btn-primary" onclick="openEditProductModal('+i+')">'+ICON.edit+' แก้ไข</button></td></tr>';}).join('');}
+
+// 1. PRODUCTS
+function renderProducts(){var tbody=document.getElementById('productListBody');tbody.innerHTML=products.map(function(p,i){var isPaused=p.status==='Paused';return '<tr><td><code style="color:var(--blue);font-weight:700;font-size:12px;">'+p.sku+'</code></td><td><strong style="color:var(--ink);font-size:14px;">'+p.name+'</strong></td><td>'+p.app+'</td><td><strong style="color:var(--red);">฿'+Number(p.price).toLocaleString()+'</strong></td><td>'+(p.sales||0)+' ชิ้น</td><td><span class="badge-status '+(isPaused?'status-paused':'status-active')+'">'+(isPaused?'พักการขาย':'เปิดขาย')+'</span></td><td><button class="action-btn action-btn-primary" onclick="openEditProductModal('+i+')">'+ICON.edit+' แก้ไข</button></td></tr>';}).join('');}
 function openAddProductModal(){document.getElementById('newProdName').value='';document.getElementById('newProdSku').value='JG-PRO-'+Math.floor(100+Math.random()*900);document.getElementById('newProdPrice').value='1490';document.getElementById('newProdApp').value='Illustrator CC 2021+';document.getElementById('newProdUrl').value='';document.getElementById('addProductModal').classList.add('active');}
 function handleAddNewProduct(){var name=document.getElementById('newProdName').value.trim();var sku=document.getElementById('newProdSku').value.trim();var price=Number(document.getElementById('newProdPrice').value);var app=document.getElementById('newProdApp').value.trim();var url=document.getElementById('newProdUrl').value.trim();products.push({id:String(Date.now()),sku:sku,name:name,app:app,price:price,sales:0,status:'Active',url:url});saveData();renderAll();closeModal('addProductModal');showToast('เพิ่มโปรแกรม "'+name+'" เรียบร้อยแล้ว');}
 function openEditProductModal(index){var p=products[index];if(!p)return;document.getElementById('editProdIndex').value=index;document.getElementById('editProdName').value=p.name;document.getElementById('editProdSku').value=p.sku;document.getElementById('editProdPrice').value=p.price;document.getElementById('editProdApp').value=p.app;document.getElementById('editProdSales').value=p.sales||0;document.getElementById('editProdStatus').value=p.status||'Active';document.getElementById('editProductModal').classList.add('active');}
 function handleSaveEditProduct(){var i=Number(document.getElementById('editProdIndex').value);if(i<0||i>=products.length)return;products[i].name=document.getElementById('editProdName').value.trim();products[i].sku=document.getElementById('editProdSku').value.trim();products[i].price=Number(document.getElementById('editProdPrice').value);products[i].app=document.getElementById('editProdApp').value.trim();products[i].sales=Number(document.getElementById('editProdSales').value);products[i].status=document.getElementById('editProdStatus').value;saveData();renderAll();closeModal('editProductModal');showToast('บันทึกการแก้ไข "'+products[i].name+'" สำเร็จ');}
 function handleDeleteProduct(){var i=Number(document.getElementById('editProdIndex').value);if(i<0||i>=products.length)return;var name=products[i].name;if(confirm('ยืนยันการลบโปรแกรม "'+name+'" ออกจากระบบหรือไม่?')){products.splice(i,1);saveData();renderAll();closeModal('editProductModal');showToast('ลบโปรแกรม "'+name+'" เรียบร้อยแล้ว');}}
+
+// 2. LICENSES
 function renderLicenses(){var tbody=document.getElementById('licenseListBody');tbody.innerHTML=licenses.map(function(l,i){var isRevoked=l.status==='Revoked';var isUnlocked=l.hwid&&l.hwid.indexOf('UNLOCKED')!==-1;return '<tr><td><code style="color:var(--blue);font-weight:700;font-size:12px;">'+l.key+'</code></td><td><strong>'+l.product+'</strong></td><td>'+l.email+'</td><td><span style="font-family:monospace;font-size:11.5px;color:'+(isUnlocked?'#059669':'var(--muted)')+';font-weight:'+(isUnlocked?'700':'400')+'">'+l.hwid+'</span></td><td>'+l.date+'</td><td><span class="badge-status '+(isRevoked?'status-revoked':'status-active')+'">'+(isRevoked?'ถูกระงับ':'ใช้งานได้')+'</span></td><td style="display:flex;gap:6px;flex-wrap:wrap;"><button class="action-btn" onclick="resetHwid('+i+')" title="ปลดล็อก HWID">'+ICON.unlock+' ย้ายเครื่อง</button><button class="action-btn action-btn-danger" onclick="toggleRevokeKey('+i+')">'+(isRevoked?ICON.check+' เปิดสิทธิ์':ICON.ban+' ระงับ')+'</button><button class="action-btn action-btn-danger" onclick="deleteLicense('+i+')" title="ลบคีย์นี้">'+ICON.trash+'</button></td></tr>';}).join('');}
 function resetHwid(i){licenses[i].hwid='UNLOCKED (พร้อมผูกเครื่องใหม่)';saveData();renderAll();showToast('ปลดล็อก HWID ของ '+licenses[i].key+' เรียบร้อย');}
 function toggleRevokeKey(i){licenses[i].status=licenses[i].status==='Active'?'Revoked':'Active';saveData();renderAll();showToast('เปลี่ยนสถานะคีย์ '+licenses[i].key+' เป็น '+licenses[i].status);}
 function deleteLicense(i){if(confirm('ยืนยันการลบ License Key "'+licenses[i].key+'"?')){licenses.splice(i,1);saveData();renderAll();showToast('ลบ License Key เรียบร้อยแล้ว');}}
 function filterLicenses(){var q=document.getElementById('licenseSearchInput').value.toLowerCase();document.querySelectorAll('#licenseListBody tr').forEach(function(r){r.style.display=r.textContent.toLowerCase().indexOf(q)!==-1?'':'none';});}
 function openGenKeyModal(){document.getElementById('genKeyEmail').value='';document.getElementById('genKeyModal').classList.add('active');}
-function handleManualGenKey(){var product=document.getElementById('genKeyProd').value;var email=document.getElementById('genKeyEmail').value.trim();var code=product.replace(/[^a-zA-Z]/g,'').slice(0,4).toUpperCase()||'PRO';var randKey='JG-'+code+'-'+Math.random().toString(36).substring(2,6).toUpperCase()+'-'+Math.random().toString(36).substring(2,6).toUpperCase();licenses.unshift({key:randKey,product:product,email:email,hwid:'PENDING_FIRST_ACTIVATION',date:new Date().toISOString().split('T')[0],status:'Active'});saveData();renderAll();closeModal('genKeyModal');alert('สร้าง License Key สำเร็จ!\n\nรหัสคีย์: '+randKey+'\nผู้รับ: '+email);}
+function handleManualGenKey(){var product=document.getElementById('genKeyProd').value;var email=document.getElementById('genKeyEmail').value.trim();var code=product.replace(/[^a-zA-Z]/g,'').slice(0,4).toUpperCase()||'PRO';var randKey='JG-'+code+'-'+Math.random().toString(36).substring(2,6).toUpperCase()+'-'+Math.random().toString(36).substring(2,6).toUpperCase();licenses.unshift({key:randKey,product:product,email:email,hwid:'PENDING_FIRST_ACTIVATION',date:new Date().toISOString().split('T')[0],status:'Active'});saveData();renderAll();closeModal('genKeyModal');alert('สร้าง License Key สำเร็จ!
+
+รหัสคีย์: '+randKey+'
+ผู้รับ: '+email);}
+
+// 3. ORDERS
 function renderOrders(){var tbody=document.getElementById('orderListBody');tbody.innerHTML=orders.map(function(o,i){return '<tr><td><code style="color:var(--ink);font-weight:700;font-size:12px;">'+o.id+'</code></td><td>'+o.customer+'</td><td><strong>'+o.product+'</strong></td><td><strong style="color:#059669;">฿'+Number(o.amount).toLocaleString()+'</strong></td><td>'+o.method+'</td><td>'+o.time+'</td><td><span class="badge-status status-active">สำเร็จ</span></td><td><button class="action-btn action-btn-danger" onclick="deleteOrder('+i+')">'+ICON.trash+' ลบ</button></td></tr>';}).join('');}
 function openAddOrderModal(){document.getElementById('newOrderEmail').value='';updateOrderPriceHint();document.getElementById('addOrderModal').classList.add('active');}
 function updateOrderPriceHint(){var prodName=document.getElementById('newOrderProd').value;var found=products.find(function(p){return p.name===prodName;});if(found)document.getElementById('newOrderAmount').value=found.price;}
@@ -529,7 +449,237 @@ function handleAddNewOrder(){var customer=document.getElementById('newOrderEmail
 function deleteOrder(i){if(confirm('ยืนยันการลบออเดอร์ '+orders[i].id+'?')){orders.splice(i,1);saveData();renderAll();showToast('ลบรายการออเดอร์เรียบร้อย');}}
 function updateSelectOptions(){var gen=document.getElementById('genKeyProd');var ord=document.getElementById('newOrderProd');if(gen&&products.length)gen.innerHTML=products.map(function(p){return '<option value="'+p.name+'">'+p.name+'</option>';}).join('');if(ord&&products.length)ord.innerHTML=products.map(function(p){return '<option value="'+p.name+'">'+p.name+' (฿'+p.price.toLocaleString()+')</option>';}).join('');}
 function closeModal(id){var el=document.getElementById(id);if(el)el.classList.remove('active');}
-window.addEventListener('DOMContentLoaded',function(){if(sessionStorage.getItem('jg_admin_session')==='active'){document.getElementById('adminLoginSection').style.display='none';document.getElementById('adminDashboardSection').style.display='block';document.getElementById('adminLogoutBtn').style.display='inline-flex';loadData();renderAll();}});
+
+// ═══════════════════════════════════════════
+// 4. SITE CONTENT CMS & LIVE IFRAME PREVIEW
+// ═══════════════════════════════════════════
+var SITE_PAGE_SCHEMAS = {
+  index: {
+    title: 'หน้าแรก (Home)',
+    url: 'index',
+    sections: [
+      {
+        name: 'ส่วนบนสุด (Hero Section)',
+        fields: [
+          { key: '.promo-line', label: 'คำโปรยด้านบน (Promo Line)', type: 'text', default: 'สโตร์รวมโปรแกรมเสริมและสคริปต์สำหรับ Illustrator & Photoshop' },
+          { key: '.hero-copy h1', label: 'หัวข้อหลัก H1 (รองรับแท็ก <br>)', type: 'text', default: 'โปรแกรมเสริมสำหรับงานผลิต<br>ที่พัฒนาเพื่อคนทำงานจริง' },
+          { key: '.hero-subcopy p', label: 'คำอธิบายจุดเด่น Hero', type: 'textarea', default: 'สคริปต์และ CEP Extensions ที่ออกแบบมาเพื่อแก้ปัญหาการทำงานซ้ำซาก จัดวางชิ้นงานแน่น ล้างไฟล์ตัดไว บอกขนาดอัตโนมัติ และคิดต้นทุนแม่นยำ' },
+          { key: '.tag-left', label: 'ป้ายแท็กลอยซ้าย', type: 'text', default: '@Illustrator & PS' },
+          { key: '.tag-right', label: 'ป้ายแท็กลอยขวา', type: 'text', default: '@CNC, Laser & Print' }
+        ]
+      },
+      {
+        name: 'หัวข้อรายการสินค้า (Product Catalog)',
+        fields: [
+          { key: '.section-head h2', label: 'หัวข้อหมวดสินค้า', type: 'text', default: 'โปรแกรมเสริมทั้งหมด <span>เลือกเครื่องมือที่ตอบโจทย์ขั้นตอนการผลิตของคุณ</span>' }
+        ]
+      },
+      {
+        name: 'จุดเด่นระบบ (Why Choose Us)',
+        fields: [
+          { key: '.features-section .section-head h2', label: 'หัวข้อจุดเด่น', type: 'text', default: 'ทำไมต้องใช้เครื่องมือของ JarernGraphic?' },
+          { key: '.feature-card:nth-child(1) h3', label: 'จุดเด่น 1 (หัวข้อ)', type: 'text', default: 'ประหยัดเวลากว่า 80%' },
+          { key: '.feature-card:nth-child(1) p', label: 'จุดเด่น 1 (คำอธิบาย)', type: 'textarea', default: 'ลดขั้นตอนคลิกซ้ำซ้อน งานที่เคยใช้เวลา 1-2 ชั่วโมง เสร็จได้ในคลิกเดียว' },
+          { key: '.feature-card:nth-child(2) h3', label: 'จุดเด่น 2 (หัวข้อ)', type: 'text', default: 'ลดความผิดพลาดคน (Human Error)' },
+          { key: '.feature-card:nth-child(2) p', label: 'จุดเด่น 2 (คำอธิบาย)', type: 'textarea', default: 'คำนวณและประมวลผลด้วยสคริปต์แม่นยำสูง หมดปัญหาลืมเปลี่ยนสเกลหรือเส้นซ้อน' }
+        ]
+      },
+      {
+        name: 'คำถามที่พบบ่อย (FAQ)',
+        fields: [
+          { key: '.faq-item:nth-child(1) .faq-q h3', label: 'คำถามที่ 1', type: 'text', default: 'ซื้อครั้งเดียวใช้ได้ตลอดชีพ (Lifetime) ไหม?' },
+          { key: '.faq-item:nth-child(1) .faq-a p', label: 'คำตอบที่ 1', type: 'textarea', default: 'ใช่ครับ ทุกโปรแกรมจำหน่ายแบบซื้อขาด (One-time payment) ใช้งานได้ตลอดชีพ ไม่มีค่าบริการรายเดือน พร้อมอัปเดตแก้ไขข้อผิดพลาดฟรีตลอดอายุการใช้งาน' },
+          { key: '.faq-item:nth-child(2) .faq-q h3', label: 'คำถามที่ 2', type: 'text', default: '1 License Key สามารถลงได้กี่เครื่อง?' },
+          { key: '.faq-item:nth-child(2) .faq-a p', label: 'คำตอบที่ 2', type: 'textarea', default: '1 License Key ผูกสิทธิ์ใช้งานพร้อมกันได้ 1 เครื่องคอมพิวเตอร์ (Node-Locked) แต่หากเปลี่ยนเครื่องหรือคอมเสีย สามารถกดย้ายสิทธิ์ (Deactivate / Transfer) ไปลงเครื่องใหม่ได้ด้วยตนเองทันทีครับ' }
+        ]
+      }
+    ]
+  },
+  saiscale: {
+    title: 'saiscale (Auto Dimensions)',
+    url: 'saiscale',
+    sections: [
+      {
+        name: 'หัวข้อและรายละเอียด saiscale',
+        fields: [
+          { key: '.display-title', label: 'ชื่อโปรแกรม', type: 'text', default: 'saiscale' },
+          { key: '.display-sub', label: 'สโลแกนใต้ชื่อ', type: 'text', default: 'Auto Dimensions & Scale CEP Panel' },
+          { key: '.pdp-info-col h1', label: 'หัวข้อหลักสินค้า', type: 'text', default: 'saiscale — สคริปต์บอกขนาด ขยาย Canvas และ Export อัตโนมัติ' },
+          { key: '.pdp-desc-main', label: 'คำอธิบายหลักสินค้า', type: 'textarea', default: 'เครื่องมือสร้างเส้นมิติบอกขนาดอัตโนมัติ (Dimensions) ขยายหน้า Canvas พอดีกับตัวงาน ใส่ตัวเลขสเกลจริง และ Export JPG พรีวิวส่งลูกค้าในคลิกเดียว' },
+          { key: '.pdp-price-amount', label: 'ราคาขาย (แสดงผล)', type: 'text', default: '฿2,490' }
+        ]
+      }
+    ]
+  },
+  eznest: {
+    title: 'ez nest (True-Shape Nesting)',
+    url: 'eznest',
+    sections: [
+      {
+        name: 'หัวข้อและรายละเอียด ez nest',
+        fields: [
+          { key: '.display-title', label: 'ชื่อโปรแกรม', type: 'text', default: 'ez nest' },
+          { key: '.display-sub', label: 'สโลแกนใต้ชื่อ', type: 'text', default: 'True-Shape Nesting Engine for Illustrator' },
+          { key: '.pdp-info-col h1', label: 'หัวข้อหลักสินค้า', type: 'text', default: 'ez nest — โปรแกรมจัดเรียงชิ้นงานอัตโนมัติ ประหยัดแผ่นวัสดุ' },
+          { key: '.pdp-desc-main', label: 'คำอธิบายหลักสินค้า', type: 'textarea', default: 'อัลกอริทึม True-Shape Nesting จัดเรียงเวกเตอร์ตามรูปทรงจริง หมุนองศาอิสระ แทรกชิ้นเล็กในช่องว่างชิ้นใหญ่ ลดขยะวัสดุ Laser, CNC และงานพิมพ์ไวนิล' },
+          { key: '.pdp-price-amount', label: 'ราคาขาย (แสดงผล)', type: 'text', default: '฿1,390' }
+        ]
+      }
+    ]
+  },
+  cutprep: {
+    title: 'CutPrep (เตรียมไฟล์ตัด)',
+    url: 'cutprep',
+    sections: [
+      {
+        name: 'หัวข้อและรายละเอียด CutPrep',
+        fields: [
+          { key: '.display-title', label: 'ชื่อโปรแกรม', type: 'text', default: 'CutPrep' },
+          { key: '.display-sub', label: 'สโลแกนใต้ชื่อ', type: 'text', default: 'Laser & CNC Vector Cleanup Tool' },
+          { key: '.pdp-info-col h1', label: 'หัวข้อหลักสินค้า', type: 'text', default: 'jarerngraphic CutPrep — ล้างเส้นซ้อน เชื่อมเส้นเปิด และ Export DXF' },
+          { key: '.pdp-desc-main', label: 'คำอธิบายหลักสินค้า', type: 'textarea', default: 'เครื่องมือเตรียมไฟล์ตัดสำหรับเครื่อง CNC / Fiber Laser / พล็อตเตอร์ ล้างเส้นซ้อน 100% เชื่อมเส้นที่ขาด ใส่สะพานบริดจ์ (Bridges) และ Export DXF ในไม่กี่วินาที' },
+          { key: '.pdp-price-amount', label: 'ราคาขาย (แสดงผล)', type: 'text', default: '฿1,190' }
+        ]
+      }
+    ]
+  },
+  costboard: {
+    title: 'Print & Cost (มาร์กและคิดต้นทุน)',
+    url: 'costboard',
+    sections: [
+      {
+        name: 'หัวข้อและรายละเอียด Print & Cost',
+        fields: [
+          { key: '.display-title', label: 'ชื่อโปรแกรม', type: 'text', default: 'Print & Cost' },
+          { key: '.display-sub', label: 'สโลแกนใต้ชื่อ', type: 'text', default: 'Production Markup & Cost Estimator' },
+          { key: '.pdp-info-col h1', label: 'หัวข้อหลักสินค้า', type: 'text', default: 'jarerngraphic Print & Cost — ใส่จุดมาร์กพิมพ์ตัด และคำนวณราคาต้นทุน' },
+          { key: '.pdp-desc-main', label: 'คำอธิบายหลักสินค้า', type: 'textarea', default: 'สร้างมาร์กพิมพ์ตัด (Crop/Registration Marks) อัตโนมัติ คำนวณตารางเมตร รวมราคาต้นทุนวัสดุและหมึกพิมพ์ พร้อมออกใบสรุปงานทันที' },
+          { key: '.pdp-price-amount', label: 'ราคาขาย (แสดงผล)', type: 'text', default: '฿1,290' }
+        ]
+      }
+    ]
+  },
+  pricing: {
+    title: 'ตารางราคา (Pricing)',
+    url: 'pricing',
+    sections: [
+      {
+        name: 'หัวข้อหน้าตารางราคา',
+        fields: [
+          { key: '.pricing-hero h1', label: 'หัวข้อหลัก H1', type: 'text', default: 'ตารางราคาและแพ็กเกจสโตร์' },
+          { key: '.pricing-hero p', label: 'คำอธิบายใต้หัวข้อ', type: 'textarea', default: 'ลงทุนครั้งเดียว คุ้มค่าตลอดชีพ ไม่มีค่าบริการรายเดือน พร้อมบริการซัพพอร์ตและอัปเดตฟรี' }
+        ]
+      }
+    ]
+  }
+};
+
+function handleSelectEditorPage(){
+  var pageKey = document.getElementById('editorPageSelect').value;
+  var schema = SITE_PAGE_SCHEMAS[pageKey] || SITE_PAGE_SCHEMAS.index;
+  var iframe = document.getElementById('previewIframe');
+  var title = document.getElementById('previewPageTitle');
+  var extLink = document.getElementById('previewExtLink');
+
+  iframe.src = schema.url;
+  title.textContent = 'Live Preview: ' + schema.url + '.html';
+  extLink.href = schema.url;
+
+  renderEditorForm();
+}
+
+function renderEditorForm(){
+  var pageKey = document.getElementById('editorPageSelect').value;
+  var schema = SITE_PAGE_SCHEMAS[pageKey] || SITE_PAGE_SCHEMAS.index;
+  var container = document.getElementById('editorFormContainer');
+  if(!container) return;
+
+  var savedRaw = localStorage.getItem('jg_page_content_' + pageKey);
+  var savedData = savedRaw ? JSON.parse(savedRaw) : {};
+
+  var html = '';
+  schema.sections.forEach(function(sec, secIdx){
+    html += '<div class="editor-group-card">';
+    html += '<div class="editor-group-header"><h4>' + sec.name + '</h4></div>';
+    
+    sec.fields.forEach(function(field){
+      var currentVal = (savedData[field.key] !== undefined) ? savedData[field.key] : field.default;
+      html += '<div>';
+      html += '<label style="font-size:12px; font-weight:700; color:var(--muted); display:block; margin-bottom:5px;">' + field.label + ' <code style="font-size:10px; color:var(--blue);">' + field.key + '</code></label>';
+      
+      if(field.type === 'textarea'){
+        html += '<textarea class="admin-input jg-editor-field" data-page="' + pageKey + '" data-key="' + field.key + '" oninput="syncLivePreview()">' + currentVal + '</textarea>';
+      } else {
+        html += '<input type="text" class="admin-input jg-editor-field" data-page="' + pageKey + '" data-key="' + field.key + '" value="' + currentVal.replace(/"/g, '&quot;') + '" oninput="syncLivePreview()">';
+      }
+      html += '</div>';
+    });
+
+    html += '</div>';
+  });
+
+  container.innerHTML = html;
+  setTimeout(syncLivePreview, 400);
+}
+
+function syncLivePreview(){
+  var pageKey = document.getElementById('editorPageSelect').value;
+  var fields = document.querySelectorAll('.jg-editor-field[data-page="' + pageKey + '"]');
+  var contentPayload = {};
+
+  fields.forEach(function(f){
+    contentPayload[f.getAttribute('data-key')] = f.value;
+  });
+
+  var iframe = document.getElementById('previewIframe');
+  if(iframe && iframe.contentWindow){
+    iframe.contentWindow.postMessage({
+      type: 'JG_ADMIN_LIVE_UPDATE',
+      content: contentPayload
+    }, '*');
+  }
+}
+
+function saveSiteContent(){
+  var pageKey = document.getElementById('editorPageSelect').value;
+  var fields = document.querySelectorAll('.jg-editor-field[data-page="' + pageKey + '"]');
+  var contentPayload = {};
+
+  fields.forEach(function(f){
+    contentPayload[f.getAttribute('data-key')] = f.value;
+  });
+
+  localStorage.setItem('jg_page_content_' + pageKey, JSON.stringify(contentPayload));
+  showToast('บันทึกข้อความหน้า "' + pageKey + '" เรียบร้อย! หน้าร้านจริงจะแสดงผลตามนี้ทันที');
+}
+
+function resetPageContentDefaults(){
+  var pageKey = document.getElementById('editorPageSelect').value;
+  if(confirm('ต้องการคืนค่าเริ่มต้นข้อความของหน้า ' + pageKey + ' หรือไม่?')){
+    localStorage.removeItem('jg_page_content_' + pageKey);
+    renderEditorForm();
+    var iframe = document.getElementById('previewIframe');
+    if(iframe) iframe.src = iframe.src;
+    showToast('รีเซ็ตข้อความเป็นค่าเริ่มต้นเดิมเรียบร้อย');
+  }
+}
+
+function setPreviewWidth(width, btn){
+  document.querySelectorAll('.preview-device-switch .device-btn').forEach(function(b){ b.classList.remove('active'); });
+  if(btn) btn.classList.add('active');
+  document.getElementById('previewFrameWrap').style.width = width;
+}
+
+window.addEventListener('DOMContentLoaded', function(){
+  if(sessionStorage.getItem('jg_admin_session') === 'active'){
+    document.getElementById('adminLoginSection').style.display = 'none';
+    document.getElementById('adminDashboardSection').style.display = 'block';
+    document.getElementById('adminLogoutBtn').style.display = 'inline-flex';
+    loadData();
+    renderAll();
+    renderEditorForm();
+  }
+});
 </script>
 </body>
 </html>

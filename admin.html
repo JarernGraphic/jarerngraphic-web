@@ -5,61 +5,79 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin Dashboard — JarernGraphic Store Management</title>
 <meta name="description" content="ระบบจัดการร้านค้า โปรแกรมเสริม และ License Keys สำหรับผู้ดูแลระบบ JarernGraphic">
-<link rel="stylesheet" href="style.css?v=store-8">
+<link rel="stylesheet" href="style.css?v=store-9">
 <style>
 /* Admin Dashboard Custom Styles */
-.admin-page{ background:#0b0c10; color:#e2e2e8; min-height:100vh; }
-.admin-nav{ background:#121318; border-bottom:1px solid rgba(255,255,255,.08); padding:0 24px; }
+.admin-page{ background:#0b0c10; color:#e2e2e8; min-height:100vh; font-family:var(--font-sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif); }
+.admin-nav{ background:#121318; border-bottom:1px solid rgba(255,255,255,.08); padding:0 24px; position:sticky; top:0; z-index:100; backdrop-filter:blur(12px); }
 .admin-nav-inner{ max-width:1300px; height:64px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; }
 .admin-brand{ display:flex; align-items:center; gap:10px; font-weight:700; color:#fff; font-size:16px; text-decoration:none; }
-.admin-badge{ padding:3px 8px; border-radius:6px; background:#e11d48; color:#fff; font-size:11px; font-weight:800; }
+.admin-badge{ padding:3px 8px; border-radius:6px; background:#e11d48; color:#fff; font-size:11px; font-weight:800; letter-spacing:0.04em; }
 
 .admin-container{ max-width:1300px; margin:0 auto; padding:32px 24px 80px; }
 
 /* Admin Login Card */
-.admin-login-wrapper{ min-height:70vh; display:flex; align-items:center; justify-content:center; }
+.admin-login-wrapper{ min-height:75vh; display:flex; align-items:center; justify-content:center; }
 .admin-login-card{ background:#14151b; border:1px solid rgba(255,255,255,.1); border-radius:24px; padding:44px 38px; width:100%; max-width:440px; box-shadow:0 24px 60px rgba(0,0,0,.5); text-align:center; }
 .admin-login-card h2{ margin:0 0 8px; font-size:24px; color:#fff; }
 .admin-login-card p{ margin:0 0 28px; font-size:13.5px; color:#9494a0; }
 
 /* KPI Grid */
 .admin-kpi-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:18px; margin-bottom:34px; }
-.admin-kpi-card{ background:#14151b; border:1px solid rgba(255,255,255,.08); border-radius:18px; padding:24px 22px; display:flex; flex-direction:column; gap:8px; }
+.admin-kpi-card{ background:#14151b; border:1px solid rgba(255,255,255,.08); border-radius:18px; padding:24px 22px; display:flex; flex-direction:column; gap:8px; transition:transform .2s, border-color .2s; }
+.admin-kpi-card:hover{ border-color:rgba(255,255,255,.16); transform:translateY(-2px); }
 .admin-kpi-title{ font-size:12.5px; color:#9494a0; font-weight:600; text-transform:uppercase; letter-spacing:.04em; }
 .admin-kpi-val{ font-size:28px; font-weight:800; color:#fff; letter-spacing:-.02em; }
 .admin-kpi-sub{ font-size:12px; color:#10b981; }
 
 /* Admin Tabs */
-.admin-tabs{ display:flex; gap:10px; border-bottom:1px solid rgba(255,255,255,.08); margin-bottom:28px; padding-bottom:12px; }
-.admin-tab-btn{ background:transparent; border:0; color:#9494a0; font-size:14px; font-weight:700; padding:8px 18px; border-radius:10px; cursor:pointer; transition:all .2s ease; }
+.admin-tabs{ display:flex; gap:10px; border-bottom:1px solid rgba(255,255,255,.08); margin-bottom:28px; padding-bottom:12px; flex-wrap:wrap; }
+.admin-tab-btn{ background:transparent; border:0; color:#9494a0; font-size:14px; font-weight:700; padding:10px 20px; border-radius:10px; cursor:pointer; transition:all .2s ease; display:inline-flex; align-items:center; gap:8px; }
+.admin-tab-btn:hover{ color:#fff; background:rgba(255,255,255,.04); }
 .admin-tab-btn.active{ background:rgba(225,29,72,.15); color:#ff4d6d; }
 
-/* Admin Table */
+/* Admin Table & Panels */
 .admin-panel{ background:#14151b; border:1px solid rgba(255,255,255,.08); border-radius:20px; padding:28px; margin-bottom:34px; }
 .panel-header{ display:flex; justify-content:space-between; align-items:center; margin-bottom:22px; flex-wrap:wrap; gap:14px; }
 .panel-header h3{ margin:0; font-size:20px; font-weight:800; color:#fff; }
 
-.admin-table{ width:100%; border-collapse:collapse; text-align:left; font-size:13.5px; }
-.admin-table th{ padding:14px 16px; color:#9494a0; font-weight:700; border-bottom:1px solid rgba(255,255,255,.08); font-size:12px; text-transform:uppercase; }
-.admin-table td{ padding:16px; border-bottom:1px solid rgba(255,255,255,.05); color:#d4d4dc; }
+.admin-table-wrap{ overflow-x:auto; }
+.admin-table{ width:100%; border-collapse:collapse; text-align:left; font-size:13.5px; min-width:680px; }
+.admin-table th{ padding:14px 16px; color:#9494a0; font-weight:700; border-bottom:1px solid rgba(255,255,255,.08); font-size:12px; text-transform:uppercase; letter-spacing:.03em; }
+.admin-table td{ padding:16px; border-bottom:1px solid rgba(255,255,255,.05); color:#d4d4dc; vertical-align:middle; }
 .admin-table tr:hover td{ background:rgba(255,255,255,.02); }
 
 .badge-status{ display:inline-flex; align-items:center; gap:5px; padding:4px 10px; border-radius:999px; font-size:11.5px; font-weight:700; }
 .status-active{ background:rgba(16,185,129,.15); color:#34d399; }
+.status-paused{ background:rgba(245,158,11,.15); color:#fbbf24; }
 .status-revoked{ background:rgba(239,68,68,.15); color:#f87171; }
 
-.action-btn{ background:rgba(255,255,255,.08); border:0; color:#fff; padding:6px 12px; border-radius:8px; font-size:12px; font-weight:600; cursor:pointer; transition:background .2s ease; }
-.action-btn:hover{ background:rgba(255,255,255,.16); }
-.action-btn-danger{ background:rgba(239,68,68,.2); color:#fca5a5; }
-.action-btn-danger:hover{ background:rgba(239,68,68,.35); }
+.action-btn{ background:rgba(255,255,255,.08); border:0; color:#fff; padding:6px 12px; border-radius:8px; font-size:12px; font-weight:600; cursor:pointer; transition:all .2s ease; display:inline-flex; align-items:center; gap:4px; }
+.action-btn:hover{ background:rgba(255,255,255,.18); transform:translateY(-1px); }
+.action-btn-primary{ background:#e11d48; color:#fff; }
+.action-btn-primary:hover{ background:#be123c; }
+.action-btn-danger{ background:rgba(239,68,68,.15); color:#fca5a5; }
+.action-btn-danger:hover{ background:rgba(239,68,68,.3); color:#fff; }
 
 /* Form Elements */
-.admin-input{ background:#0e0f13; border:1px solid rgba(255,255,255,.12); border-radius:10px; padding:10px 14px; color:#fff; font-size:13.5px; width:100%; }
+.admin-input{ background:#0e0f13; border:1px solid rgba(255,255,255,.12); border-radius:10px; padding:10px 14px; color:#fff; font-size:13.5px; width:100%; transition:border-color .2s; }
 .admin-input:focus{ outline:none; border-color:#e11d48; }
+
+/* Modal Customization */
+.checkout-modal{ display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,.75); backdrop-filter:blur(8px); z-index:9999; align-items:center; justify-content:center; padding:16px; }
+.checkout-modal.active{ display:flex; }
+.modal-box-admin{ background:#14151b; color:#fff; border:1px solid rgba(255,255,255,.12); border-radius:24px; padding:32px; width:100%; max-width:540px; box-shadow:0 24px 60px rgba(0,0,0,.6); position:relative; max-height:90vh; overflow-y:auto; }
+
+/* Toast */
+.toast-msg{ position:fixed; bottom:24px; right:24px; background:#10b981; color:#fff; padding:12px 20px; border-radius:12px; font-weight:700; font-size:13.5px; box-shadow:0 12px 30px rgba(0,0,0,.5); z-index:10000; display:none; animation:fadeIn .2s ease; }
+@keyframes fadeIn{ from{ opacity:0; transform:translateY(10px); } to{ opacity:1; transform:translateY(0); } }
 
 @media (max-width:980px){
   .admin-kpi-grid{ grid-template-columns:repeat(2,1fr); }
-  .admin-table{ display:block; overflow-x:auto; }
+}
+@media (max-width:640px){
+  .admin-kpi-grid{ grid-template-columns:1fr; }
+  .admin-container{ padding:20px 14px 60px; }
 }
 </style>
 </head>
@@ -68,14 +86,14 @@
 <!-- Admin Navigation -->
 <header class="admin-nav">
   <div class="admin-nav-inner">
-    <a href="admin.html" class="admin-brand">
-      <img src="assets/logo.png" alt="Logo" class="brand-logo-img">
+    <a href="admin" class="admin-brand">
+      <img src="assets/logo.png" alt="Logo" class="brand-logo-img" style="width:32px; height:32px;">
       <span>JarernGraphic Admin</span>
       <span class="admin-badge">PRO PORTAL</span>
     </a>
-    <div style="display:flex; align-items:center; gap:14px;">
-      <a href="index.html" class="btn btn-outline btn-small" style="color:#fff; border-color:rgba(255,255,255,.2);">ดูหน้าร้าน</a>
-      <button class="btn btn-primary btn-small" id="adminLogoutBtn" style="display:none;">ออกจากระบบ</button>
+    <div style="display:flex; align-items:center; gap:12px;">
+      <a href="index" class="btn btn-outline btn-small" style="color:#fff; border-color:rgba(255,255,255,.2); font-size:12.5px;">ดูหน้าร้าน</a>
+      <button class="btn btn-primary btn-small" id="adminLogoutBtn" style="display:none; font-size:12.5px;">ออกจากระบบ</button>
     </div>
   </div>
 </header>
@@ -83,7 +101,7 @@
 <!-- Login Gateway (Shown if not logged in) -->
 <div class="admin-login-wrapper" id="adminLoginSection">
   <div class="admin-login-card">
-    <img src="assets/logo.png" alt="Logo" style="width:48px; height:48px; margin-bottom:16px;">
+    <img src="assets/logo.png" alt="Logo" style="width:54px; height:54px; margin-bottom:16px;">
     <h2>เข้าสู่ระบบผู้ดูแล</h2>
     <p>ระบบจัดการโปรแกรมเสริม, License Key และออเดอร์</p>
 
@@ -109,32 +127,32 @@
   <!-- KPI Metrics -->
   <div class="admin-kpi-grid">
     <div class="admin-kpi-card">
-      <span class="admin-kpi-title">ยอดขายรวม (เดือนนี้)</span>
-      <span class="admin-kpi-val" id="kpiRevenue">฿186,400</span>
-      <span class="admin-kpi-sub">+18.5% จากเดือนก่อน</span>
+      <span class="admin-kpi-title">ยอดขายรวม (ทั้งหมด)</span>
+      <span class="admin-kpi-val" id="kpiRevenue">฿0</span>
+      <span class="admin-kpi-sub" id="kpiRevenueSub">คำนวณจากออเดอร์จริงในระบบ</span>
     </div>
     <div class="admin-kpi-card">
       <span class="admin-kpi-title">License Keys ที่เปิดใช้แล้ว</span>
-      <span class="admin-kpi-val" id="kpiActiveKeys">128 Keys</span>
+      <span class="admin-kpi-val" id="kpiActiveKeys">0 Keys</span>
       <span class="admin-kpi-sub">พร้อมระบบ Node-Locked HWID</span>
     </div>
     <div class="admin-kpi-card">
       <span class="admin-kpi-title">รายการโปรแกรมทั้งหมด</span>
-      <span class="admin-kpi-val" id="kpiProducts">4 โปรแกรม</span>
+      <span class="admin-kpi-val" id="kpiProducts">0 โปรแกรม</span>
       <span class="admin-kpi-sub">พร้อมขายบนสโตร์</span>
     </div>
     <div class="admin-kpi-card">
-      <span class="admin-kpi-title">คำขอย้ายเครื่อง (Self-service)</span>
-      <span class="admin-kpi-val">14 ครั้ง</span>
-      <span class="admin-kpi-sub">ปลดล็อกอัตโนมัติสำเร็จ</span>
+      <span class="admin-kpi-title">คีย์ที่ถูกปลดล็อก (พร้อมย้าย)</span>
+      <span class="admin-kpi-val" id="kpiUnlockedKeys">0 Keys</span>
+      <span class="admin-kpi-sub">ปลดล็อกเพื่อย้ายเครื่องใหม่</span>
     </div>
   </div>
 
   <!-- Navigation Tabs -->
   <div class="admin-tabs">
-    <button class="admin-tab-btn active" onclick="switchTab('products')">📦 จัดการโปรแกรมเสริม</button>
-    <button class="admin-tab-btn" onclick="switchTab('licenses')">🔑 จัดการ License Keys</button>
-    <button class="admin-tab-btn" onclick="switchTab('orders')">💳 รายการสั่งซื้อ (PromptPay)</button>
+    <button class="admin-tab-btn active" onclick="switchTab('products', this)">📦 จัดการโปรแกรมเสริม (<span id="tabCountProducts">0</span>)</button>
+    <button class="admin-tab-btn" onclick="switchTab('licenses', this)">🔑 จัดการ License Keys (<span id="tabCountLicenses">0</span>)</button>
+    <button class="admin-tab-btn" onclick="switchTab('orders', this)">💳 รายการสั่งซื้อ (PromptPay) (<span id="tabCountOrders">0</span>)</button>
   </div>
 
   <!-- TAB 1: PRODUCT MANAGER -->
@@ -142,27 +160,29 @@
     <div class="panel-header">
       <div>
         <h3>รายการโปรแกรมเสริมในสโตร์</h3>
-        <span style="font-size:13px; color:#9494a0;">เพิ่ม แก้ไข หรือระงับการขายโปรแกรมเสริมในระบบ</span>
+        <span style="font-size:13px; color:#9494a0;">เพิ่ม แก้ไขราคา ปรับสถานะ หรือลบโปรแกรม (บันทึกข้อมูลจริงอัตโนมัติ)</span>
       </div>
       <button class="btn btn-primary btn-small" onclick="openAddProductModal()">➕ เพิ่มโปรแกรมใหม่</button>
     </div>
 
-    <table class="admin-table">
-      <thead>
-        <tr>
-          <th>รหัสสินค้า</th>
-          <th>ชื่อโปรแกรม</th>
-          <th>โปรแกรมที่รองรับ</th>
-          <th>ราคาขาย</th>
-          <th>ยอดขาย</th>
-          <th>สถานะ</th>
-          <th>จัดการ</th>
-        </tr>
-      </thead>
-      <tbody id="productListBody">
-        <!-- Products populated by JS -->
-      </tbody>
-    </table>
+    <div class="admin-table-wrap">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>รหัสสินค้า (SKU)</th>
+            <th>ชื่อโปรแกรม</th>
+            <th>โปรแกรมที่รองรับ</th>
+            <th>ราคาขาย</th>
+            <th>ยอดขาย</th>
+            <th>สถานะ</th>
+            <th>จัดการ</th>
+          </tr>
+        </thead>
+        <tbody id="productListBody">
+          <!-- Products populated by JS -->
+        </tbody>
+      </table>
+    </div>
   </div>
 
   <!-- TAB 2: LICENSE MANAGER -->
@@ -170,31 +190,33 @@
     <div class="panel-header">
       <div>
         <h3>ทะเบียน License Key และผูกเครื่อง</h3>
-        <span style="font-size:13px; color:#9494a0;">ตรวจสอบสิทธิ์ รีเซ็ตเครื่อง หรือออกคีย์ใหม่ให้ลูกค้า</span>
+        <span style="font-size:13px; color:#9494a0;">ตรวจสอบสิทธิ์ ปลดล็อกย้ายเครื่อง ระงับสิทธิ์ หรือออกคีย์ใหม่</span>
       </div>
       <button class="btn btn-primary btn-small" onclick="openGenKeyModal()">⚡ ออก License Key ใหม่</button>
     </div>
 
     <div style="margin-bottom:18px;">
-      <input type="text" id="licenseSearchInput" placeholder="ค้นหาด้วย License Key, อีเมลลูกค้า หรือ Machine ID..." class="admin-input" onkeyup="filterLicenses()">
+      <input type="text" id="licenseSearchInput" placeholder="🔍 ค้นหาด้วย License Key, อีเมลลูกค้า หรือ Machine ID..." class="admin-input" onkeyup="filterLicenses()">
     </div>
 
-    <table class="admin-table">
-      <thead>
-        <tr>
-          <th>License Key</th>
-          <th>โปรแกรม</th>
-          <th>อีเมลลูกค้า</th>
-          <th>Machine ID (HWID)</th>
-          <th>วันที่เปิดใช้</th>
-          <th>สถานะ</th>
-          <th>จัดการ</th>
-        </tr>
-      </thead>
-      <tbody id="licenseListBody">
-        <!-- Populated by JS -->
-      </tbody>
-    </table>
+    <div class="admin-table-wrap">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>License Key</th>
+            <th>โปรแกรม</th>
+            <th>อีเมลลูกค้า</th>
+            <th>Machine ID (HWID)</th>
+            <th>วันที่สร้าง</th>
+            <th>สถานะ</th>
+            <th>จัดการ</th>
+          </tr>
+        </thead>
+        <tbody id="licenseListBody">
+          <!-- Populated by JS -->
+        </tbody>
+      </table>
+    </div>
   </div>
 
   <!-- TAB 3: ORDERS -->
@@ -204,218 +226,485 @@
         <h3>ประวัติรายการชำระเงิน (PromptPay Gateway)</h3>
         <span style="font-size:13px; color:#9494a0;">ตรวจสอบยอดเงินและสถานะส่งมอบคีย์อัตโนมัติ 24 ชม.</span>
       </div>
+      <button class="btn btn-primary btn-small" onclick="openAddOrderModal()">➕ บันทึกออเดอร์ใหม่</button>
     </div>
 
-    <table class="admin-table">
-      <thead>
-        <tr>
-          <th>Order ID</th>
-          <th>ลูกค้า</th>
-          <th>สินค้า</th>
-          <th>ยอดเงิน</th>
-          <th>ช่องทาง</th>
-          <th>เวลา</th>
-          <th>สถานะ</th>
-        </tr>
-      </thead>
-      <tbody id="orderListBody">
-        <!-- Populated by JS -->
-      </tbody>
-    </table>
+    <div class="admin-table-wrap">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>ลูกค้า</th>
+            <th>สินค้า</th>
+            <th>ยอดเงิน</th>
+            <th>ช่องทาง</th>
+            <th>เวลา</th>
+            <th>สถานะ</th>
+            <th>จัดการ</th>
+          </tr>
+        </thead>
+        <tbody id="orderListBody">
+          <!-- Populated by JS -->
+        </tbody>
+      </table>
+    </div>
   </div>
 
 </main>
 
 <!-- Modal: Add New Product -->
 <div class="checkout-modal" id="addProductModal">
-  <div class="modal-box" style="background:#14151b; color:#fff; border:1px solid rgba(255,255,255,.1); max-width:520px;">
-    <button class="modal-close" onclick="closeModal('addProductModal')">&times;</button>
-    <div class="modal-header">
-      <h3 style="color:#fff;">เพิ่มโปรแกรมเสริมใหม่</h3>
-      <p style="color:#9494a0;">กำหนดชื่อ สเปก และราคาขายบนหน้าสโตร์</p>
+  <div class="modal-box-admin">
+    <button class="modal-close" onclick="closeModal('addProductModal')" style="position:absolute; top:20px; right:20px; background:transparent; border:0; color:#fff; font-size:24px; cursor:pointer;">&times;</button>
+    <div style="margin-bottom:20px;">
+      <h3 style="color:#fff; margin:0 0 4px; font-size:20px;">เพิ่มโปรแกรมเสริมใหม่</h3>
+      <p style="color:#9494a0; font-size:13px; margin:0;">กำหนดชื่อ สเปก และราคาขายบนหน้าสโตร์</p>
     </div>
 
     <form onsubmit="event.preventDefault(); handleAddNewProduct();">
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px;">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px;">
         <div>
-          <label style="font-size:12px; color:#9494a0; font-weight:700;">ชื่อโปรแกรม *</label>
+          <label style="font-size:12px; color:#9494a0; font-weight:700; display:block; margin-bottom:6px;">ชื่อโปรแกรม *</label>
           <input type="text" id="newProdName" class="admin-input" placeholder="เช่น ez auto cutter" required>
         </div>
         <div>
-          <label style="font-size:12px; color:#9494a0; font-weight:700;">รหัสสินค้า (SKU) *</label>
+          <label style="font-size:12px; color:#9494a0; font-weight:700; display:block; margin-bottom:6px;">รหัสสินค้า (SKU) *</label>
           <input type="text" id="newProdSku" class="admin-input" placeholder="JG-CUT-05" required>
         </div>
       </div>
 
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px;">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px;">
         <div>
-          <label style="font-size:12px; color:#9494a0; font-weight:700;">ราคาขาย (บาท) *</label>
+          <label style="font-size:12px; color:#9494a0; font-weight:700; display:block; margin-bottom:6px;">ราคาขาย (บาท) *</label>
           <input type="number" id="newProdPrice" class="admin-input" placeholder="1490" required>
         </div>
         <div>
-          <label style="font-size:12px; color:#9494a0; font-weight:700;">โปรแกรมที่รองรับ *</label>
+          <label style="font-size:12px; color:#9494a0; font-weight:700; display:block; margin-bottom:6px;">โปรแกรมที่รองรับ *</label>
           <input type="text" id="newProdApp" class="admin-input" placeholder="Photoshop & Illustrator" required>
         </div>
       </div>
 
-      <div style="margin-bottom:20px;">
-        <label style="font-size:12px; color:#9494a0; font-weight:700;">คำอธิบายจุดเด่นสั้นๆ *</label>
-        <textarea id="newProdDesc" class="admin-input" rows="2" placeholder="อธิบายการทำงานและฟังก์ชันหลัก..." required></textarea>
+      <div style="margin-bottom:24px;">
+        <label style="font-size:12px; color:#9494a0; font-weight:700; display:block; margin-bottom:6px;">ลิงก์หน้ารายละเอียดสินค้า</label>
+        <input type="text" id="newProdUrl" class="admin-input" placeholder="saiscale (หรือปล่อยว่าง)">
       </div>
 
-      <button type="submit" class="btn btn-primary" style="width:100%; min-height:44px; font-weight:700;">
+      <button type="submit" class="btn btn-primary" style="width:100%; min-height:46px; font-weight:700;">
         บันทึกและเปิดขายบนสโตร์
       </button>
     </form>
   </div>
 </div>
 
+<!-- Modal: Edit Existing Product -->
+<div class="checkout-modal" id="editProductModal">
+  <div class="modal-box-admin">
+    <button class="modal-close" onclick="closeModal('editProductModal')" style="position:absolute; top:20px; right:20px; background:transparent; border:0; color:#fff; font-size:24px; cursor:pointer;">&times;</button>
+    <div style="margin-bottom:20px;">
+      <h3 style="color:#fff; margin:0 0 4px; font-size:20px;">แก้ไขข้อมูลโปรแกรมเสริม</h3>
+      <p style="color:#9494a0; font-size:13px; margin:0;">แก้ไขชื่อ รหัสสินค้า ราคา หรือเปลี่ยนสถานะการขาย</p>
+    </div>
+
+    <form onsubmit="event.preventDefault(); handleSaveEditProduct();">
+      <input type="hidden" id="editProdIndex">
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px;">
+        <div>
+          <label style="font-size:12px; color:#9494a0; font-weight:700; display:block; margin-bottom:6px;">ชื่อโปรแกรม *</label>
+          <input type="text" id="editProdName" class="admin-input" required>
+        </div>
+        <div>
+          <label style="font-size:12px; color:#9494a0; font-weight:700; display:block; margin-bottom:6px;">รหัสสินค้า (SKU) *</label>
+          <input type="text" id="editProdSku" class="admin-input" required>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px;">
+        <div>
+          <label style="font-size:12px; color:#9494a0; font-weight:700; display:block; margin-bottom:6px;">ราคาขาย (บาท) *</label>
+          <input type="number" id="editProdPrice" class="admin-input" required>
+        </div>
+        <div>
+          <label style="font-size:12px; color:#9494a0; font-weight:700; display:block; margin-bottom:6px;">โปรแกรมที่รองรับ *</label>
+          <input type="text" id="editProdApp" class="admin-input" required>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:24px;">
+        <div>
+          <label style="font-size:12px; color:#9494a0; font-weight:700; display:block; margin-bottom:6px;">ยอดขาย (ชิ้น)</label>
+          <input type="number" id="editProdSales" class="admin-input" required>
+        </div>
+        <div>
+          <label style="font-size:12px; color:#9494a0; font-weight:700; display:block; margin-bottom:6px;">สถานะสินค้า *</label>
+          <select id="editProdStatus" class="admin-input">
+            <option value="Active">เปิดขาย (Active)</option>
+            <option value="Paused">พักการขายชั่วคราว (Paused)</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:10px;">
+        <button type="submit" class="btn btn-primary" style="flex:2; min-height:46px; font-weight:700;">
+          💾 บันทึกการแก้ไข
+        </button>
+        <button type="button" class="action-btn action-btn-danger" onclick="handleDeleteProduct()" style="flex:1; min-height:46px; justify-content:center;">
+          🗑️ ลบโปรแกรม
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
 <!-- Modal: Generate Custom Key -->
 <div class="checkout-modal" id="genKeyModal">
-  <div class="modal-box" style="background:#14151b; color:#fff; border:1px solid rgba(255,255,255,.1);">
-    <button class="modal-close" onclick="closeModal('genKeyModal')">&times;</button>
-    <div class="modal-header">
-      <h3 style="color:#fff;">ออก License Key กำหนดเอง</h3>
-      <p style="color:#9494a0;">สร้างรหัสปลดล็อกสำหรับลูกค้ารายพิเศษหรือ VIP</p>
+  <div class="modal-box-admin">
+    <button class="modal-close" onclick="closeModal('genKeyModal')" style="position:absolute; top:20px; right:20px; background:transparent; border:0; color:#fff; font-size:24px; cursor:pointer;">&times;</button>
+    <div style="margin-bottom:20px;">
+      <h3 style="color:#fff; margin:0 0 4px; font-size:20px;">ออก License Key ใหม่</h3>
+      <p style="color:#9494a0; font-size:13px; margin:0;">สร้างรหัสปลดล็อกสำหรับลูกค้ารายใหม่หรือสั่งซื้อตรง</p>
     </div>
 
     <form onsubmit="event.preventDefault(); handleManualGenKey();">
       <div style="margin-bottom:14px;">
-        <label style="font-size:12px; color:#9494a0; font-weight:700;">เลือกโปรแกรมเสริม *</label>
+        <label style="font-size:12px; color:#9494a0; font-weight:700; display:block; margin-bottom:6px;">เลือกโปรแกรมเสริม *</label>
         <select id="genKeyProd" class="admin-input">
-          <option value="saiscale">saiscale</option>
-          <option value="ez nest">ez nest</option>
-          <option value="jarerngraphic CutPrep">jarerngraphic CutPrep</option>
-          <option value="jarerngraphic Print & Cost">jarerngraphic Print & Cost</option>
+          <!-- Populated from products dynamically -->
         </select>
       </div>
 
-      <div style="margin-bottom:20px;">
-        <label style="font-size:12px; color:#9494a0; font-weight:700;">อีเมลผู้รับ *</label>
+      <div style="margin-bottom:24px;">
+        <label style="font-size:12px; color:#9494a0; font-weight:700; display:block; margin-bottom:6px;">อีเมลผู้รับ *</label>
         <input type="email" id="genKeyEmail" class="admin-input" placeholder="client@company.com" required>
       </div>
 
-      <button type="submit" class="btn btn-primary" style="width:100%; min-height:44px; font-weight:700;">
-        สร้าง License Key และบันทึกเข้าระบบ
+      <button type="submit" class="btn btn-primary" style="width:100%; min-height:46px; font-weight:700;">
+        ⚡ สร้าง License Key และบันทึกทันที
       </button>
     </form>
   </div>
 </div>
 
+<!-- Modal: Add New Order -->
+<div class="checkout-modal" id="addOrderModal">
+  <div class="modal-box-admin">
+    <button class="modal-close" onclick="closeModal('addOrderModal')" style="position:absolute; top:20px; right:20px; background:transparent; border:0; color:#fff; font-size:24px; cursor:pointer;">&times;</button>
+    <div style="margin-bottom:20px;">
+      <h3 style="color:#fff; margin:0 0 4px; font-size:20px;">บันทึกออเดอร์ใหม่</h3>
+      <p style="color:#9494a0; font-size:13px; margin:0;">บันทึกรายการชำระเงินและออกคีย์ให้อัตโนมัติ</p>
+    </div>
+
+    <form onsubmit="event.preventDefault(); handleAddNewOrder();">
+      <div style="margin-bottom:14px;">
+        <label style="font-size:12px; color:#9494a0; font-weight:700; display:block; margin-bottom:6px;">อีเมลลูกค้า *</label>
+        <input type="email" id="newOrderEmail" class="admin-input" placeholder="customer@gmail.com" required>
+      </div>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:24px;">
+        <div>
+          <label style="font-size:12px; color:#9494a0; font-weight:700; display:block; margin-bottom:6px;">สินค้า *</label>
+          <select id="newOrderProd" class="admin-input" onchange="updateOrderPriceHint()">
+            <!-- Populated dynamically -->
+          </select>
+        </div>
+        <div>
+          <label style="font-size:12px; color:#9494a0; font-weight:700; display:block; margin-bottom:6px;">ยอดเงิน (บาท) *</label>
+          <input type="number" id="newOrderAmount" class="admin-input" required>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary" style="width:100%; min-height:46px; font-weight:700;">
+        บันทึกรายการสั่งซื้อ
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- Toast notification -->
+<div id="toastMsg" class="toast-msg"></div>
+
 <script>
-// Mock initial store data
-let products = [
-  { id: '1', sku: 'JG-SAISCALE-01', name: 'saiscale', app: 'Photoshop & AI', price: 2490, sales: 48, status: 'Active' },
-  { id: '2', sku: 'JG-EZNEST-02', name: 'ez nest', app: 'Illustrator CC', price: 1390, sales: 52, status: 'Active' },
-  { id: '3', sku: 'JG-CUTPREP-03', name: 'jarerngraphic CutPrep', app: 'Illustrator CC', price: 1190, sales: 26, status: 'Active' },
-  { id: '4', sku: 'JG-PRINTCOST-04', name: 'jarerngraphic Print & Cost', app: 'Photoshop & AI', price: 1290, sales: 34, status: 'Active' }
+// Initial Store Data (Used if localStorage is empty)
+const DEFAULT_PRODUCTS = [
+  { id: '1', sku: 'JG-SAISCALE-01', name: 'saiscale', app: 'Photoshop & AI', price: 2490, sales: 48, status: 'Active', url: 'saiscale' },
+  { id: '2', sku: 'JG-EZNEST-02', name: 'ez nest', app: 'Illustrator CC', price: 1390, sales: 52, status: 'Active', url: 'eznest' },
+  { id: '3', sku: 'JG-CUTPREP-03', name: 'jarerngraphic CutPrep', app: 'Illustrator CC', price: 1190, sales: 26, status: 'Active', url: 'cutprep' },
+  { id: '4', sku: 'JG-PRINTCOST-04', name: 'jarerngraphic Print & Cost', app: 'Photoshop & AI', price: 1290, sales: 34, status: 'Active', url: 'costboard' }
 ];
 
-let licenses = [
+const DEFAULT_LICENSES = [
   { key: 'JG-SAIS-9A2F-4B1C-8E7D', product: 'saiscale', email: 'somchai.cut@gmail.com', hwid: 'WIN-DESKTOP-98F2A1', date: '2026-08-23', status: 'Active' },
   { key: 'JG-NEST-88CD-11FA-992B', product: 'ez nest', email: 'laser.studio.bkk@gmail.com', hwid: 'MAC-M3PRO-33E1D4', date: '2026-08-22', status: 'Active' },
   { key: 'JG-PREP-77AA-55DF-2201', product: 'jarerngraphic CutPrep', email: 'signage.pro@yahoo.com', hwid: 'WIN-OFFICE-4422B1', date: '2026-08-21', status: 'Active' },
   { key: 'JG-COST-1029-3388-7744', product: 'jarerngraphic Print & Cost', email: 'printcraft.th@gmail.com', hwid: 'MAC-M2-77119A', date: '2026-08-20', status: 'Active' }
 ];
 
-let orders = [
+const DEFAULT_ORDERS = [
   { id: 'ORD-9821', customer: 'somchai.cut@gmail.com', product: 'saiscale', amount: 2490, method: 'PromptPay QR', time: '10 นาทีที่แล้ว', status: 'PAID' },
   { id: 'ORD-9820', customer: 'laser.studio.bkk@gmail.com', product: 'ez nest', amount: 1390, method: 'PromptPay QR', time: '2 ชม. ที่แล้ว', status: 'PAID' },
   { id: 'ORD-9819', customer: 'signage.pro@yahoo.com', product: 'jarerngraphic CutPrep', amount: 1190, method: 'PromptPay QR', time: '5 ชม. ที่แล้ว', status: 'PAID' }
 ];
 
+// Persistent State Holders
+let products = [];
+let licenses = [];
+let orders = [];
+
+function loadData() {
+  try {
+    const p = localStorage.getItem('jg_admin_products');
+    products = p ? JSON.parse(p) : JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));
+
+    const l = localStorage.getItem('jg_admin_licenses');
+    licenses = l ? JSON.parse(l) : JSON.parse(JSON.stringify(DEFAULT_LICENSES));
+
+    const o = localStorage.getItem('jg_admin_orders');
+    orders = o ? JSON.parse(o) : JSON.parse(JSON.stringify(DEFAULT_ORDERS));
+  } catch (e) {
+    products = JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));
+    licenses = JSON.parse(JSON.stringify(DEFAULT_LICENSES));
+    orders = JSON.parse(JSON.stringify(DEFAULT_ORDERS));
+  }
+}
+
+function saveData() {
+  try {
+    localStorage.setItem('jg_admin_products', JSON.stringify(products));
+    localStorage.setItem('jg_admin_licenses', JSON.stringify(licenses));
+    localStorage.setItem('jg_admin_orders', JSON.stringify(orders));
+  } catch (e) {
+    console.error('Storage Save Error:', e);
+  }
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toastMsg');
+  if (!t) return;
+  t.textContent = msg;
+  t.style.display = 'block';
+  setTimeout(() => { t.style.display = 'none'; }, 2800);
+}
+
+// Authentication Gateway
 function handleAdminLogin() {
   const email = document.getElementById('adminEmailInput').value.trim();
   const pass = document.getElementById('adminPassInput').value.trim();
 
   if (pass === 'admin1234' || pass.length >= 6) {
+    sessionStorage.setItem('jg_admin_session', 'active');
     document.getElementById('adminLoginSection').style.display = 'none';
     document.getElementById('adminDashboardSection').style.display = 'block';
     document.getElementById('adminLogoutBtn').style.display = 'inline-flex';
-    renderProducts();
-    renderLicenses();
-    renderOrders();
+    
+    loadData();
+    renderAll();
+    showToast('เข้าสู่ระบบสำเร็จ ยินดีต้อนรับครับ!');
   } else {
     alert('รหัสผ่านไม่ถูกต้อง (รหัสเริ่มต้น: admin1234)');
   }
 }
 
 document.getElementById('adminLogoutBtn').addEventListener('click', () => {
+  sessionStorage.removeItem('jg_admin_session');
   document.getElementById('adminDashboardSection').style.display = 'none';
   document.getElementById('adminLoginSection').style.display = 'flex';
   document.getElementById('adminLogoutBtn').style.display = 'none';
 });
 
-function switchTab(tabId) {
+// Tab Switching
+function switchTab(tabId, el) {
   document.querySelectorAll('.admin-tab-btn').forEach(btn => btn.classList.remove('active'));
-  event.target.classList.add('active');
+  if (el) el.classList.add('active');
 
   document.getElementById('tab-products').style.display = tabId === 'products' ? 'block' : 'none';
   document.getElementById('tab-licenses').style.display = tabId === 'licenses' ? 'block' : 'none';
   document.getElementById('tab-orders').style.display = tabId === 'orders' ? 'block' : 'none';
 }
 
+function renderAll() {
+  renderProducts();
+  renderLicenses();
+  renderOrders();
+  updateKPIs();
+  updateSelectOptions();
+}
+
+function updateKPIs() {
+  const totalRevenue = orders.reduce((sum, o) => sum + (Number(o.amount) || 0), 0) + products.reduce((sum, p) => sum + ((Number(p.price) || 0) * (Number(p.sales) || 0)), 0);
+  const activeKeysCount = licenses.filter(l => l.status === 'Active').length;
+  const unlockedKeysCount = licenses.filter(l => l.hwid && l.hwid.includes('UNLOCKED')).length;
+
+  document.getElementById('kpiRevenue').textContent = '฿' + totalRevenue.toLocaleString();
+  document.getElementById('kpiActiveKeys').textContent = activeKeysCount + ' Keys';
+  document.getElementById('kpiProducts').textContent = products.length + ' โปรแกรม';
+  document.getElementById('kpiUnlockedKeys').textContent = unlockedKeysCount + ' Keys';
+
+  document.getElementById('tabCountProducts').textContent = products.length;
+  document.getElementById('tabCountLicenses').textContent = licenses.length;
+  document.getElementById('tabCountOrders').textContent = orders.length;
+}
+
+// 1. PRODUCTS CRUD
 function renderProducts() {
   const tbody = document.getElementById('productListBody');
-  tbody.innerHTML = products.map(p => `
+  tbody.innerHTML = products.map((p, index) => {
+    const isPaused = p.status === 'Paused';
+    return `
     <tr>
-      <td><code>${p.sku}</code></td>
-      <td><strong style="color:#fff;">${p.name}</strong></td>
-      <td>${p.app}</td>
-      <td><strong style="color:#ff4d6d;">฿${p.price.toLocaleString()}</strong></td>
-      <td>${p.sales} ชิ้น</td>
-      <td><span class="badge-status status-active">เปิดขาย</span></td>
+      <td><code style="color:#60a5fa; font-weight:700;">` + p.sku + `</code></td>
       <td>
-        <button class="action-btn" onclick="alert('แก้ไขโปรแกรม ${p.name}')">แก้ไข</button>
+        <strong style="color:#fff; font-size:14.5px;">` + p.name + `</strong>
+        ` + (p.url ? `<a href="` + p.url + `" target="_blank" style="color:#9494a0; margin-left:6px; font-size:12px; text-decoration:none;">↗ ดูหน้าเว็บ</a>` : '') + `
+      </td>
+      <td>` + p.app + `</td>
+      <td><strong style="color:#ff4d6d; font-size:15px;">฿` + Number(p.price).toLocaleString() + `</strong></td>
+      <td>` + (p.sales || 0) + ` ชิ้น</td>
+      <td>
+        <span class="badge-status ` + (isPaused ? 'status-paused' : 'status-active') + `">
+          ` + (isPaused ? 'พักการขาย' : 'เปิดขาย') + `
+        </span>
+      </td>
+      <td>
+        <button class="action-btn action-btn-primary" onclick="openEditProductModal(` + index + `)">✏️ แก้ไข</button>
       </td>
     </tr>
-  `).join('');
-  document.getElementById('kpiProducts').textContent = `${products.length} โปรแกรม`;
+  `;
+  }).join('');
 }
 
+function openAddProductModal() {
+  document.getElementById('newProdName').value = '';
+  document.getElementById('newProdSku').value = 'JG-PRO-' + Math.floor(100 + Math.random() * 900);
+  document.getElementById('newProdPrice').value = '1490';
+  document.getElementById('newProdApp').value = 'Illustrator CC 2021+';
+  document.getElementById('newProdUrl').value = '';
+  document.getElementById('addProductModal').classList.add('active');
+}
+
+function handleAddNewProduct() {
+  const name = document.getElementById('newProdName').value.trim();
+  const sku = document.getElementById('newProdSku').value.trim();
+  const price = Number(document.getElementById('newProdPrice').value);
+  const app = document.getElementById('newProdApp').value.trim();
+  const url = document.getElementById('newProdUrl').value.trim();
+
+  products.push({
+    id: String(Date.now()),
+    sku,
+    name,
+    app,
+    price,
+    sales: 0,
+    status: 'Active',
+    url
+  });
+
+  saveData();
+  renderAll();
+  closeModal('addProductModal');
+  showToast('เพิ่มโปรแกรม "' + name + '" เรียบร้อยแล้ว!');
+}
+
+function openEditProductModal(index) {
+  const p = products[index];
+  if (!p) return;
+
+  document.getElementById('editProdIndex').value = index;
+  document.getElementById('editProdName').value = p.name;
+  document.getElementById('editProdSku').value = p.sku;
+  document.getElementById('editProdPrice').value = p.price;
+  document.getElementById('editProdApp').value = p.app;
+  document.getElementById('editProdSales').value = p.sales || 0;
+  document.getElementById('editProdStatus').value = p.status || 'Active';
+
+  document.getElementById('editProductModal').classList.add('active');
+}
+
+function handleSaveEditProduct() {
+  const index = Number(document.getElementById('editProdIndex').value);
+  if (index < 0 || index >= products.length) return;
+
+  products[index].name = document.getElementById('editProdName').value.trim();
+  products[index].sku = document.getElementById('editProdSku').value.trim();
+  products[index].price = Number(document.getElementById('editProdPrice').value);
+  products[index].app = document.getElementById('editProdApp').value.trim();
+  products[index].sales = Number(document.getElementById('editProdSales').value);
+  products[index].status = document.getElementById('editProdStatus').value;
+
+  saveData();
+  renderAll();
+  closeModal('editProductModal');
+  showToast('บันทึกการแก้ไขโปรแกรม "' + products[index].name + '" สำเร็จ!');
+}
+
+function handleDeleteProduct() {
+  const index = Number(document.getElementById('editProdIndex').value);
+  if (index < 0 || index >= products.length) return;
+
+  const name = products[index].name;
+  if (confirm('ยืนยันการลบโปรแกรม "' + name + '" ออกจากระบบหรือไม่?')) {
+    products.splice(index, 1);
+    saveData();
+    renderAll();
+    closeModal('editProductModal');
+    showToast('ลบโปรแกรม "' + name + '" เรียบร้อยแล้ว');
+  }
+}
+
+// 2. LICENSES CRUD
 function renderLicenses() {
   const tbody = document.getElementById('licenseListBody');
-  tbody.innerHTML = licenses.map((l, index) => `
+  tbody.innerHTML = licenses.map((l, index) => {
+    const isRevoked = l.status === 'Revoked';
+    const isUnlocked = l.hwid && l.hwid.includes('UNLOCKED');
+
+    return `
     <tr>
-      <td><code style="color:#60a5fa; font-weight:700;">${l.key}</code></td>
-      <td>${l.product}</td>
-      <td>${l.email}</td>
-      <td><span style="font-family:monospace; font-size:11.5px; color:#9494a0;">${l.hwid}</span></td>
-      <td>${l.date}</td>
-      <td><span class="badge-status ${l.status === 'Active' ? 'status-active' : 'status-revoked'}">${l.status}</span></td>
+      <td><code style="color:#60a5fa; font-weight:700;">` + l.key + `</code></td>
+      <td><strong>` + l.product + `</strong></td>
+      <td>` + l.email + `</td>
+      <td>
+        <span style="font-family:monospace; font-size:11.5px; color:` + (isUnlocked ? '#34d399' : '#9494a0') + `; font-weight:` + (isUnlocked ? '700' : '400') + `">
+          ` + l.hwid + `
+        </span>
+      </td>
+      <td>` + l.date + `</td>
+      <td>
+        <span class="badge-status ` + (isRevoked ? 'status-revoked' : 'status-active') + `">
+          ` + (isRevoked ? 'ถูกระงับ' : 'ใช้งานได้') + `
+        </span>
+      </td>
       <td style="display:flex; gap:6px;">
-        <button class="action-btn" onclick="resetHwid(${index})">ย้ายเครื่อง</button>
-        <button class="action-btn action-btn-danger" onclick="toggleRevokeKey(${index})">${l.status === 'Active' ? 'ระงับ' : 'เปิดสิทธิ์'}</button>
+        <button class="action-btn" onclick="resetHwid(` + index + `)" title="ปลดล็อกให้ผูกกับคอมเครื่องใหม่">🔓 ย้ายเครื่อง</button>
+        <button class="action-btn action-btn-danger" onclick="toggleRevokeKey(` + index + `)">` + (isRevoked ? 'เปิดสิทธิ์' : 'ระงับ') + `</button>
+        <button class="action-btn action-btn-danger" onclick="deleteLicense(` + index + `)" title="ลบคีย์นี้">🗑️</button>
       </td>
     </tr>
-  `).join('');
-  document.getElementById('kpiActiveKeys').textContent = `${licenses.filter(l => l.status === 'Active').length} Keys`;
-}
-
-function renderOrders() {
-  const tbody = document.getElementById('orderListBody');
-  tbody.innerHTML = orders.map(o => `
-    <tr>
-      <td><code>${o.id}</code></td>
-      <td>${o.customer}</td>
-      <td>${o.product}</td>
-      <td><strong>฿${o.amount.toLocaleString()}</strong></td>
-      <td>${o.method}</td>
-      <td>${o.time}</td>
-      <td><span class="badge-status status-active">สำเร็จ (จัดส่งแล้ว)</span></td>
-    </tr>
-  `).join('');
+  `;
+  }).join('');
 }
 
 function resetHwid(index) {
   licenses[index].hwid = 'UNLOCKED (พร้อมผูกเครื่องใหม่)';
-  renderLicenses();
-  alert(`ปลดล็อก HWID ของ ${licenses[index].key} เรียบร้อย ลูกค้าสามารถนำไปใส่บนคอมพิวเตอร์เครื่องใหม่ได้ทันทีครับ`);
+  saveData();
+  renderAll();
+  showToast('ปลดล็อก HWID ของ ' + licenses[index].key + ' เรียบร้อย สามารถนำไปใส่เครื่องใหม่ได้ทันที');
 }
 
 function toggleRevokeKey(index) {
   licenses[index].status = licenses[index].status === 'Active' ? 'Revoked' : 'Active';
-  renderLicenses();
+  saveData();
+  renderAll();
+  showToast('เปลี่ยนสถานะคีย์ ' + licenses[index].key + ' เป็น ' + licenses[index].status + ' เรียบร้อย');
+}
+
+function deleteLicense(index) {
+  if (confirm('ยืนยันการลบ License Key "' + licenses[index].key + '" ออกจากระบบ?')) {
+    licenses.splice(index, 1);
+    saveData();
+    renderAll();
+    showToast('ลบ License Key เรียบร้อยแล้ว');
+  }
 }
 
 function filterLicenses() {
@@ -426,26 +715,16 @@ function filterLicenses() {
   });
 }
 
-function openAddProductModal() { document.getElementById('addProductModal').classList.add('active'); }
-function openGenKeyModal() { document.getElementById('genKeyModal').classList.add('active'); }
-function closeModal(id) { document.getElementById(id).classList.remove('active'); }
-
-function handleAddNewProduct() {
-  const name = document.getElementById('newProdName').value;
-  const sku = document.getElementById('newProdSku').value;
-  const price = Number(document.getElementById('newProdPrice').value);
-  const app = document.getElementById('newProdApp').value;
-
-  products.push({ id: String(Date.now()), sku, name, app, price, sales: 0, status: 'Active' });
-  renderProducts();
-  closeModal('addProductModal');
-  alert(`เพิ่มโปรแกรม ${name} เข้าสู่ระบบเรียบร้อยแล้ว!`);
+function openGenKeyModal() {
+  document.getElementById('genKeyEmail').value = '';
+  document.getElementById('genKeyModal').classList.add('active');
 }
 
 function handleManualGenKey() {
   const product = document.getElementById('genKeyProd').value;
-  const email = document.getElementById('genKeyEmail').value;
-  const randKey = 'JG-' + product.slice(0,4).toUpperCase() + '-' + Math.random().toString(36).substring(2,6).toUpperCase() + '-' + Math.random().toString(36).substring(2,6).toUpperCase();
+  const email = document.getElementById('genKeyEmail').value.trim();
+  const code = product.replace(/[^a-zA-Z]/g, '').slice(0,4).toUpperCase() || 'PRO';
+  const randKey = 'JG-' + code + '-' + Math.random().toString(36).substring(2,6).toUpperCase() + '-' + Math.random().toString(36).substring(2,6).toUpperCase();
 
   licenses.unshift({
     key: randKey,
@@ -456,10 +735,116 @@ function handleManualGenKey() {
     status: 'Active'
   });
 
-  renderLicenses();
+  saveData();
+  renderAll();
   closeModal('genKeyModal');
-  alert(`สร้าง License Key ใหม่สำเร็จ!\n\nรหัส: ${randKey}\nผู้รับ: ${email}`);
+  alert('สร้าง License Key สำเร็จ!\n\nรหัสคีย์: ' + randKey + '\nผู้รับ: ' + email);
 }
+
+// 3. ORDERS
+function renderOrders() {
+  const tbody = document.getElementById('orderListBody');
+  tbody.innerHTML = orders.map((o, index) => `
+    <tr>
+      <td><code style="color:#fff; font-weight:700;">` + o.id + `</code></td>
+      <td>` + o.customer + `</td>
+      <td><strong>` + o.product + `</strong></td>
+      <td><strong style="color:#10b981;">฿` + Number(o.amount).toLocaleString() + `</strong></td>
+      <td>` + o.method + `</td>
+      <td>` + o.time + `</td>
+      <td><span class="badge-status status-active">สำเร็จ (จัดส่งแล้ว)</span></td>
+      <td>
+        <button class="action-btn action-btn-danger" onclick="deleteOrder(` + index + `)">ลบ</button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function openAddOrderModal() {
+  document.getElementById('newOrderEmail').value = '';
+  updateOrderPriceHint();
+  document.getElementById('addOrderModal').classList.add('active');
+}
+
+function updateOrderPriceHint() {
+  const prodName = document.getElementById('newOrderProd').value;
+  const found = products.find(p => p.name === prodName);
+  if (found) {
+    document.getElementById('newOrderAmount').value = found.price;
+  }
+}
+
+function handleAddNewOrder() {
+  const customer = document.getElementById('newOrderEmail').value.trim();
+  const product = document.getElementById('newOrderProd').value;
+  const amount = Number(document.getElementById('newOrderAmount').value);
+  const orderId = 'ORD-' + Math.floor(1000 + Math.random() * 9000);
+
+  orders.unshift({
+    id: orderId,
+    customer,
+    product,
+    amount,
+    method: 'PromptPay QR',
+    time: 'เมื่อสักครู่',
+    status: 'PAID'
+  });
+
+  // Automatically generate matching License Key for customer
+  const code = product.replace(/[^a-zA-Z]/g, '').slice(0,4).toUpperCase() || 'PRO';
+  const randKey = 'JG-' + code + '-' + Math.random().toString(36).substring(2,6).toUpperCase() + '-' + Math.random().toString(36).substring(2,6).toUpperCase();
+
+  licenses.unshift({
+    key: randKey,
+    product,
+    email: customer,
+    hwid: 'PENDING_FIRST_ACTIVATION',
+    date: new Date().toISOString().split('T')[0],
+    status: 'Active'
+  });
+
+  saveData();
+  renderAll();
+  closeModal('addOrderModal');
+  showToast('บันทึกออเดอร์ ' + orderId + ' และออก License Key ให้ ' + customer + ' เรียบร้อย!');
+}
+
+function deleteOrder(index) {
+  if (confirm('ยืนยันการลบออเดอร์ ' + orders[index].id + '?')) {
+    orders.splice(index, 1);
+    saveData();
+    renderAll();
+    showToast('ลบรายการออเดอร์เรียบร้อย');
+  }
+}
+
+function updateSelectOptions() {
+  const genSelect = document.getElementById('genKeyProd');
+  const orderSelect = document.getElementById('newOrderProd');
+  
+  if (genSelect && products.length) {
+    genSelect.innerHTML = products.map(p => `<option value="` + p.name + `">` + p.name + `</option>`).join('');
+  }
+  if (orderSelect && products.length) {
+    orderSelect.innerHTML = products.map(p => `<option value="` + p.name + `">` + p.name + ` (฿` + p.price.toLocaleString() + `)</option>`).join('');
+  }
+}
+
+function closeModal(id) {
+  const el = document.getElementById(id);
+  if (el) el.classList.remove('active');
+}
+
+// Auto-login if session exists
+window.addEventListener('DOMContentLoaded', () => {
+  if (sessionStorage.getItem('jg_admin_session') === 'active') {
+    document.getElementById('adminLoginSection').style.display = 'none';
+    document.getElementById('adminDashboardSection').style.display = 'block';
+    document.getElementById('adminLogoutBtn').style.display = 'inline-flex';
+    loadData();
+    renderAll();
+  }
+});
 </script>
 </body>
 </html>

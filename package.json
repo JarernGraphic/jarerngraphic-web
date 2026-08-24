@@ -1,8 +1,8 @@
-﻿{
+{
   "name": "jarerngraphic-web",
   "version": "1.0.0",
   "private": true,
-  "description": "JarernGraphic store & licensing platform",
+  "description": "JarernGraphic store and licensing platform",
   "scripts": {
     "start": "node server.js"
   }

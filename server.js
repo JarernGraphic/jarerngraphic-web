@@ -104,7 +104,7 @@ const server = http.createServer(async (req, res) => {
 });
 
 server.listen(PORT, '0.0.0.0', () => {
-  console.log(`\n🚀 JarernGraphic Local Server is running!`);
+  console.log(`\n JarernGraphic Local Server is running!`);
   console.log(`- Local URL (เครื่องตัวเอง):   http://localhost:${PORT}`);
   console.log(`- LAN URL (ให้เพื่อนดูในวงแลน): http://192.168.1.18:${PORT}\n`);
 });

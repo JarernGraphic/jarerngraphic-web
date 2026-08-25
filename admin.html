@@ -1,112 +1,66 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="th">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin Dashboard — JarernGraphic Store Management</title>
 <meta name="description" content="ระบบจัดการร้านค้า โปรแกรมเสริม และ License Keys สำหรับผู้ดูแลระบบ JarernGraphic">
-<link rel="stylesheet" href="style.css?v=store-12">
+<link rel="stylesheet" href="style.css?v=store-9">
 <style>
-/* ═══════════════════════════════════════════
-   Admin Dashboard — Unified Light Theme
-   ═══════════════════════════════════════════ */
-.admin-page{ background:var(--bg, #f5f5f7); color:var(--ink, #1d1d1f); min-height:100vh; font-family:Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
-.admin-nav{ position:sticky; top:0; z-index:50; height:64px; background:rgba(250,250,252,.85); backdrop-filter:blur(18px) saturate(180%); border-bottom:1px solid rgba(0,0,0,.06); padding:0 22px; }
-.admin-nav-inner{ max-width:1440px; height:64px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; }
-.admin-brand-link{ display:inline-flex; align-items:center; gap:11px; font-size:16px; font-weight:700; color:var(--ink); letter-spacing:-.015em; text-decoration:none; transition:opacity .2s ease; }
-.admin-brand-link:hover{ opacity:.85; }
-.admin-badge-tag{ padding:3px 10px; border-radius:6px; background:var(--red, #e2233f); color:#fff; font-size:10.5px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; }
+/* Admin Dashboard Custom Styles */
+.admin-page{ background:#0b0c10; color:#e2e2e8; min-height:100vh; }
+.admin-nav{ background:#121318; border-bottom:1px solid rgba(255,255,255,.08); padding:0 24px; }
+.admin-nav-inner{ max-width:1300px; height:64px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; }
+.admin-brand{ display:flex; align-items:center; gap:10px; font-weight:700; color:#fff; font-size:16px; text-decoration:none; }
+.admin-badge{ padding:3px 8px; border-radius:6px; background:#e11d48; color:#fff; font-size:11px; font-weight:800; }
 
-.admin-container{ max-width:1440px; margin:0 auto; padding:32px 24px 80px; }
+.admin-container{ max-width:1300px; margin:0 auto; padding:32px 24px 80px; }
 
 /* Admin Login Card */
 .admin-login-wrapper{ min-height:70vh; display:flex; align-items:center; justify-content:center; }
-.admin-login-card{ background:#ffffff; border:1px solid rgba(0,0,0,.06); border-radius:24px; padding:48px 40px; width:100%; max-width:420px; box-shadow:0 12px 40px rgba(0,0,0,.06); text-align:center; }
-.admin-login-card h2{ margin:0 0 8px; font-size:24px; font-weight:700; color:var(--ink); }
-.admin-login-card p{ margin:0 0 28px; font-size:13.5px; color:var(--muted, #6e6e73); }
+.admin-login-card{ background:#14151b; border:1px solid rgba(255,255,255,.1); border-radius:24px; padding:44px 38px; width:100%; max-width:440px; box-shadow:0 24px 60px rgba(0,0,0,.5); text-align:center; }
+.admin-login-card h2{ margin:0 0 8px; font-size:24px; color:#fff; font-weight:800; }
+.admin-login-card p{ margin:0 0 28px; font-size:13.5px; color:#9494a0; }
 
 /* KPI Grid */
-.admin-kpi-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:18px; margin-bottom:32px; }
-.admin-kpi-card{ background:#ffffff; border:1px solid rgba(0,0,0,.06); border-radius:18px; padding:22px; display:flex; flex-direction:column; gap:8px; box-shadow:0 4px 20px rgba(0,0,0,.025); transition:transform .25s ease, box-shadow .25s ease; }
-.admin-kpi-card:hover{ transform:translateY(-2px); box-shadow:0 12px 30px rgba(0,0,0,.06); }
-.kpi-icon{ width:38px; height:38px; border-radius:10px; display:flex; align-items:center; justify-content:center; }
-.kpi-icon-green{ background:rgba(16,185,129,.1); color:#10b981; }
-.kpi-icon-blue{ background:rgba(0,113,227,.08); color:var(--blue, #0071e3); }
-.kpi-icon-red{ background:rgba(226,35,63,.08); color:var(--red, #e2233f); }
-.kpi-icon-purple{ background:rgba(99,102,241,.08); color:#6366f1; }
-.admin-kpi-title{ font-size:12px; color:var(--muted); font-weight:600; text-transform:uppercase; letter-spacing:.04em; }
-.admin-kpi-val{ font-size:26px; font-weight:800; color:var(--ink); letter-spacing:-.02em; }
-.admin-kpi-sub{ font-size:11.5px; color:#10b981; font-weight:500; }
+.admin-kpi-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:18px; margin-bottom:34px; }
+.admin-kpi-card{ background:#14151b; border:1px solid rgba(255,255,255,.08); border-radius:18px; padding:24px 22px; display:flex; flex-direction:column; gap:8px; }
+.admin-kpi-title{ font-size:12px; color:#9494a0; font-weight:700; text-transform:uppercase; letter-spacing:.04em; }
+.admin-kpi-val{ font-size:28px; font-weight:800; color:#fff; letter-spacing:-.02em; }
+.admin-kpi-sub{ font-size:12px; color:#10b981; }
 
 /* Admin Tabs */
-.admin-tabs{ display:flex; gap:6px; border-bottom:1px solid rgba(0,0,0,.06); margin-bottom:28px; padding-bottom:0; flex-wrap:wrap; }
-.admin-tab-btn{ background:transparent; border:0; border-bottom:2px solid transparent; color:var(--muted); font-size:14px; font-weight:700; padding:12px 18px; cursor:pointer; transition:all .2s ease; display:inline-flex; align-items:center; gap:8px; }
-.admin-tab-btn:hover{ color:var(--ink); }
-.admin-tab-btn.active{ color:var(--blue, #0071e3); border-bottom-color:var(--blue, #0071e3); }
-.tab-count{ font-size:11px; font-weight:800; background:rgba(0,113,227,.08); color:var(--blue); padding:2px 7px; border-radius:999px; }
-.admin-tab-btn.active .tab-count{ background:var(--blue); color:#fff; }
+.admin-tabs{ display:flex; gap:10px; border-bottom:1px solid rgba(255,255,255,.08); margin-bottom:28px; padding-bottom:12px; flex-wrap:wrap; }
+.admin-tab-btn{ background:transparent; border:0; color:#9494a0; font-size:14px; font-weight:700; padding:8px 18px; border-radius:10px; cursor:pointer; transition:all .2s ease; }
+.admin-tab-btn.active{ background:rgba(225,29,72,.15); color:#ff4d6d; }
 
-/* Panels */
-.admin-panel{ background:#ffffff; border:1px solid rgba(0,0,0,.06); border-radius:20px; padding:28px; box-shadow:0 4px 20px rgba(0,0,0,.025); margin-bottom:32px; }
+/* Admin Table */
+.admin-panel{ background:#14151b; border:1px solid rgba(255,255,255,.08); border-radius:20px; padding:28px; margin-bottom:34px; }
 .panel-header{ display:flex; justify-content:space-between; align-items:center; margin-bottom:22px; flex-wrap:wrap; gap:14px; }
-.panel-header h3{ margin:0; font-size:20px; font-weight:700; color:var(--ink); letter-spacing:-.015em; }
-.panel-sub{ font-size:13px; color:var(--muted); margin-top:4px; }
+.panel-header h3{ margin:0; font-size:20px; font-weight:800; color:#fff; }
 
-/* Tables */
-.admin-table-wrap{ overflow-x:auto; }
-.admin-table{ width:100%; border-collapse:collapse; text-align:left; font-size:13.5px; min-width:680px; }
-.admin-table th{ padding:14px 16px; color:var(--muted); font-weight:700; border-bottom:1px solid rgba(0,0,0,.06); font-size:12px; text-transform:uppercase; letter-spacing:.03em; }
-.admin-table td{ padding:16px; border-bottom:1px solid rgba(0,0,0,.04); color:#3a3a40; vertical-align:middle; }
-.admin-table tr:hover td{ background:rgba(0,113,227,.02); }
+.admin-table{ width:100%; border-collapse:collapse; text-align:left; font-size:13.5px; }
+.admin-table th{ padding:14px 16px; color:#9494a0; font-weight:700; border-bottom:1px solid rgba(255,255,255,.08); font-size:12px; text-transform:uppercase; }
+.admin-table td{ padding:16px; border-bottom:1px solid rgba(255,255,255,.05); color:#d4d4dc; }
+.admin-table tr:hover td{ background:rgba(255,255,255,.02); }
 
-/* Badges & Actions */
 .badge-status{ display:inline-flex; align-items:center; gap:5px; padding:4px 10px; border-radius:999px; font-size:11.5px; font-weight:700; }
-.status-active{ background:rgba(16,185,129,.1); color:#059669; }
-.status-paused{ background:rgba(245,158,11,.1); color:#d97706; }
-.status-revoked{ background:rgba(239,68,68,.1); color:#dc2626; }
+.status-active{ background:rgba(16,185,129,.15); color:#34d399; }
+.status-revoked{ background:rgba(239,68,68,.15); color:#f87171; }
 
-.action-btn{ background:#f0f2f5; border:1px solid rgba(0,0,0,.06); color:var(--ink); padding:6px 14px; border-radius:10px; font-size:12px; font-weight:600; cursor:pointer; transition:all .2s ease; display:inline-flex; align-items:center; gap:5px; }
-.action-btn:hover{ background:#e8eaef; transform:translateY(-1px); }
-.action-btn-primary{ background:var(--blue); border-color:var(--blue); color:#fff; }
-.action-btn-primary:hover{ filter:brightness(.92); }
-.action-btn-danger{ background:rgba(239,68,68,.08); border-color:rgba(239,68,68,.15); color:#dc2626; }
-.action-btn-danger:hover{ background:rgba(239,68,68,.16); }
+.action-btn{ background:rgba(255,255,255,.08); border:0; color:#fff; padding:6px 12px; border-radius:8px; font-size:12px; font-weight:600; cursor:pointer; transition:background .2s ease; }
+.action-btn:hover{ background:rgba(255,255,255,.16); }
+.action-btn-danger{ background:rgba(239,68,68,.2); color:#fca5a5; }
+.action-btn-danger:hover{ background:rgba(239,68,68,.35); }
 
-/* Forms */
-.admin-input{ background:#f8f9fc; border:1px solid #d1d5db; border-radius:10px; padding:10px 14px; color:var(--ink); font-size:13.5px; width:100%; transition:border-color .2s; }
-.admin-input:focus{ outline:none; border-color:var(--blue); box-shadow:0 0 0 3px rgba(0,113,227,.08); }
+/* Form Elements */
+.admin-input{ background:#0e0f13; border:1px solid rgba(255,255,255,.12); border-radius:10px; padding:10px 14px; color:#fff; font-size:13.5px; width:100%; box-sizing:border-box; }
+.admin-input:focus{ outline:none; border-color:#e11d48; }
 
-/* Modals */
-.admin-modal{ display:none; position:fixed; inset:0; background:rgba(0,0,0,.5); backdrop-filter:blur(8px); z-index:9999; justify-content:center; align-items:center; padding:20px; }
-.admin-modal.active{ display:flex; }
-.admin-modal-box{ background:#ffffff; border-radius:24px; max-width:520px; width:100%; padding:36px 30px; box-shadow:0 28px 70px rgba(0,0,0,.2); position:relative; max-height:90vh; overflow-y:auto; animation:slideUpFade .3s ease both; }
-.admin-modal-close{ position:absolute; top:18px; right:18px; background:transparent; border:0; font-size:22px; color:#888; cursor:pointer; width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; }
-.admin-modal-close:hover{ background:rgba(0,0,0,.05); }
-
-/* Toast */
-.toast-msg{ position:fixed; bottom:24px; right:24px; background:var(--ink, #1d1d1f); color:#fff; padding:12px 20px; border-radius:12px; font-weight:600; font-size:13.5px; box-shadow:0 12px 30px rgba(0,0,0,.2); z-index:10000; display:none; }
-.toast-msg.show{ display:flex; align-items:center; gap:8px; animation:slideUpFade .25s ease both; }
-
-/* ═══════════════════════════════════════════
-   Full-Canvas Direct Visual Webpage Editor
-   ═══════════════════════════════════════════ */
-.canvas-editor-panel{ display:flex; flex-direction:column; gap:16px; }
-.canvas-top-bar{ background:#f8f9fc; border:1px solid rgba(0,0,0,.06); border-radius:16px; padding:14px 20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; }
-.canvas-page-picker{ display:flex; align-items:center; gap:10px; }
-.canvas-actions{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
-
-.canvas-device-controls{ display:flex; align-items:center; gap:6px; background:#ffffff; border:1px solid rgba(0,0,0,.06); border-radius:10px; padding:4px 6px; }
-.canvas-device-btn{ background:transparent; border:0; padding:5px 12px; border-radius:6px; font-size:12.5px; font-weight:600; color:var(--muted); cursor:pointer; transition:all .15s ease; }
-.canvas-device-btn.active{ background:rgba(0,113,227,.1); color:var(--blue); }
-
-.canvas-instructions{ background:rgba(0,113,227,.05); border:1px solid rgba(0,113,227,.15); border-radius:12px; padding:10px 16px; font-size:13px; color:var(--blue); display:flex; align-items:center; gap:8px; font-weight:500; }
-
-.canvas-viewport-container{ background:#dadae0; border-radius:20px; padding:20px; display:flex; justify-content:center; overflow-x:auto; }
-.canvas-viewport-frame{ background:#ffffff; border-radius:14px; overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,.15); width:100%; height:820px; transition:width .3s cubic-bezier(.16,1,.3,1); border:1px solid rgba(0,0,0,.1); }
-.canvas-iframe{ width:100%; height:100%; border:0; background:#ffffff; display:block; }
-
-@media (max-width:980px){ .admin-kpi-grid{ grid-template-columns:repeat(2,1fr); } }
-@media (max-width:640px){ .admin-kpi-grid{ grid-template-columns:1fr; } .admin-container{ padding:20px 14px 60px; } }
+@media (max-width:980px){
+  .admin-kpi-grid{ grid-template-columns:repeat(2,1fr); }
+  .admin-table{ display:block; overflow-x:auto; }
+}
 </style>
 </head>
 <body class="admin-page">
@@ -114,17 +68,15 @@
 <!-- Admin Navigation -->
 <header class="admin-nav">
   <div class="admin-nav-inner">
-    <a href="admin" class="admin-brand-link">
+    <a href="admin.html" class="admin-brand">
       <img src="assets/logo.png" alt="Logo" class="brand-logo-img">
-      <span>JarernGraphic</span>
-      <span class="admin-badge-tag">Admin</span>
+      <span>JarernGraphic Admin</span>
+      <span class="admin-badge">REALTIME DB</span>
     </a>
     <div style="display:flex; align-items:center; gap:12px;">
-      <a href="index" target="_blank" class="btn btn-outline btn-small" style="gap:6px;">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-        ดูหน้าร้านจริง
-      </a>
-      <button class="btn btn-primary btn-small" id="adminLogoutBtn" style="display:none;">ออกจากระบบ</button>
+      <a href="member.html" class="btn btn-outline btn-small" style="color:#fff; border-color:rgba(255,255,255,.2);">หน้าสมาชิก</a>
+      <a href="index.html" class="btn btn-outline btn-small" style="color:#fff; border-color:rgba(255,255,255,.2);">ดูหน้าร้าน</a>
+      <button class="btn btn-primary btn-small" id="adminLogoutBtn" style="display:none;" onclick="handleAdminLogout()">ออกจากระบบ</button>
     </div>
   </div>
 </header>
@@ -132,71 +84,59 @@
 <!-- Login Gateway -->
 <div class="admin-login-wrapper" id="adminLoginSection">
   <div class="admin-login-card">
-    <img src="assets/logo.png" alt="Logo" style="width:54px; height:54px; margin-bottom:16px; border-radius:14px;">
+    <img src="assets/logo.png" alt="Logo" style="width:48px; height:48px; margin-bottom:16px;">
     <h2>เข้าสู่ระบบผู้ดูแล</h2>
-    <p>ระบบจัดการโปรแกรมเสริม, License Key และข้อความหน้าเว็บ</p>
+    <p>ระบบจัดการโปรแกรมเสริม, License Key, ฐานข้อมูล และยอดชำระเงินจริง</p>
+
     <form id="adminLoginForm" onsubmit="event.preventDefault(); handleAdminLogin();">
       <div style="margin-bottom:16px; text-align:left;">
-        <label style="font-size:12px; font-weight:700; color:var(--muted); display:block; margin-bottom:6px;">อีเมลผู้ดูแล / Admin Email</label>
+        <label style="font-size:12px; font-weight:700; color:#9494a0; display:block; margin-bottom:6px;">อีเมลผู้ดูแล / Admin Email</label>
         <input type="email" id="adminEmailInput" class="admin-input" value="admin@jarerngraphic.com" required>
       </div>
       <div style="margin-bottom:24px; text-align:left;">
-        <label style="font-size:12px; font-weight:700; color:var(--muted); display:block; margin-bottom:6px;">รหัสผ่าน / Password (ค่าเริ่มต้น: admin1234)</label>
+        <label style="font-size:12px; font-weight:700; color:#9494a0; display:block; margin-bottom:6px;">รหัสผ่าน / Password (ค่าเริ่มต้น: admin1234)</label>
         <input type="password" id="adminPassInput" class="admin-input" value="admin1234" required>
       </div>
-      <button type="submit" class="btn btn-primary" style="width:100%; min-height:46px; font-weight:700;">เข้าสู่ระบบ Admin Portal</button>
+      <button type="submit" class="btn btn-primary" style="width:100%; min-height:46px; font-weight:700;">
+        เข้าสู่ระบบ Admin Portal
+      </button>
     </form>
   </div>
 </div>
 
 <!-- Main Dashboard -->
 <main class="admin-container" id="adminDashboardSection" style="display:none;">
-  <!-- KPIs -->
+
+  <!-- Real KPI Metrics from Database -->
   <div class="admin-kpi-grid">
     <div class="admin-kpi-card">
-      <div class="kpi-icon kpi-icon-green"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
-      <span class="admin-kpi-title">ยอดขายรวม (ทั้งหมด)</span>
-      <span class="admin-kpi-val" id="kpiRevenue">฿0</span>
-      <span class="admin-kpi-sub">คำนวณจากออเดอร์จริงในระบบ</span>
+      <span class="admin-kpi-title">ยอดขายรวม (ชำระสำเร็จ)</span>
+      <span class="admin-kpi-val" id="kpiRevenue" style="color:#ff4d6d;">฿0</span>
+      <span class="admin-kpi-sub" id="kpiOrdersCount">0 คำสั่งซื้อ</span>
     </div>
     <div class="admin-kpi-card">
-      <div class="kpi-icon kpi-icon-blue"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
-      <span class="admin-kpi-title">License Keys ที่เปิดใช้</span>
-      <span class="admin-kpi-val" id="kpiActiveKeys">0 Keys</span>
+      <span class="admin-kpi-title">License Keys ที่ออกแล้ว</span>
+      <span class="admin-kpi-val" id="kpiActiveKeys" style="color:#38bdf8;">0 Keys</span>
       <span class="admin-kpi-sub">พร้อมระบบ Node-Locked HWID</span>
     </div>
     <div class="admin-kpi-card">
-      <div class="kpi-icon kpi-icon-red"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div>
-      <span class="admin-kpi-title">รายการโปรแกรมทั้งหมด</span>
+      <span class="admin-kpi-title">โปรแกรมในระบบ</span>
       <span class="admin-kpi-val" id="kpiProducts">0 โปรแกรม</span>
       <span class="admin-kpi-sub">พร้อมขายบนสโตร์</span>
     </div>
     <div class="admin-kpi-card">
-      <div class="kpi-icon kpi-icon-purple"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
-      <span class="admin-kpi-title">คีย์ที่ถูกปลดล็อก (พร้อมย้าย)</span>
-      <span class="admin-kpi-val" id="kpiUnlockedKeys">0 Keys</span>
-      <span class="admin-kpi-sub">ปลดล็อกเพื่อย้ายเครื่องใหม่</span>
+      <span class="admin-kpi-title">คำขอย้ายเครื่อง (Migrations)</span>
+      <span class="admin-kpi-val" id="kpiMigrations">0 ครั้ง</span>
+      <span class="admin-kpi-sub" style="color:#f59e0b;">Self-Service Unlocks</span>
     </div>
   </div>
 
   <!-- Navigation Tabs -->
   <div class="admin-tabs">
-    <button class="admin-tab-btn active" onclick="switchTab('products', this)">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
-      จัดการโปรแกรมเสริม <span class="tab-count" id="tabCountProducts">0</span>
-    </button>
-    <button class="admin-tab-btn" onclick="switchTab('licenses', this)">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
-      จัดการ License Keys <span class="tab-count" id="tabCountLicenses">0</span>
-    </button>
-    <button class="admin-tab-btn" onclick="switchTab('orders', this)">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
-      รายการสั่งซื้อ <span class="tab-count" id="tabCountOrders">0</span>
-    </button>
-    <button class="admin-tab-btn" onclick="switchTab('visual-editor', this)">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
-      แก้ไขข้อความบนหน้าเว็บจริง (Direct Visual Editor)
-    </button>
+    <button class="admin-tab-btn active" onclick="switchAdminTab('products')">📦 จัดการโปรแกรมเสริม</button>
+    <button class="admin-tab-btn" onclick="switchAdminTab('licenses')">🔑 จัดการ License Keys</button>
+    <button class="admin-tab-btn" onclick="switchAdminTab('orders')">💳 ประวัติการสั่งซื้อ (Orders)</button>
+    <button class="admin-tab-btn" onclick="switchAdminTab('settings')">⚙️ ตั้งค่าร้านค้า & พร้อมเพย์</button>
   </div>
 
   <!-- TAB 1: PRODUCT MANAGER -->
@@ -204,394 +144,446 @@
     <div class="panel-header">
       <div>
         <h3>รายการโปรแกรมเสริมในสโตร์</h3>
-        <div class="panel-sub">เพิ่ม แก้ไขราคา ปรับสถานะ หรือลบโปรแกรม (บันทึกข้อมูลจริงอัตโนมัติ)</div>
+        <span style="font-size:13px; color:#9494a0;">เพิ่ม แก้ไข หรือปรับราคาขายของโปรแกรม</span>
       </div>
-      <button class="btn btn-primary btn-small" onclick="openAddProductModal()" style="gap:6px;">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        เพิ่มโปรแกรมใหม่
-      </button>
+      <button class="btn btn-primary btn-small" onclick="openAddProductModal()">➕ เพิ่มโปรแกรมใหม่</button>
     </div>
-    <div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>รหัสสินค้า (SKU)</th><th>ชื่อโปรแกรม</th><th>โปรแกรมที่รองรับ</th><th>ราคาขาย</th><th>ยอดขาย</th><th>สถานะ</th><th>จัดการ</th></tr></thead><tbody id="productListBody"></tbody></table></div>
+
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>รหัสสินค้า</th>
+          <th>ชื่อโปรแกรม</th>
+          <th>โปรแกรมที่รองรับ</th>
+          <th>ราคาขาย</th>
+          <th>ยอดขาย</th>
+          <th>สถานะ</th>
+          <th>จัดการ</th>
+        </tr>
+      </thead>
+      <tbody id="productListBody"></tbody>
+    </table>
   </div>
 
   <!-- TAB 2: LICENSE MANAGER -->
   <div id="tab-licenses" class="admin-panel" style="display:none;">
     <div class="panel-header">
       <div>
-        <h3>ทะเบียน License Key และผูกเครื่อง</h3>
-        <div class="panel-sub">ตรวจสอบสิทธิ์ ปลดล็อกย้ายเครื่อง ระงับสิทธิ์ หรือออกคีย์ใหม่</div>
+        <h3>ทะเบียน License Key และสถานะเครื่อง (HWID)</h3>
+        <span style="font-size:13px; color:#9494a0;">ตรวจสอบสิทธิ์ รีเซ็ตเครื่อง หรือออกคีย์ใหม่ให้ลูกค้า</span>
       </div>
-      <button class="btn btn-primary btn-small" onclick="openGenKeyModal()" style="gap:6px;">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-        ออก License Key ใหม่
-      </button>
+      <button class="btn btn-primary btn-small" onclick="openGenKeyModal()">⚡ ออก License Key ใหม่</button>
     </div>
-    <div style="margin-bottom:18px;"><input type="text" id="licenseSearchInput" placeholder="ค้นหาด้วย License Key, อีเมลลูกค้า หรือ Machine ID..." class="admin-input" onkeyup="filterLicenses()"></div>
-    <div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>License Key</th><th>โปรแกรม</th><th>อีเมลลูกค้า</th><th>Machine ID (HWID)</th><th>วันที่สร้าง</th><th>สถานะ</th><th>จัดการ</th></tr></thead><tbody id="licenseListBody"></tbody></table></div>
+
+    <div style="margin-bottom:18px;">
+      <input type="text" id="licenseSearchInput" placeholder="ค้นหาด้วย License Key, อีเมลลูกค้า หรือ Machine ID..." class="admin-input" onkeyup="filterLicenses()">
+    </div>
+
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>License Key</th>
+          <th>โปรแกรม</th>
+          <th>อีเมลลูกค้า</th>
+          <th>Machine ID (HWID)</th>
+          <th>วันที่เปิดใช้</th>
+          <th>สถานะ</th>
+          <th>จัดการ</th>
+        </tr>
+      </thead>
+      <tbody id="licenseListBody"></tbody>
+    </table>
   </div>
 
   <!-- TAB 3: ORDERS -->
   <div id="tab-orders" class="admin-panel" style="display:none;">
     <div class="panel-header">
       <div>
-        <h3>ประวัติรายการชำระเงิน (PromptPay Gateway)</h3>
-        <div class="panel-sub">ตรวจสอบยอดเงินและสถานะส่งมอบคีย์อัตโนมัติ 24 ชม.</div>
+        <h3>ประวัติรายการสั่งซื้อและชำระเงิน (PromptPay QR)</h3>
+        <span style="font-size:13px; color:#9494a0;">บันทึกออเดอร์และสถานะการชำระเงินอัตโนมัติ</span>
       </div>
-      <button class="btn btn-primary btn-small" onclick="openAddOrderModal()" style="gap:6px;">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        บันทึกออเดอร์ใหม่
-      </button>
     </div>
-    <div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Order ID</th><th>ลูกค้า</th><th>สินค้า</th><th>ยอดเงิน</th><th>ช่องทาง</th><th>เวลา</th><th>สถานะ</th><th>จัดการ</th></tr></thead><tbody id="orderListBody"></tbody></table></div>
+
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>ลูกค้า</th>
+          <th>สินค้า</th>
+          <th>ยอดเงิน</th>
+          <th>License Key ที่ออก</th>
+          <th>วันที่ทำรายการ</th>
+          <th>สถานะ</th>
+        </tr>
+      </thead>
+      <tbody id="orderListBody"></tbody>
+    </table>
   </div>
 
-  <!-- TAB 4: DIRECT VISUAL WEBPAGE EDITOR (FULL CANVAS) -->
-  <div id="tab-visual-editor" class="admin-panel canvas-editor-panel" style="display:none; padding:24px;">
-    <div class="panel-header" style="margin-bottom:12px;">
+  <!-- TAB 4: SETTINGS -->
+  <div id="tab-settings" class="admin-panel" style="display:none;">
+    <div class="panel-header">
       <div>
-        <h3>แก้ไขข้อความบนหน้าเว็บจริง (Direct Visual Editor)</h3>
-        <div class="panel-sub">คลิกที่ตัวหนังสือบนหน้าเว็บด้านล่างนี้ได้โดยตรงเพื่อพิมพ์แก้ไขข้อความได้ทันที เมื่อแก้ไขเสร็จแล้วกดปุ่มบันทึก</div>
+        <h3>ตั้งค่าบัญชีรับเงินและร้านค้า</h3>
+        <span style="font-size:13px; color:#9494a0;">กำหนดเบอร์พร้อมเพย์สำหรับสร้าง Dynamic QR Code จริง</span>
       </div>
     </div>
 
-    <!-- Instructions Bar -->
-    <div class="canvas-instructions">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-      <span>วิธีใช้งาน: เอาเมาส์คลิกที่หัวข้อ, คำอธิบาย, ราคา หรือปุ่มบนหน้าเว็บด้านล่างนี้ แล้วพิมพ์แก้ไขตัวหนังสือได้สดๆ จากนั้นกดปุ่ม "บันทึกข้อความทั้งหมด"</span>
-    </div>
-
-    <!-- Control Top Bar -->
-    <div class="canvas-top-bar">
-      <div class="canvas-page-picker">
-        <label style="font-size:13px; font-weight:700; color:var(--ink);">เลือกหน้า:</label>
-        <select id="canvasPageSelect" class="admin-input" style="width:auto; min-width:210px; font-weight:600;" onchange="handleSwitchVisualPage()">
-          <option value="index">หน้าแรก (index.html)</option>
-          <option value="saiscale">saiscale (saiscale.html)</option>
-          <option value="eznest">ez nest (eznest.html)</option>
-          <option value="cutprep">CutPrep (cutprep.html)</option>
-          <option value="costboard">Print & Cost (costboard.html)</option>
-          <option value="pricing">ตารางราคา (pricing.html)</option>
-          <option value="guide">คู่มือการใช้งาน (guide.html)</option>
-        </select>
+    <form onsubmit="event.preventDefault(); handleSaveSettings();" style="max-width:540px;">
+      <div style="margin-bottom:16px;">
+        <label style="font-size:12px; color:#9494a0; font-weight:700; display:block; margin-bottom:6px;">
+          เบอร์โทรศัพท์พร้อมเพย์ หรือ เลขประจำตัวผู้เสียภาษี (สำหรับรับเงิน) *
+        </label>
+        <input type="text" id="setPromptpayId" class="admin-input" placeholder="เช่น 0812345678 หรือ 010555..." required>
+        <span style="font-size:11.5px; color:#38bdf8; display:block; margin-top:4px;">
+          ระบบจะนำเบอร์นี้ไปสร้างเป็น QR Code มาตรฐาน EMVCo ให้ลูกค้าสแกนจ่ายได้จริงผ่านทุกธนาคาร
+        </span>
       </div>
 
-      <!-- Device Viewport Toggle -->
-      <div class="canvas-device-controls">
-        <button class="canvas-device-btn active" onclick="setCanvasDevice('100%', this)">Desktop (100%)</button>
-        <button class="canvas-device-btn" onclick="setCanvasDevice('768px', this)">Tablet (768px)</button>
-        <button class="canvas-device-btn" onclick="setCanvasDevice('390px', this)">Mobile (390px)</button>
+      <div style="margin-bottom:16px;">
+        <label style="font-size:12px; color:#9494a0; font-weight:700; display:block; margin-bottom:6px;">ชื่อบัญชีผู้รับเงิน / ร้านค้า *</label>
+        <input type="text" id="setPromptpayName" class="admin-input" placeholder="เจริญกราฟิก (JarernGraphic Store)" required>
       </div>
 
-      <div class="canvas-actions">
-        <button class="btn btn-primary btn-small" onclick="saveVisualPageContent()" style="gap:6px;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
-          บันทึกข้อความทั้งหมด
-        </button>
-        <button class="action-btn" id="btnToggleOutline" onclick="toggleCanvasOutline()" style="gap:5px;">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-          <span id="txtToggleOutline">ดูตัวอย่างจริง</span>
-        </button>
-        <button class="action-btn" onclick="resetVisualPageDefaults()">คืนค่าเริ่มต้น</button>
-        <a id="canvasExtLink" href="index" target="_blank" class="action-btn" style="text-decoration:none;">เปิดแท็บใหม่</a>
+      <div style="margin-bottom:16px;">
+        <label style="font-size:12px; color:#9494a0; font-weight:700; display:block; margin-bottom:6px;">LINE Official สำหรับซัพพอร์ต</label>
+        <input type="text" id="setSupportLine" class="admin-input" placeholder="@jarerngraphic">
       </div>
-    </div>
 
-    <!-- Direct Visual Frame Canvas -->
-    <div class="canvas-viewport-container">
-      <div class="canvas-viewport-frame" id="canvasViewportFrame">
-        <iframe id="canvasIframe" src="index" class="canvas-iframe" title="Direct Visual Editor" onload="setupIframeDirectEditing()"></iframe>
+      <div style="margin-bottom:24px;">
+        <label style="font-size:12px; color:#9494a0; font-weight:700; display:block; margin-bottom:6px;">เปลี่ยนรหัสผ่าน Admin (เว้นว่างไว้ถ้าไม่ต้องการเปลี่ยน)</label>
+        <input type="password" id="setAdminPass" class="admin-input" placeholder="รหัสผ่านใหม่ (อย่างน้อย 6 ตัวอักษร)">
       </div>
-    </div>
+
+      <button type="submit" class="btn btn-primary" style="min-height:44px; font-weight:700;">
+        บันทึกการตั้งค่าร้านค้า
+      </button>
+    </form>
   </div>
+
 </main>
 
-<!-- Modals for Product Add / Edit -->
-<div class="admin-modal" id="addProductModal">
-  <div class="admin-modal-box">
-    <button class="admin-modal-close" onclick="closeModal('addProductModal')">&times;</button>
-    <h3 class="admin-modal-title">เพิ่มโปรแกรมเสริมใหม่</h3>
-    <p class="admin-modal-sub">กำหนดชื่อ สเปก และราคาขายบนหน้าสโตร์</p>
+<!-- Modal: Add New Product -->
+<div class="checkout-modal" id="addProductModal">
+  <div class="modal-box" style="background:#14151b; color:#fff; border:1px solid rgba(255,255,255,.1); max-width:520px;">
+    <button class="modal-close" onclick="closeModal('addProductModal')">&times;</button>
+    <div class="modal-header">
+      <h3 style="color:#fff;">เพิ่มโปรแกรมเสริมใหม่ลงฐานข้อมูล</h3>
+      <p style="color:#9494a0;">กำหนดชื่อ สเปก และราคาขายบนหน้าสโตร์</p>
+    </div>
+
     <form onsubmit="event.preventDefault(); handleAddNewProduct();">
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px;">
-        <div><label style="font-size:12px; color:var(--muted); font-weight:700; display:block; margin-bottom:6px;">ชื่อโปรแกรม *</label><input type="text" id="newProdName" class="admin-input" placeholder="เช่น ez auto cutter" required></div>
-        <div><label style="font-size:12px; color:var(--muted); font-weight:700; display:block; margin-bottom:6px;">รหัสสินค้า (SKU) *</label><input type="text" id="newProdSku" class="admin-input" placeholder="JG-CUT-05" required></div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px;">
+        <div>
+          <label style="font-size:12px; color:#9494a0; font-weight:700;">ชื่อโปรแกรม *</label>
+          <input type="text" id="newProdName" class="admin-input" placeholder="เช่น ez auto cutter" required>
+        </div>
+        <div>
+          <label style="font-size:12px; color:#9494a0; font-weight:700;">รหัสสินค้า (SKU) *</label>
+          <input type="text" id="newProdSku" class="admin-input" placeholder="JG-CUT-05" required>
+        </div>
       </div>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px;">
-        <div><label style="font-size:12px; color:var(--muted); font-weight:700; display:block; margin-bottom:6px;">ราคาขาย (บาท) *</label><input type="number" id="newProdPrice" class="admin-input" placeholder="1490" required></div>
-        <div><label style="font-size:12px; color:var(--muted); font-weight:700; display:block; margin-bottom:6px;">โปรแกรมที่รองรับ *</label><input type="text" id="newProdApp" class="admin-input" placeholder="Photoshop &amp; Illustrator" required></div>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px;">
+        <div>
+          <label style="font-size:12px; color:#9494a0; font-weight:700;">ราคาขาย (บาท) *</label>
+          <input type="number" id="newProdPrice" class="admin-input" placeholder="1490" required>
+        </div>
+        <div>
+          <label style="font-size:12px; color:#9494a0; font-weight:700;">โปรแกรมที่รองรับ *</label>
+          <input type="text" id="newProdApp" class="admin-input" placeholder="Photoshop & Illustrator" required>
+        </div>
       </div>
-      <div style="margin-bottom:24px;"><label style="font-size:12px; color:var(--muted); font-weight:700; display:block; margin-bottom:6px;">ลิงก์หน้ารายละเอียดสินค้า</label><input type="text" id="newProdUrl" class="admin-input" placeholder="saiscale (หรือปล่อยว่าง)"></div>
-      <button type="submit" class="btn btn-primary" style="width:100%; min-height:46px; font-weight:700;">บันทึกและเปิดขายบนสโตร์</button>
+
+      <div style="margin-bottom:20px;">
+        <label style="font-size:12px; color:#9494a0; font-weight:700;">คำอธิบายจุดเด่นสั้นๆ *</label>
+        <textarea id="newProdDesc" class="admin-input" rows="2" placeholder="อธิบายการทำงานและฟังก์ชันหลัก..." required></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-primary" style="width:100%; min-height:44px; font-weight:700;">
+        บันทึกและเปิดขายบนสโตร์ทันที
+      </button>
     </form>
   </div>
 </div>
 
-<div class="admin-modal" id="editProductModal">
-  <div class="admin-modal-box">
-    <button class="admin-modal-close" onclick="closeModal('editProductModal')">&times;</button>
-    <h3 class="admin-modal-title">แก้ไขข้อมูลโปรแกรมเสริม</h3>
-    <p class="admin-modal-sub">แก้ไขชื่อ รหัสสินค้า ราคา หรือเปลี่ยนสถานะการขาย</p>
-    <form onsubmit="event.preventDefault(); handleSaveEditProduct();">
-      <input type="hidden" id="editProdIndex">
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px;">
-        <div><label style="font-size:12px; color:var(--muted); font-weight:700; display:block; margin-bottom:6px;">ชื่อโปรแกรม *</label><input type="text" id="editProdName" class="admin-input" required></div>
-        <div><label style="font-size:12px; color:var(--muted); font-weight:700; display:block; margin-bottom:6px;">รหัสสินค้า (SKU) *</label><input type="text" id="editProdSku" class="admin-input" required></div>
-      </div>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px;">
-        <div><label style="font-size:12px; color:var(--muted); font-weight:700; display:block; margin-bottom:6px;">ราคาขาย (บาท) *</label><input type="number" id="editProdPrice" class="admin-input" required></div>
-        <div><label style="font-size:12px; color:var(--muted); font-weight:700; display:block; margin-bottom:6px;">โปรแกรมที่รองรับ *</label><input type="text" id="editProdApp" class="admin-input" required></div>
-      </div>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:24px;">
-        <div><label style="font-size:12px; color:var(--muted); font-weight:700; display:block; margin-bottom:6px;">ยอดขาย (ชิ้น)</label><input type="number" id="editProdSales" class="admin-input" required></div>
-        <div><label style="font-size:12px; color:var(--muted); font-weight:700; display:block; margin-bottom:6px;">สถานะสินค้า *</label><select id="editProdStatus" class="admin-input"><option value="Active">เปิดขาย (Active)</option><option value="Paused">พักการขายชั่วคราว (Paused)</option></select></div>
-      </div>
-      <div style="display:flex; gap:10px;">
-        <button type="submit" class="btn btn-primary" style="flex:2; min-height:46px; font-weight:700;">บันทึกการแก้ไข</button>
-        <button type="button" class="action-btn action-btn-danger" onclick="handleDeleteProduct()" style="flex:1; min-height:46px; justify-content:center;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-          ลบโปรแกรม
-        </button>
-      </div>
-    </form>
-  </div>
-</div>
+<!-- Modal: Generate Custom Key -->
+<div class="checkout-modal" id="genKeyModal">
+  <div class="modal-box" style="background:#14151b; color:#fff; border:1px solid rgba(255,255,255,.1);">
+    <button class="modal-close" onclick="closeModal('genKeyModal')">&times;</button>
+    <div class="modal-header">
+      <h3 style="color:#fff;">ออก License Key กำหนดเอง</h3>
+      <p style="color:#9494a0;">สร้างรหัสปลดล็อกสำหรับลูกค้ารายพิเศษหรือ VIP</p>
+    </div>
 
-<div class="admin-modal" id="genKeyModal">
-  <div class="admin-modal-box">
-    <button class="admin-modal-close" onclick="closeModal('genKeyModal')">&times;</button>
-    <h3 class="admin-modal-title">ออก License Key ใหม่</h3>
-    <p class="admin-modal-sub">สร้างรหัสปลดล็อกสำหรับลูกค้ารายใหม่หรือสั่งซื้อตรง</p>
     <form onsubmit="event.preventDefault(); handleManualGenKey();">
-      <div style="margin-bottom:14px;"><label style="font-size:12px; color:var(--muted); font-weight:700; display:block; margin-bottom:6px;">เลือกโปรแกรมเสริม *</label><select id="genKeyProd" class="admin-input"></select></div>
-      <div style="margin-bottom:24px;"><label style="font-size:12px; color:var(--muted); font-weight:700; display:block; margin-bottom:6px;">อีเมลผู้รับ *</label><input type="email" id="genKeyEmail" class="admin-input" placeholder="client@company.com" required></div>
-      <button type="submit" class="btn btn-primary" style="width:100%; min-height:46px; font-weight:700;">สร้าง License Key และบันทึกทันที</button>
-    </form>
-  </div>
-</div>
-
-<div class="admin-modal" id="addOrderModal">
-  <div class="admin-modal-box">
-    <button class="admin-modal-close" onclick="closeModal('addOrderModal')">&times;</button>
-    <h3 class="admin-modal-title">บันทึกออเดอร์ใหม่</h3>
-    <p class="admin-modal-sub">บันทึกรายการชำระเงินและออกคีย์ให้อัตโนมัติ</p>
-    <form onsubmit="event.preventDefault(); handleAddNewOrder();">
-      <div style="margin-bottom:14px;"><label style="font-size:12px; color:var(--muted); font-weight:700; display:block; margin-bottom:6px;">อีเมลลูกค้า *</label><input type="email" id="newOrderEmail" class="admin-input" placeholder="customer@gmail.com" required></div>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:24px;">
-        <div><label style="font-size:12px; color:var(--muted); font-weight:700; display:block; margin-bottom:6px;">สินค้า *</label><select id="newOrderProd" class="admin-input" onchange="updateOrderPriceHint()"></select></div>
-        <div><label style="font-size:12px; color:var(--muted); font-weight:700; display:block; margin-bottom:6px;">ยอดเงิน (บาท) *</label><input type="number" id="newOrderAmount" class="admin-input" required></div>
+      <div style="margin-bottom:14px;">
+        <label style="font-size:12px; color:#9494a0; font-weight:700;">เลือกโปรแกรมเสริม *</label>
+        <select id="genKeyProd" class="admin-input"></select>
       </div>
-      <button type="submit" class="btn btn-primary" style="width:100%; min-height:46px; font-weight:700;">บันทึกรายการสั่งซื้อ</button>
+
+      <div style="margin-bottom:20px;">
+        <label style="font-size:12px; color:#9494a0; font-weight:700;">อีเมลผู้รับ *</label>
+        <input type="email" id="genKeyEmail" class="admin-input" placeholder="client@company.com" required>
+      </div>
+
+      <button type="submit" class="btn btn-primary" style="width:100%; min-height:44px; font-weight:700;">
+        สร้าง License Key และบันทึกเข้าระบบ
+      </button>
     </form>
   </div>
 </div>
-
-<div id="toastMsg" class="toast-msg"></div>
 
 <script>
-var ICON = {
-  edit: '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>',
-  unlock: '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>',
-  ban: '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>',
-  check: '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>',
-  trash: '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>'
+let adminState = {
+  stats: {},
+  products: [],
+  licenses: [],
+  orders: [],
+  settings: {}
 };
 
-var DEFAULT_PRODUCTS=[{id:'1',sku:'JG-SAISCALE-01',name:'saiscale',app:'Photoshop & AI',price:2490,sales:48,status:'Active',url:'saiscale'},{id:'2',sku:'JG-EZNEST-02',name:'ez nest',app:'Illustrator CC',price:1390,sales:52,status:'Active',url:'eznest'},{id:'3',sku:'JG-CUTPREP-03',name:'jarerngraphic CutPrep',app:'Illustrator CC',price:1190,sales:26,status:'Active',url:'cutprep'},{id:'4',sku:'JG-PRINTCOST-04',name:'jarerngraphic Print & Cost',app:'Photoshop & AI',price:1290,sales:34,status:'Active',url:'costboard'}];
-var DEFAULT_LICENSES=[{key:'JG-SAIS-9A2F-4B1C-8E7D',product:'saiscale',email:'somchai.cut@gmail.com',hwid:'WIN-DESKTOP-98F2A1',date:'2026-08-23',status:'Active'},{key:'JG-NEST-88CD-11FA-992B',product:'ez nest',email:'laser.studio.bkk@gmail.com',hwid:'MAC-M3PRO-33E1D4',date:'2026-08-22',status:'Active'},{key:'JG-PREP-77AA-55DF-2201',product:'jarerngraphic CutPrep',email:'signage.pro@yahoo.com',hwid:'WIN-OFFICE-4422B1',date:'2026-08-21',status:'Active'},{key:'JG-COST-1029-3388-7744',product:'jarerngraphic Print & Cost',email:'printcraft.th@gmail.com',hwid:'MAC-M2-77119A',date:'2026-08-20',status:'Active'}];
-var DEFAULT_ORDERS=[{id:'ORD-9821',customer:'somchai.cut@gmail.com',product:'saiscale',amount:2490,method:'PromptPay QR',time:'10 นาทีที่แล้ว',status:'PAID'},{id:'ORD-9820',customer:'laser.studio.bkk@gmail.com',product:'ez nest',amount:1390,method:'PromptPay QR',time:'2 ชม. ที่แล้ว',status:'PAID'},{id:'ORD-9819',customer:'signage.pro@yahoo.com',product:'jarerngraphic CutPrep',amount:1190,method:'PromptPay QR',time:'5 ชม. ที่แล้ว',status:'PAID'}];
-var products=[],licenses=[],orders=[];
-
-function loadData(){try{var p=localStorage.getItem('jg_admin_products');products=p?JSON.parse(p):JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));var l=localStorage.getItem('jg_admin_licenses');licenses=l?JSON.parse(l):JSON.parse(JSON.stringify(DEFAULT_LICENSES));var o=localStorage.getItem('jg_admin_orders');orders=o?JSON.parse(o):JSON.parse(JSON.stringify(DEFAULT_ORDERS));}catch(e){products=JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));licenses=JSON.parse(JSON.stringify(DEFAULT_LICENSES));orders=JSON.parse(JSON.stringify(DEFAULT_ORDERS));}}
-function saveData(){try{localStorage.setItem('jg_admin_products',JSON.stringify(products));localStorage.setItem('jg_admin_licenses',JSON.stringify(licenses));localStorage.setItem('jg_admin_orders',JSON.stringify(orders));}catch(e){}}
-function showToast(msg){var t=document.getElementById('toastMsg');if(!t)return;t.innerHTML='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> '+msg;t.className='toast-msg show';setTimeout(function(){t.className='toast-msg';},2800);}
-function handleAdminLogin(){var pass=document.getElementById('adminPassInput').value.trim();if(pass==='admin1234'||pass.length>=6){sessionStorage.setItem('jg_admin_session','active');document.getElementById('adminLoginSection').style.display='none';document.getElementById('adminDashboardSection').style.display='block';document.getElementById('adminLogoutBtn').style.display='inline-flex';loadData();renderAll();showToast('เข้าสู่ระบบสำเร็จ');}else{alert('รหัสผ่านไม่ถูกต้อง (รหัสเริ่มต้น: admin1234)');}}
-document.getElementById('adminLogoutBtn').addEventListener('click',function(){sessionStorage.removeItem('jg_admin_session');document.getElementById('adminDashboardSection').style.display='none';document.getElementById('adminLoginSection').style.display='flex';document.getElementById('adminLogoutBtn').style.display='none';});
-
-function switchTab(tabId,el){
-  document.querySelectorAll('.admin-tab-btn').forEach(function(b){b.classList.remove('active');});
-  if(el) el.classList.add('active');
-  document.getElementById('tab-products').style.display=tabId==='products'?'block':'none';
-  document.getElementById('tab-licenses').style.display=tabId==='licenses'?'block':'none';
-  document.getElementById('tab-orders').style.display=tabId==='orders'?'block':'none';
-  document.getElementById('tab-visual-editor').style.display=tabId==='visual-editor'?'flex':'none';
-  if(tabId==='visual-editor'){ setupIframeDirectEditing(); }
-}
-
-function renderAll(){renderProducts();renderLicenses();renderOrders();updateKPIs();updateSelectOptions();}
-function updateKPIs(){var totalRevenue=orders.reduce(function(s,o){return s+(Number(o.amount)||0);},0)+products.reduce(function(s,p){return s+((Number(p.price)||0)*(Number(p.sales)||0));},0);var activeKeys=licenses.filter(function(l){return l.status==='Active';}).length;var unlocked=licenses.filter(function(l){return l.hwid&&l.hwid.indexOf('UNLOCKED')!==-1;}).length;document.getElementById('kpiRevenue').textContent='฿'+totalRevenue.toLocaleString();document.getElementById('kpiActiveKeys').textContent=activeKeys+' Keys';document.getElementById('kpiProducts').textContent=products.length+' โปรแกรม';document.getElementById('kpiUnlockedKeys').textContent=unlocked+' Keys';document.getElementById('tabCountProducts').textContent=products.length;document.getElementById('tabCountLicenses').textContent=licenses.length;document.getElementById('tabCountOrders').textContent=orders.length;}
-
-// 1. PRODUCTS
-function renderProducts(){var tbody=document.getElementById('productListBody');tbody.innerHTML=products.map(function(p,i){var isPaused=p.status==='Paused';return '<tr><td><code style="color:var(--blue);font-weight:700;font-size:12px;">'+p.sku+'</code></td><td><strong style="color:var(--ink);font-size:14px;">'+p.name+'</strong></td><td>'+p.app+'</td><td><strong style="color:var(--red);">฿'+Number(p.price).toLocaleString()+'</strong></td><td>'+(p.sales||0)+' ชิ้น</td><td><span class="badge-status '+(isPaused?'status-paused':'status-active')+'">'+(isPaused?'พักการขาย':'เปิดขาย')+'</span></td><td><button class="action-btn action-btn-primary" onclick="openEditProductModal('+i+')">'+ICON.edit+' แก้ไข</button></td></tr>';}).join('');}
-function openAddProductModal(){document.getElementById('newProdName').value='';document.getElementById('newProdSku').value='JG-PRO-'+Math.floor(100+Math.random()*900);document.getElementById('newProdPrice').value='1490';document.getElementById('newProdApp').value='Illustrator CC 2021+';document.getElementById('newProdUrl').value='';document.getElementById('addProductModal').classList.add('active');}
-function handleAddNewProduct(){var name=document.getElementById('newProdName').value.trim();var sku=document.getElementById('newProdSku').value.trim();var price=Number(document.getElementById('newProdPrice').value);var app=document.getElementById('newProdApp').value.trim();var url=document.getElementById('newProdUrl').value.trim();products.push({id:String(Date.now()),sku:sku,name:name,app:app,price:price,sales:0,status:'Active',url:url});saveData();renderAll();closeModal('addProductModal');showToast('เพิ่มโปรแกรม "'+name+'" เรียบร้อยแล้ว');}
-function openEditProductModal(index){var p=products[index];if(!p)return;document.getElementById('editProdIndex').value=index;document.getElementById('editProdName').value=p.name;document.getElementById('editProdSku').value=p.sku;document.getElementById('editProdPrice').value=p.price;document.getElementById('editProdApp').value=p.app;document.getElementById('editProdSales').value=p.sales||0;document.getElementById('editProdStatus').value=p.status||'Active';document.getElementById('editProductModal').classList.add('active');}
-function handleSaveEditProduct(){var i=Number(document.getElementById('editProdIndex').value);if(i<0||i>=products.length)return;products[i].name=document.getElementById('editProdName').value.trim();products[i].sku=document.getElementById('editProdSku').value.trim();products[i].price=Number(document.getElementById('editProdPrice').value);products[i].app=document.getElementById('editProdApp').value.trim();products[i].sales=Number(document.getElementById('editProdSales').value);products[i].status=document.getElementById('editProdStatus').value;saveData();renderAll();closeModal('editProductModal');showToast('บันทึกการแก้ไข "'+products[i].name+'" สำเร็จ');}
-function handleDeleteProduct(){var i=Number(document.getElementById('editProdIndex').value);if(i<0||i>=products.length)return;var name=products[i].name;if(confirm('ยืนยันการลบโปรแกรม "'+name+'" ออกจากระบบหรือไม่?')){products.splice(i,1);saveData();renderAll();closeModal('editProductModal');showToast('ลบโปรแกรม "'+name+'" เรียบร้อยแล้ว');}}
-
-// 2. LICENSES
-function renderLicenses(){var tbody=document.getElementById('licenseListBody');tbody.innerHTML=licenses.map(function(l,i){var isRevoked=l.status==='Revoked';var isUnlocked=l.hwid&&l.hwid.indexOf('UNLOCKED')!==-1;return '<tr><td><code style="color:var(--blue);font-weight:700;font-size:12px;">'+l.key+'</code></td><td><strong>'+l.product+'</strong></td><td>'+l.email+'</td><td><span style="font-family:monospace;font-size:11.5px;color:'+(isUnlocked?'#059669':'var(--muted)')+';font-weight:'+(isUnlocked?'700':'400')+'">'+l.hwid+'</span></td><td>'+l.date+'</td><td><span class="badge-status '+(isRevoked?'status-revoked':'status-active')+'">'+(isRevoked?'ถูกระงับ':'ใช้งานได้')+'</span></td><td style="display:flex;gap:6px;flex-wrap:wrap;"><button class="action-btn" onclick="resetHwid('+i+')" title="ปลดล็อก HWID">'+ICON.unlock+' ย้ายเครื่อง</button><button class="action-btn action-btn-danger" onclick="toggleRevokeKey('+i+')">'+(isRevoked?ICON.check+' เปิดสิทธิ์':ICON.ban+' ระงับ')+'</button><button class="action-btn action-btn-danger" onclick="deleteLicense('+i+')" title="ลบคีย์นี้">'+ICON.trash+'</button></td></tr>';}).join('');}
-function resetHwid(i){licenses[i].hwid='UNLOCKED (พร้อมผูกเครื่องใหม่)';saveData();renderAll();showToast('ปลดล็อก HWID ของ '+licenses[i].key+' เรียบร้อย');}
-function toggleRevokeKey(i){licenses[i].status=licenses[i].status==='Active'?'Revoked':'Active';saveData();renderAll();showToast('เปลี่ยนสถานะคีย์ '+licenses[i].key+' เป็น '+licenses[i].status);}
-function deleteLicense(i){if(confirm('ยืนยันการลบ License Key "'+licenses[i].key+'"?')){licenses.splice(i,1);saveData();renderAll();showToast('ลบ License Key เรียบร้อยแล้ว');}}
-function filterLicenses(){var q=document.getElementById('licenseSearchInput').value.toLowerCase();document.querySelectorAll('#licenseListBody tr').forEach(function(r){r.style.display=r.textContent.toLowerCase().indexOf(q)!==-1?'':'none';});}
-function openGenKeyModal(){document.getElementById('genKeyEmail').value='';document.getElementById('genKeyModal').classList.add('active');}
-function handleManualGenKey(){var product=document.getElementById('genKeyProd').value;var email=document.getElementById('genKeyEmail').value.trim();var code=product.replace(/[^a-zA-Z]/g,'').slice(0,4).toUpperCase()||'PRO';var randKey='JG-'+code+'-'+Math.random().toString(36).substring(2,6).toUpperCase()+'-'+Math.random().toString(36).substring(2,6).toUpperCase();licenses.unshift({key:randKey,product:product,email:email,hwid:'PENDING_FIRST_ACTIVATION',date:new Date().toISOString().split('T')[0],status:'Active'});saveData();renderAll();closeModal('genKeyModal');alert('สร้าง License Key สำเร็จ!\n\nรหัสคีย์: ' + randKey + '\nผู้รับ: ' + email);}
-
-// 3. ORDERS
-function renderOrders(){var tbody=document.getElementById('orderListBody');tbody.innerHTML=orders.map(function(o,i){return '<tr><td><code style="color:var(--ink);font-weight:700;font-size:12px;">'+o.id+'</code></td><td>'+o.customer+'</td><td><strong>'+o.product+'</strong></td><td><strong style="color:#059669;">฿'+Number(o.amount).toLocaleString()+'</strong></td><td>'+o.method+'</td><td>'+o.time+'</td><td><span class="badge-status status-active">สำเร็จ</span></td><td><button class="action-btn action-btn-danger" onclick="deleteOrder('+i+')">'+ICON.trash+' ลบ</button></td></tr>';}).join('');}
-function openAddOrderModal(){document.getElementById('newOrderEmail').value='';updateOrderPriceHint();document.getElementById('addOrderModal').classList.add('active');}
-function updateOrderPriceHint(){var prodName=document.getElementById('newOrderProd').value;var found=products.find(function(p){return p.name===prodName;});if(found)document.getElementById('newOrderAmount').value=found.price;}
-function handleAddNewOrder(){var customer=document.getElementById('newOrderEmail').value.trim();var product=document.getElementById('newOrderProd').value;var amount=Number(document.getElementById('newOrderAmount').value);var orderId='ORD-'+Math.floor(1000+Math.random()*9000);orders.unshift({id:orderId,customer:customer,product:product,amount:amount,method:'PromptPay QR',time:'เมื่อสักครู่',status:'PAID'});var code=product.replace(/[^a-zA-Z]/g,'').slice(0,4).toUpperCase()||'PRO';var randKey='JG-'+code+'-'+Math.random().toString(36).substring(2,6).toUpperCase()+'-'+Math.random().toString(36).substring(2,6).toUpperCase();licenses.unshift({key:randKey,product:product,email:customer,hwid:'PENDING_FIRST_ACTIVATION',date:new Date().toISOString().split('T')[0],status:'Active'});saveData();renderAll();closeModal('addOrderModal');showToast('บันทึกออเดอร์ '+orderId+' และออก License Key เรียบร้อย');}
-function deleteOrder(i){if(confirm('ยืนยันการลบออเดอร์ '+orders[i].id+'?')){orders.splice(i,1);saveData();renderAll();showToast('ลบรายการออเดอร์เรียบร้อย');}}
-function updateSelectOptions(){var gen=document.getElementById('genKeyProd');var ord=document.getElementById('newOrderProd');if(gen&&products.length)gen.innerHTML=products.map(function(p){return '<option value="'+p.name+'">'+p.name+'</option>';}).join('');if(ord&&products.length)ord.innerHTML=products.map(function(p){return '<option value="'+p.name+'">'+p.name+' (฿'+p.price.toLocaleString()+')</option>';}).join('');}
-function closeModal(id){var el=document.getElementById(id);if(el)el.classList.remove('active');}
-
-// ═══════════════════════════════════════════
-// 4. FULL-CANVAS DIRECT VISUAL WEBPAGE EDITOR
-// ═══════════════════════════════════════════
-var isCanvasOutlineHidden = false;
-
-function handleSwitchVisualPage(){
-  var pageKey = document.getElementById('canvasPageSelect').value;
-  var iframe = document.getElementById('canvasIframe');
-  var extLink = document.getElementById('canvasExtLink');
-
-  iframe.src = pageKey;
-  extLink.href = pageKey;
-}
-
-function setupIframeDirectEditing(){
+async function fetchRealAdminData() {
   try {
-    var iframe = document.getElementById('canvasIframe');
-    if (!iframe || !iframe.contentDocument) return;
-    var doc = iframe.contentDocument;
+    const res = await fetch('/api/admin/stats');
+    const data = await res.json();
 
-    // Inject direct editing styles inside the iframe
-    var styleId = 'jg-direct-canvas-styles';
-    var existingStyle = doc.getElementById(styleId);
-    if (!existingStyle) {
-      var style = doc.createElement('style');
-      style.id = styleId;
-      style.textContent = `
-        [contenteditable="true"] {
-          transition: outline 0.15s ease, background 0.15s ease !important;
-          cursor: text !important;
-        }
-        [contenteditable="true"]:hover {
-          outline: 2px dashed #0071e3 !important;
-          outline-offset: 4px !important;
-          border-radius: 4px !important;
-          background: rgba(0, 113, 227, 0.05) !important;
-        }
-        [contenteditable="true"]:focus {
-          outline: 2px solid #0071e3 !important;
-          outline-offset: 4px !important;
-          border-radius: 4px !important;
-          background: rgba(0, 113, 227, 0.08) !important;
-        }
-        body.jg-no-outlines [contenteditable="true"] {
-          outline: none !important;
-          background: transparent !important;
-          cursor: default !important;
-        }
-      `;
-      doc.head.appendChild(style);
+    if (data.success) {
+      adminState.stats = data.stats;
+      adminState.products = data.products;
+      adminState.licenses = data.licenses;
+      adminState.orders = data.orders;
+      adminState.settings = data.settings;
+
+      renderAllAdminViews();
     }
-
-    // Make all text elements editable
-    var editables = doc.querySelectorAll('h1, h2, h3, h4, h5, p, span, a, .tag, .chip, .compat-pill, .price, .badge, .promo-line, .action-link');
-    editables.forEach(function(el){
-      if (el.closest('svg') || el.closest('script') || el.closest('style') || el.closest('#checkoutModal')) return;
-      el.setAttribute('contenteditable', 'true');
-      el.setAttribute('spellcheck', 'false');
-      
-      // Prevent navigation on click while in edit mode
-      if (el.tagName.toLowerCase() === 'a') {
-        el.addEventListener('click', function(e){
-          e.preventDefault();
-        });
-      }
-    });
-  } catch(e) {
-    console.warn('Iframe edit initialization note:', e);
+  } catch (err) {
+    console.error('Error fetching admin data:', err);
   }
 }
 
-function saveVisualPageContent(){
-  try {
-    var pageKey = document.getElementById('canvasPageSelect').value;
-    var iframe = document.getElementById('canvasIframe');
-    if (!iframe || !iframe.contentDocument) {
-      alert('ไม่สามารถเข้าถึงหน้าพรีวิวได้');
-      return;
-    }
-    var doc = iframe.contentDocument;
+function handleAdminLogin() {
+  const email = document.getElementById('adminEmailInput').value.trim();
+  const pass = document.getElementById('adminPassInput').value.trim();
 
-    // Clone body to clean up edit attributes before saving
-    var clone = doc.body.cloneNode(true);
-    
-    // Remove contenteditable attributes from clone
-    clone.querySelectorAll('[contenteditable]').forEach(function(el){
-      el.removeAttribute('contenteditable');
-      el.removeAttribute('spellcheck');
-    });
-
-    // Remove any injected edit styles/scripts
-    var injectedStyle = clone.querySelector('#jg-direct-canvas-styles');
-    if (injectedStyle) injectedStyle.remove();
-    clone.classList.remove('jg-no-outlines');
-
-    var cleanBodyHtml = clone.innerHTML;
-    localStorage.setItem('jg_page_body_' + pageKey, cleanBodyHtml);
-
-    showToast('บันทึกการแก้ไขข้อความหน้า "' + pageKey + '" เรียบร้อย! หน้าร้านจริงจะแสดงผลตามนี้ทันที');
-  } catch(e) {
-    alert('เกิดข้อผิดพลาดในการบันทึก: ' + e.message);
-  }
-}
-
-function toggleCanvasOutline(){
-  isCanvasOutlineHidden = !isCanvasOutlineHidden;
-  var iframe = document.getElementById('canvasIframe');
-  var txt = document.getElementById('txtToggleOutline');
-
-  if (iframe && iframe.contentDocument && iframe.contentDocument.body) {
-    if (isCanvasOutlineHidden) {
-      iframe.contentDocument.body.classList.add('jg-no-outlines');
-      txt.textContent = 'กลับมาแก้ไข';
-      showToast('กำลังแสดงพรีวิวแบบไม่มีกรอบ (เสมือนจริง 100%)');
-    } else {
-      iframe.contentDocument.body.classList.remove('jg-no-outlines');
-      txt.textContent = 'ดูตัวอย่างจริง';
-    }
-  }
-}
-
-function resetVisualPageDefaults(){
-  var pageKey = document.getElementById('canvasPageSelect').value;
-  if (confirm('ต้องการคืนค่าเริ่มต้นข้อความทั้งหมดของหน้า ' + pageKey + ' หรือไม่?')) {
-    localStorage.removeItem('jg_page_body_' + pageKey);
-    var iframe = document.getElementById('canvasIframe');
-    if (iframe) iframe.src = pageKey + '?raw=1&t=' + Date.now();
-    showToast('รีเซ็ตข้อความเป็นค่าเริ่มต้นเดิมเรียบร้อย');
-  }
-}
-
-function setCanvasDevice(width, btn){
-  document.querySelectorAll('.canvas-device-btn').forEach(function(b){ b.classList.remove('active'); });
-  if (btn) btn.classList.add('active');
-  document.getElementById('canvasViewportFrame').style.width = width;
-}
-
-window.addEventListener('DOMContentLoaded', function(){
-  if(sessionStorage.getItem('jg_admin_session') === 'active'){
+  if (pass === 'admin1234' || pass.length >= 6) {
     document.getElementById('adminLoginSection').style.display = 'none';
     document.getElementById('adminDashboardSection').style.display = 'block';
     document.getElementById('adminLogoutBtn').style.display = 'inline-flex';
-    loadData();
-    renderAll();
+    fetchRealAdminData();
+  } else {
+    alert('รหัสผ่านไม่ถูกต้อง (รหัสเริ่มต้น: admin1234)');
   }
-});
+}
+
+function handleAdminLogout() {
+  document.getElementById('adminDashboardSection').style.display = 'none';
+  document.getElementById('adminLoginSection').style.display = 'flex';
+  document.getElementById('adminLogoutBtn').style.display = 'none';
+}
+
+function switchAdminTab(tabId) {
+  document.querySelectorAll('.admin-tab-btn').forEach(btn => btn.classList.remove('active'));
+  event.target.classList.add('active');
+
+  document.getElementById('tab-products').style.display = tabId === 'products' ? 'block' : 'none';
+  document.getElementById('tab-licenses').style.display = tabId === 'licenses' ? 'block' : 'none';
+  document.getElementById('tab-orders').style.display = tabId === 'orders' ? 'block' : 'none';
+  document.getElementById('tab-settings').style.display = tabId === 'settings' ? 'block' : 'none';
+}
+
+function renderAllAdminViews() {
+  // KPIs
+  document.getElementById('kpiRevenue').textContent = adminState.stats.formattedRevenue || '฿0';
+  document.getElementById('kpiOrdersCount').textContent = `${adminState.stats.totalOrders || 0} คำสั่งซื้อสำเร็จ`;
+  document.getElementById('kpiActiveKeys').textContent = `${adminState.stats.activeKeys || 0} Keys`;
+  document.getElementById('kpiProducts').textContent = `${adminState.products.length} โปรแกรม`;
+  document.getElementById('kpiMigrations').textContent = `${adminState.stats.totalMigrations || 0} ครั้ง`;
+
+  // Products
+  const prodTbody = document.getElementById('productListBody');
+  prodTbody.innerHTML = adminState.products.map(p => `
+    <tr>
+      <td><code>${p.sku}</code></td>
+      <td><strong style="color:#fff;">${p.name}</strong></td>
+      <td>${p.apps}</td>
+      <td><strong style="color:#ff4d6d;">฿${Number(p.price).toLocaleString()}</strong></td>
+      <td>${p.salesCount || 0} ชิ้น</td>
+      <td><span class="badge-status status-active">เปิดขาย</span></td>
+      <td>
+        <button class="action-btn" onclick="alert('แก้ไขโปรแกรม ${p.name}')">แก้ไข</button>
+      </td>
+    </tr>
+  `).join('');
+
+  // Dropdown for genKeyModal
+  const genSelect = document.getElementById('genKeyProd');
+  genSelect.innerHTML = adminState.products.map(p => `<option value="${p.id}">${p.name} (฿${p.price})</option>`).join('');
+
+  // Licenses
+  renderLicensesList(adminState.licenses);
+
+  // Orders
+  const orderTbody = document.getElementById('orderListBody');
+  orderTbody.innerHTML = adminState.orders.map(o => `
+    <tr>
+      <td><code>${o.id}</code></td>
+      <td>${o.customerEmail}</td>
+      <td>${o.productName}</td>
+      <td><strong style="color:#10b981;">฿${Number(o.amount).toLocaleString()}</strong></td>
+      <td><code style="color:#60a5fa;">${o.licenseKey || 'รอดำเนินการ'}</code></td>
+      <td>${o.paidAt || o.createdAt}</td>
+      <td><span class="badge-status status-active">${o.paymentStatus === 'PAID' ? 'ชำระสำเร็จ' : o.paymentStatus}</span></td>
+    </tr>
+  `).join('');
+
+  // Settings
+  if (adminState.settings) {
+    document.getElementById('setPromptpayId').value = adminState.settings.promptpayId || '';
+    document.getElementById('setPromptpayName').value = adminState.settings.promptpayName || '';
+    document.getElementById('setSupportLine').value = adminState.settings.supportLine || '';
+  }
+}
+
+function renderLicensesList(list) {
+  const licTbody = document.getElementById('licenseListBody');
+  licTbody.innerHTML = list.map(l => `
+    <tr>
+      <td><code style="color:#60a5fa; font-weight:700;">${l.key}</code></td>
+      <td>${l.productName}</td>
+      <td>${l.email}</td>
+      <td><span style="font-family:monospace; font-size:11.5px; color:#9494a0;">${l.hwid || 'ยังไม่เปิดใช้'}</span></td>
+      <td>${l.activatedAt ? l.activatedAt.split(' ')[0] : 'พร้อมใช้'}</td>
+      <td><span class="badge-status ${l.status === 'Active' ? 'status-active' : 'status-revoked'}">${l.status}</span></td>
+      <td style="display:flex; gap:6px;">
+        <button class="action-btn" onclick="handleAdminResetHwid('${l.key}')">ย้ายเครื่อง</button>
+        <button class="action-btn action-btn-danger" onclick="handleAdminToggleRevoke('${l.key}')">${l.status === 'Active' ? 'ระงับ' : 'เปิดสิทธิ์'}</button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function filterLicenses() {
+  const q = document.getElementById('licenseSearchInput').value.toLowerCase();
+  const filtered = adminState.licenses.filter(l => 
+    l.key.toLowerCase().includes(q) || 
+    l.email.toLowerCase().includes(q) || 
+    l.productName.toLowerCase().includes(q) ||
+    (l.hwid && l.hwid.toLowerCase().includes(q))
+  );
+  renderLicensesList(filtered);
+}
+
+async function handleAdminResetHwid(key) {
+  if (!confirm(`คุณต้องการปลดล็อก HWID ของ ${key} ใช่หรือไม่?`)) return;
+
+  try {
+    const res = await fetch('/api/admin/licenses', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'reset_hwid', key })
+    });
+    const data = await res.json();
+    if (data.success) {
+      alert(data.message);
+      fetchRealAdminData();
+    }
+  } catch (err) {
+    alert('เกิดข้อผิดพลาด: ' + err.message);
+  }
+}
+
+async function handleAdminToggleRevoke(key) {
+  try {
+    const res = await fetch('/api/admin/licenses', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'revoke', key })
+    });
+    const data = await res.json();
+    if (data.success) {
+      alert(data.message);
+      fetchRealAdminData();
+    }
+  } catch (err) {
+    alert('เกิดข้อผิดพลาด: ' + err.message);
+  }
+}
+
+async function handleAddNewProduct() {
+  const name = document.getElementById('newProdName').value;
+  const sku = document.getElementById('newProdSku').value;
+  const price = Number(document.getElementById('newProdPrice').value);
+  const apps = document.getElementById('newProdApp').value;
+  const description = document.getElementById('newProdDesc').value;
+
+  try {
+    const res = await fetch('/api/products', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, sku, price, apps, description })
+    });
+    const data = await res.json();
+    if (data.success) {
+      alert(data.message);
+      closeModal('addProductModal');
+      fetchRealAdminData();
+    } else {
+      alert(data.error || 'ไม่สามารถเพิ่มสินค้าได้');
+    }
+  } catch (err) {
+    alert('เกิดข้อผิดพลาด: ' + err.message);
+  }
+}
+
+async function handleManualGenKey() {
+  const productId = document.getElementById('genKeyProd').value;
+  const email = document.getElementById('genKeyEmail').value;
+
+  try {
+    const res = await fetch('/api/admin/licenses', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'generate', productId, email })
+    });
+    const data = await res.json();
+    if (data.success) {
+      alert(`สร้าง License Key ใหม่สำเร็จ!\n\nรหัส: ${data.license.key}\nผู้รับ: ${data.license.email}`);
+      closeModal('genKeyModal');
+      fetchRealAdminData();
+    } else {
+      alert(data.error || 'ไม่สามารถสร้างคีย์ได้');
+    }
+  } catch (err) {
+    alert('เกิดข้อผิดพลาด: ' + err.message);
+  }
+}
+
+async function handleSaveSettings() {
+  const promptpayId = document.getElementById('setPromptpayId').value.trim();
+  const promptpayName = document.getElementById('setPromptpayName').value.trim();
+  const supportLine = document.getElementById('setSupportLine').value.trim();
+  const adminPass = document.getElementById('setAdminPass').value.trim();
+
+  try {
+    const res = await fetch('/api/admin/settings', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ promptpayId, promptpayName, supportLine, adminPass })
+    });
+    const data = await res.json();
+    if (data.success) {
+      alert(data.message);
+      fetchRealAdminData();
+    }
+  } catch (err) {
+    alert('เกิดข้อผิดพลาด: ' + err.message);
+  }
+}
+
+function openAddProductModal() { document.getElementById('addProductModal').classList.add('active'); }
+function openGenKeyModal() { document.getElementById('genKeyModal').classList.add('active'); }
+function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 </script>
 </body>
 </html>

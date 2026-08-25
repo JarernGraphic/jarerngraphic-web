@@ -21,22 +21,50 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Checkout Modal
+  // Real PromptPay Checkout Modal Integration
   const modal = document.getElementById('checkoutModal');
   const modalClose = document.getElementById('modalClose');
   const modalTitle = document.getElementById('modalProductName');
   const modalPriceText = document.getElementById('modalPriceText');
   const confirmPayBtn = document.getElementById('confirmPayBtn');
   const buyerEmail = document.getElementById('buyerEmail');
+  const modalQrBox = document.querySelector('.modal-qr-box');
+
+  let activeOrderId = null;
+  let activeProductSlug = 'saiscale';
 
   document.querySelectorAll('.open-checkout-btn').forEach((btn) => {
-    btn.addEventListener('click', (e) => {
+    btn.addEventListener('click', async (e) => {
       e.preventDefault();
-      const product = btn.dataset.product || 'JarernGraphic Tool';
-      const price = btn.dataset.price || '1,990';
+      const product = btn.dataset.product || 'saiscale';
+      const price = btn.dataset.price || '2490';
+      activeProductSlug = product;
+
       if (modalTitle) modalTitle.textContent = `สั่งซื้อ ${product}`;
       if (modalPriceText) modalPriceText.textContent = `ยอดชำระ: ฿${Number(price).toLocaleString()}`;
       if (modal) modal.classList.add('active');
+
+      // Generate real dynamic PromptPay QR
+      const defaultEmail = buyerEmail && buyerEmail.value ? buyerEmail.value.trim() : 'customer@store.com';
+      try {
+        const res = await fetch('/api/payment/create-checkout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ productId: product, email: defaultEmail })
+        });
+        const data = await res.json();
+        if (data.success && data.order) {
+          activeOrderId = data.order.id;
+          const qrImg = modalQrBox ? modalQrBox.querySelector('img') : null;
+          if (qrImg) qrImg.src = data.order.qrImageUrl;
+          const receiverSpan = modalQrBox ? modalQrBox.querySelector('span') : null;
+          if (receiverSpan) {
+            receiverSpan.innerHTML = `พร้อมเพย์: <strong>${data.order.promptpayTarget}</strong> (${data.order.promptpayReceiver})<br><small style="color:#10b981;">สแกนผ่าน Mobile Banking ได้ทุกธนาคาร</small>`;
+          }
+        }
+      } catch (err) {
+        console.warn('Local checkout init error:', err);
+      }
     });
   });
 
@@ -48,21 +76,64 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   if (confirmPayBtn) {
-    confirmPayBtn.addEventListener('click', () => {
+    confirmPayBtn.addEventListener('click', async () => {
       const email = buyerEmail ? buyerEmail.value.trim() : '';
       if (!email || !email.includes('@')) {
         alert('กรุณากรอกอีเมลที่ถูกต้องสำหรับรับ License Key ครับ');
         if (buyerEmail) buyerEmail.focus();
         return;
       }
+
       confirmPayBtn.disabled = true;
-      confirmPayBtn.textContent = 'กำลังยืนยันรายการ...';
-      setTimeout(() => {
-        alert(`สั่งซื้อสำเร็จ! ระบบจำลองการส่ง License Key และไฟล์ติดตั้งไปยัง ${email} เรียบร้อยแล้วครับ`);
-        if (modal) modal.classList.remove('active');
+      confirmPayBtn.textContent = 'กำลังตรวจสอบการชำระเงิน...';
+
+      try {
+        // If no activeOrderId yet, create one now with the entered email
+        if (!activeOrderId) {
+          const initRes = await fetch('/api/payment/create-checkout', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ productId: activeProductSlug, email })
+          });
+          const initData = await initRes.json();
+          if (initData.success) activeOrderId = initData.order.id;
+        }
+
+        const res = await fetch('/api/payment/confirm', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ orderId: activeOrderId })
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          const issuedKey = data.licenseKey;
+          if (modalQrBox) {
+            modalQrBox.innerHTML = `
+              <div style="background:#090e17; border:1px solid #10b981; border-radius:14px; padding:18px; text-align:center;">
+                <span style="display:inline-block; background:#10b981; color:#000; font-size:11px; font-weight:800; padding:2px 8px; border-radius:4px; margin-bottom:8px;">ชำระเงินสำเร็จ 100%</span>
+                <p style="margin:0 0 8px; font-size:13px; color:#9494a0;">License Key ของคุณคือ:</p>
+                <div style="background:#000; border:1px dashed #38bdf8; padding:10px; border-radius:8px; font-family:monospace; font-size:17px; font-weight:800; color:#38bdf8; letter-spacing:.05em; user-select:all;" id="issuedKeyText">${issuedKey}</div>
+                <button style="margin-top:12px; background:rgba(255,255,255,.1); border:0; color:#fff; padding:6px 14px; border-radius:8px; font-size:12px; font-weight:700; cursor:pointer;" onclick="navigator.clipboard.writeText('${issuedKey}'); alert('คัดลอก License Key สำเร็จ!');">คัดลอก License Key</button>
+              </div>
+              <p style="margin:12px 0 0; font-size:12px; color:#9494a0;">บันทึกเข้าระบบสมาชิกของ <strong>${email}</strong> เรียบร้อยแล้ว</p>
+            `;
+          }
+          confirmPayBtn.textContent = 'เข้าสู่ระบบสมาชิก (Member Portal)';
+          confirmPayBtn.disabled = false;
+          confirmPayBtn.onclick = () => {
+            window.location.href = 'member.html';
+          };
+        } else {
+          alert(data.error || 'เกิดข้อผิดพลาดในการยืนยันรายการ');
+          confirmPayBtn.disabled = false;
+          confirmPayBtn.textContent = 'แจ้งชำระเงิน / ยืนยันการสั่งซื้อ';
+        }
+      } catch (err) {
+        alert('เกิดข้อผิดพลาด: ' + err.message);
         confirmPayBtn.disabled = false;
         confirmPayBtn.textContent = 'แจ้งชำระเงิน / ยืนยันการสั่งซื้อ';
-      }, 1200);
+      }
     });
   }
 

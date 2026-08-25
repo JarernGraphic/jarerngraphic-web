@@ -1,68 +1,76 @@
 ﻿// api/license/activate.js
-// Vercel Serverless Function: Activate license for CEP Extension
+// Endpoint for Adobe CEP extension to activate a license on a specific machine
+const db = require('../../lib/db');
 const { hashMachineId, createActivationToken } = require('../../lib/licenseUtils');
 
-module.exports = async function handler(req, res) {
-  // Set CORS headers so CEP panel can call it
-  res.setHeader('Access-Control-Allow-Credentials', true);
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
-  res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
-
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
-  }
-
+module.exports = async (req, res) => {
   if (req.method !== 'POST') {
-    return res.status(405).json({ success: false, message: 'Method Not Allowed' });
+    return res.status(405).json({ success: false, error: 'Method not allowed' });
   }
 
   try {
-    const { licenseKey, machineId, productCode } = req.body || {};
+    const { licenseKey, machineId, productCode } = req.body;
 
     if (!licenseKey || !machineId) {
       return res.status(400).json({
         success: false,
-        message: 'กรุณาระบุ License Key และ Machine ID ให้ครบถ้วน'
+        error: 'Missing required parameters: licenseKey and machineId'
       });
     }
 
     const cleanKey = String(licenseKey).trim().toUpperCase();
-    const cleanMachineId = String(machineId).trim();
-    const cleanProduct = (productCode || 'NEST').toUpperCase();
+    const license = db.findLicenseByKey(cleanKey);
 
-    // Basic format validation: e.g. JG-XXXX-XXXX-XXXX-XXXX
-    if (!cleanKey.startsWith('JG-')) {
-      return res.status(400).json({
+    if (!license) {
+      return res.status(404).json({
         success: false,
-        message: 'รูปแบบ License Key ไม่ถูกต้อง (ต้องขึ้นต้นด้วย JG-)'
+        error: 'ไม่พบ License Key นี้ในระบบ กรุณาตรวจสอบความถูกต้อง'
       });
     }
 
-    // Hash the Hardware ID
-    const machineIdHash = hashMachineId(cleanMachineId);
+    if (license.status !== 'Active') {
+      return res.status(403).json({
+        success: false,
+        error: 'License Key นี้ถูกระงับการใช้งาน กรุณาติดต่อฝ่ายบริการลูกค้า'
+      });
+    }
 
-    // Create 14-day signed offline lease token
-    const token = createActivationToken(cleanKey, machineIdHash, cleanProduct, 14);
+    const hashedMid = hashMachineId(machineId);
+    const now = new Date().toISOString().replace('T', ' ').slice(0, 19);
+
+    // Case 1: First activation or Reset machine (UNLOCKED)
+    if (!license.hwidHash || license.hwid === 'UNLOCKED' || String(license.hwid).includes('UNLOCKED')) {
+      db.updateLicense(cleanKey, {
+        hwid: String(machineId).slice(0, 30),
+        hwidHash: hashedMid,
+        activatedAt: now,
+        lastPing: now
+      });
+    } else {
+      // Case 2: Already bound - check if this machine matches
+      if (license.hwidHash !== hashedMid) {
+        return res.status(403).json({
+          success: false,
+          error: 'License Key นี้ถูกใช้งานบนคอมพิวเตอร์เครื่องอื่นอยู่แล้ว หากต้องการย้ายเครื่อง กรุณาเข้าไปกดย้ายเครื่องในหน้าสมาชิก (Member Portal) หรือติดต่อแอดมิน'
+        });
+      }
+      // Update last ping
+      db.updateLicense(cleanKey, { lastPing: now });
+    }
+
+    // Create signed HMAC-SHA256 lease token (valid offline for 14 days)
+    const token = createActivationToken(cleanKey, hashedMid, productCode || license.productName, 14);
 
     return res.status(200).json({
       success: true,
-      message: 'เปิดใช้งานไลเซนส์สำเร็จ',
-      data: {
-        licenseKey: cleanKey,
-        productCode: cleanProduct,
-        activatedAt: new Date().toISOString(),
-        offlineGraceDays: 14,
-        token: token
-      }
+      message: 'เปิดใช้งาน License Key สำเร็จ',
+      token: token,
+      product: license.productName,
+      customerEmail: license.email,
+      expiresInDays: 14
     });
-
-  } catch (error) {
-    console.error('Activation Error:', error);
-    return res.status(500).json({
-      success: false,
-      message: 'เกิดข้อผิดพลาดในการตรวจสอบไลเซนส์',
-      error: error.message
-    });
+  } catch (err) {
+    console.error('License activation error:', err);
+    return res.status(500).json({ success: false, error: err.message });
   }
 };

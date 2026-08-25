@@ -1,4 +1,4 @@
-﻿// theme.js - Unified Dark/Light Mode Theme Switcher for JarernGraphic
+// theme.js - Unified Dark/Light Mode Theme Switcher for JarernGraphic
 (function() {
   const THEME_KEY = 'jg_theme';
   
@@ -9,6 +9,7 @@
   function applyTheme(theme) {
     document.documentElement.setAttribute('data-theme', theme);
     if (document.body) {
+      document.body.setAttribute('data-theme', theme);
       document.body.classList.remove('theme-dark', 'theme-light');
       document.body.classList.add('theme-' + theme);
     }

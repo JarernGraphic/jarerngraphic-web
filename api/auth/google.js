@@ -1,10 +1,7 @@
 ﻿// api/auth/google.js
-// Google OAuth & Google Identity Services (GSI) Authentication Handler
+// Real Google OAuth 2.0 & Google Identity Services (GSI) Authentication Handler
 const db = require('../../lib/db');
 
-/**
- * Decode JWT token payload without external heavy dependencies
- */
 function decodeJwtPayload(token) {
   try {
     const parts = token.split('.');
@@ -22,30 +19,48 @@ module.exports = async (req, res) => {
   }
 
   try {
-    const { credential, email, name, picture } = req.body;
+    const { accessToken, credential, email, name, picture } = req.body;
 
     let userEmail = '';
     let userName = '';
     let userAvatar = '';
 
-    // Case 1: Real Google Identity Services (GSI) credential token
-    if (credential) {
-      const payload = decodeJwtPayload(credential);
-      if (!payload || !payload.email) {
-        return res.status(400).json({ success: false, error: 'Google Credential token is invalid' });
+    // 1. Real Google Access Token from accounts.google.com
+    if (accessToken) {
+      try {
+        const googleRes = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+          headers: { Authorization: `Bearer ${accessToken}` }
+        });
+        const googleData = await googleRes.json();
+        if (googleData && googleData.email) {
+          userEmail = String(googleData.email).trim().toLowerCase();
+          userName = googleData.name || googleData.given_name || userEmail.split('@')[0];
+          userAvatar = googleData.picture || '';
+        }
+      } catch (err) {
+        console.error('Google userinfo fetch failed:', err);
       }
+    }
 
-      userEmail = String(payload.email).trim().toLowerCase();
-      userName = payload.name || payload.given_name || userEmail.split('@')[0];
-      userAvatar = payload.picture || '';
-    } 
-    // Case 2: Direct Google OAuth profile data
-    else if (email && email.includes('@')) {
+    // 2. Real Google Identity Services (GSI) ID Token
+    if (!userEmail && credential) {
+      const payload = decodeJwtPayload(credential);
+      if (payload && payload.email) {
+        userEmail = String(payload.email).trim().toLowerCase();
+        userName = payload.name || payload.given_name || userEmail.split('@')[0];
+        userAvatar = payload.picture || '';
+      }
+    }
+
+    // 3. Fallback direct profile data
+    if (!userEmail && email && email.includes('@')) {
       userEmail = String(email).trim().toLowerCase();
       userName = name || userEmail.split('@')[0];
       userAvatar = picture || '';
-    } else {
-      return res.status(400).json({ success: false, error: 'กรุณาระบุข้อมูลบัญชี Google ให้ถูกต้อง' });
+    }
+
+    if (!userEmail) {
+      return res.status(400).json({ success: false, error: 'ไม่สามารถยืนยันข้อมูลบัญชี Google ได้ กรุณาลองใหม่อีกครั้ง' });
     }
 
     // Retrieve all customer's software licenses and orders from database

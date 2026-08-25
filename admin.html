@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="th">
 <head>
 <meta charset="UTF-8">
@@ -250,6 +250,14 @@
         <input type="text" id="setSupportLine" class="admin-input" placeholder="@jarerngraphic">
       </div>
 
+      <div style="margin-bottom:16px;">
+        <label style="font-size:12px; color:#9494a0; font-weight:700; display:block; margin-bottom:6px;">Google Cloud OAuth 2.0 Client ID (สำหรับปุ่มเข้าสู่ระบบด้วย Google จริง)</label>
+        <input type="text" id="setGoogleClientId" class="admin-input" placeholder="เช่น 1091565241604-xxxxxx.apps.googleusercontent.com">
+        <span style="font-size:11px; color:#6b7280; display:block; margin-top:4px;">
+          รับได้ฟรีจาก Google Cloud Console > APIs & Services > Credentials > OAuth Client ID
+        </span>
+      </div>
+
       <div style="margin-bottom:24px;">
         <label style="font-size:12px; color:#9494a0; font-weight:700; display:block; margin-bottom:6px;">เปลี่ยนรหัสผ่าน Admin (เว้นว่างไว้ถ้าไม่ต้องการเปลี่ยน)</label>
         <input type="password" id="setAdminPass" class="admin-input" placeholder="รหัสผ่านใหม่ (อย่างน้อย 6 ตัวอักษร)">
@@ -442,6 +450,7 @@ function renderAllAdminViews() {
     document.getElementById('setPromptpayId').value = adminState.settings.promptpayId || '';
     document.getElementById('setPromptpayName').value = adminState.settings.promptpayName || '';
     document.getElementById('setSupportLine').value = adminState.settings.supportLine || '';
+    document.getElementById('setGoogleClientId').value = adminState.settings.googleClientId || '';
   }
 }
 
@@ -563,13 +572,14 @@ async function handleSaveSettings() {
   const promptpayId = document.getElementById('setPromptpayId').value.trim();
   const promptpayName = document.getElementById('setPromptpayName').value.trim();
   const supportLine = document.getElementById('setSupportLine').value.trim();
+  const googleClientId = document.getElementById('setGoogleClientId').value.trim();
   const adminPass = document.getElementById('setAdminPass').value.trim();
 
   try {
     const res = await fetch('/api/admin/settings', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ promptpayId, promptpayName, supportLine, adminPass })
+      body: JSON.stringify({ promptpayId, promptpayName, supportLine, googleClientId, adminPass })
     });
     const data = await res.json();
     if (data.success) {

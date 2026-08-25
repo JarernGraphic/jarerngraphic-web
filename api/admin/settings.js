@@ -1,14 +1,15 @@
-﻿// api/admin/settings.js
+// api/admin/settings.js
 const db = require('../../lib/db');
 
 module.exports = async (req, res) => {
   if (req.method === 'POST') {
     try {
-      const { promptpayId, promptpayName, supportLine, adminPass } = req.body;
+      const { promptpayId, promptpayName, supportLine, adminPass, googleClientId } = req.body;
       const updates = {};
       if (promptpayId) updates.promptpayId = String(promptpayId).trim();
       if (promptpayName) updates.promptpayName = String(promptpayName).trim();
       if (supportLine) updates.supportLine = String(supportLine).trim();
+      if (googleClientId !== undefined) updates.googleClientId = String(googleClientId).trim();
       if (adminPass && adminPass.length >= 6) updates.adminPass = String(adminPass).trim();
 
       const newSettings = db.updateSettings(updates);
@@ -33,6 +34,7 @@ module.exports = async (req, res) => {
       promptpayName: settings.promptpayName,
       adminEmail: settings.adminEmail,
       supportLine: settings.supportLine,
+      googleClientId: settings.googleClientId || '',
       version: settings.version
     }
   });

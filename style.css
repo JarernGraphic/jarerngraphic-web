@@ -902,14 +902,15 @@ main{ overflow:hidden; }
 
 /* Right Buy Column */
 .pdp-buy-col{
-  background:#ffffff;
+  background:var(--bg-card);
   border-radius:24px;
-  border:1px solid rgba(0,0,0,.06);
-  box-shadow:0 8px 30px rgba(0,0,0,.03);
+  border:1px solid var(--border-color);
+  box-shadow:0 8px 30px rgba(0,0,0,.15);
   padding:36px 32px;
   display:flex;
   flex-direction:column;
   gap:22px;
+  color:var(--text-main);
 }
 .pdp-status-badge{
   display:inline-flex;
@@ -997,13 +998,13 @@ main{ overflow:hidden; }
 }
 .pdp-old-price{
   font-size:16px;
-  color:#9494a0;
+  color:var(--text-muted);
   text-decoration:line-through;
 }
 .pdp-save-badge{
   padding:4px 10px;
-  background:#fee2e2;
-  color:#b91c1c;
+  background:rgba(239,68,68,.15);
+  color:#fca5a5;
   font-size:12px;
   font-weight:700;
   border-radius:6px;
@@ -1040,9 +1041,9 @@ main{ overflow:hidden; }
   display:flex;
   justify-content:space-between;
   padding-top:16px;
-  border-top:1px solid rgba(0,0,0,.06);
+  border-top:1px solid var(--border-color);
   font-size:12px;
-  color:var(--muted);
+  color:var(--text-muted);
 }
 .pdp-guarantee-item{
   display:flex;
@@ -1052,20 +1053,21 @@ main{ overflow:hidden; }
 
 /* Details Section (Tabs / In-Depth) */
 .pdp-details-section{
-  background:#ffffff;
+  background:var(--bg-card);
   border-radius:24px;
-  border:1px solid rgba(0,0,0,.06);
-  box-shadow:0 8px 30px rgba(0,0,0,.03);
+  border:1px solid var(--border-color);
+  box-shadow:0 8px 30px rgba(0,0,0,.15);
   padding:40px;
   margin-bottom:60px;
+  color:var(--text-main);
 }
 .pdp-section-title{
   font-size:22px;
   font-weight:800;
-  color:var(--ink);
+  color:var(--text-main);
   margin:0 0 24px;
   padding-bottom:14px;
-  border-bottom:2px solid #f1f3f9;
+  border-bottom:2px solid var(--border-color);
 }
 .pdp-features-grid{
   display:grid;
@@ -1074,8 +1076,8 @@ main{ overflow:hidden; }
   margin-bottom:40px;
 }
 .pdp-feat-card{
-  background:#fbfbfd;
-  border:1px solid rgba(0,0,0,.05);
+  background:var(--bg-input);
+  border:1px solid var(--border-color);
   border-radius:16px;
   padding:24px;
 }
@@ -1083,13 +1085,13 @@ main{ overflow:hidden; }
   margin:0 0 8px;
   font-size:16px;
   font-weight:700;
-  color:var(--ink);
+  color:var(--text-main);
 }
 .pdp-feat-card p{
   margin:0;
   font-size:13.5px;
   line-height:1.6;
-  color:var(--muted);
+  color:var(--text-muted);
 }
 
 /* Specs Table */
@@ -1099,19 +1101,19 @@ main{ overflow:hidden; }
   font-size:14px;
 }
 .pdp-specs-table tr{
-  border-bottom:1px solid #f1f3f9;
+  border-bottom:1px solid var(--border-color);
 }
 .pdp-specs-table td{
   padding:14px 16px;
 }
 .pdp-specs-table td:first-child{
   font-weight:700;
-  color:var(--ink);
+  color:var(--text-main);
   width:32%;
-  background:#fafafc;
+  background:var(--bg-input);
 }
 .pdp-specs-table td:last-child{
-  color:#3a3a40;
+  color:var(--text-muted);
 }
 
 /* Modal Popup */
@@ -1840,6 +1842,54 @@ body.jg-editor-preview [contenteditable="true"] {
   transform: scale(1.05);
 }
 
+/* =================================================@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root{
+  --bg-main: #0b0c10;
+  --bg-surface: #14151b;
+  --bg-card: #14151b;
+  --bg-input: #0e0f13;
+  --hero-bg: #0b0c10;
+  --hero-glow: none;
+  --text-main: #ffffff;
+  --text-muted: #9494a0;
+  --ink: #ffffff;
+  --muted: #9494a0;
+  --border-color: rgba(255, 255, 255, 0.08);
+  --border-subtle: rgba(255, 255, 255, 0.05);
+  --nav-bg: rgba(18, 19, 24, 0.95);
+  --brand-ink: #ffffff;
+  --pill-bg: rgba(255, 255, 255, 0.06);
+  --tag-bg: rgba(255, 255, 255, 0.08);
+  --tag-text: #38bdf8;
+  --blue: #0071e3;
+  --red: #e2233f;
+  --red-deep: #8b1023;
+  --dark: #050505;
+  --radius: 18px;
+  --container: 1612px;
+}
+
+[data-theme="light"]{
+  --bg-main: #f8fafc;
+  --bg-surface: #ffffff;
+  --bg-card: #ffffff;
+  --bg-input: #ffffff;
+  --hero-bg: #f8fafc;
+  --hero-glow: none;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --ink: #0f172a;
+  --muted: #64748b;
+  --border-color: #e2e8f0;
+  --border-subtle: #f1f5f9;
+  --nav-bg: rgba(255, 255, 255, 0.95);
+  --brand-ink: #0f172a;
+  --pill-bg: rgba(255, 255, 255, 0.85);
+  --tag-bg: #f1f5f9;
+  --tag-text: #0284c7;
+}
+
 /* ========================================================
    1. DARK THEME (DEFAULT MODE)
    ======================================================== */
@@ -1848,8 +1898,8 @@ body.jg-editor-preview [contenteditable="true"] {
   --bg-surface: #14151b;
   --bg-card: #14151b;
   --bg-input: #0e0f13;
-  --text-main: #ffffff;
-  --text-muted: #9494a0;
+  --text-main: var(--ink);
+  --text-muted: var(--muted);
   --border-color: rgba(255, 255, 255, 0.08);
   --border-subtle: rgba(255, 255, 255, 0.05);
   --nav-bg: rgba(18, 19, 24, 0.92);

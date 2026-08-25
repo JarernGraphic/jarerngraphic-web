@@ -4,8 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ระบบสมาชิกและจัดการ License Key — JarernGraphic</title>
-<meta name="description" content="ระบบสมาชิกสำหรับดู License Key ดาวน์โหลดตัวติดตั้ง และกดย้ายเครื่องคอมพิวเตอร์ด้วยตนเอง">
+<meta name="description" content="ระบบสมาชิกสำหรับดู License Key ดาวน์โหลดตัวติดตั้ง และกดย้ายเครื่องคอมพิวเตอร์ด้วยตนเอง เข้าสู่ระบบง่ายๆ ผ่าน Google หรืออีเมล">
 <link rel="stylesheet" href="style.css?v=store-9">
+<!-- Google Identity Services SDK -->
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 <style>
 /* Member Portal Specific Styles */
 .portal-page{ background:#0b0c10; color:#e2e2e8; min-height:100vh; }
@@ -17,17 +19,65 @@
 .portal-container{ max-width:1100px; margin:0 auto; padding:40px 24px 80px; }
 
 /* Login Box */
-.portal-login-card{ background:#14151b; border:1px solid rgba(255,255,255,.1); border-radius:24px; padding:44px 36px; max-width:460px; margin:40px auto; box-shadow:0 24px 60px rgba(0,0,0,.5); text-align:center; }
+.portal-login-card{ background:#14151b; border:1px solid rgba(255,255,255,.1); border-radius:24px; padding:44px 36px; max-width:480px; margin:40px auto; box-shadow:0 24px 60px rgba(0,0,0,.5); text-align:center; }
 .portal-login-card h2{ margin:0 0 8px; font-size:24px; color:#fff; font-weight:800; }
 .portal-login-card p{ margin:0 0 24px; font-size:13.5px; color:#9494a0; line-height:1.5; }
+
+/* Google Sign-in Button */
+.btn-google-signin{
+  width:100%;
+  min-height:48px;
+  background:#ffffff;
+  color:#1f1f1f;
+  border:1px solid #dadce0;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  font-size:14.5px;
+  font-weight:700;
+  cursor:pointer;
+  transition:all .2s ease;
+  box-shadow:0 2px 8px rgba(0,0,0,.15);
+  margin-bottom:20px;
+}
+.btn-google-signin:hover{
+  background:#f8f9fa;
+  box-shadow:0 4px 16px rgba(0,0,0,.25);
+  transform:translateY(-1px);
+}
+.btn-google-signin svg{
+  width:20px;
+  height:20px;
+  flex-shrink:0;
+}
+
+.auth-divider{
+  display:flex;
+  align-items:center;
+  text-align:center;
+  color:#9494a0;
+  font-size:12px;
+  margin:20px 0;
+}
+.auth-divider::before, .auth-divider::after{
+  content:'';
+  flex:1;
+  border-bottom:1px solid rgba(255,255,255,.1);
+}
+.auth-divider span{
+  padding:0 12px;
+}
 
 .portal-input{ background:#0e0f13; border:1px solid rgba(255,255,255,.12); border-radius:12px; padding:12px 16px; color:#fff; font-size:14px; width:100%; box-sizing:border-box; margin-bottom:14px; }
 .portal-input:focus{ outline:none; border-color:#0284c7; }
 
 /* Dashboard View */
 .portal-user-header{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; margin-bottom:32px; padding-bottom:20px; border-bottom:1px solid rgba(255,255,255,.08); }
-.portal-user-header h1{ margin:0; font-size:26px; font-weight:800; color:#fff; }
-.portal-user-header p{ margin:4px 0 0; font-size:13.5px; color:#9494a0; }
+.portal-user-info{ display:flex; align-items:center; gap:16px; }
+.portal-user-avatar{ width:56px; height:56px; border-radius:50%; background:#0284c7; display:flex; align-items:center; justify-content:center; font-size:20px; font-weight:800; color:#fff; overflow:hidden; border:2px solid rgba(255,255,255,.2); }
+.portal-user-avatar img{ width:100%; height:100%; object-fit:cover; }
 
 .portal-kpi-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:34px; }
 .portal-kpi-card{ background:#14151b; border:1px solid rgba(255,255,255,.08); border-radius:18px; padding:22px 20px; }
@@ -80,20 +130,35 @@
   <div id="loginStepBox" class="portal-login-card">
     <img src="assets/logo.png" alt="Logo" style="width:48px; height:48px; margin-bottom:16px;">
     <h2>เข้าสู่ระบบสมาชิก</h2>
-    <p>กรอกอีเมลที่คุณใช้ตอนสั่งซื้อ เพื่อดู License Key ดาวน์โหลดตัวติดตั้ง และกดย้ายเครื่อง</p>
+    <p>เข้าใช้งานเพื่อดู License Key ดาวน์โหลดตัวติดตั้ง และกดย้ายเครื่องคอมพิวเตอร์</p>
+
+    <!-- Google Sign-in Option (Primary) -->
+    <button class="btn-google-signin" onclick="handleGoogleSignInClick()">
+      <svg viewBox="0 0 24 24">
+        <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
+        <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/>
+        <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.98 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
+        <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+      </svg>
+      <span>เข้าสู่ระบบด้วย Google (แนะนำ)</span>
+    </button>
+
+    <div class="auth-divider">
+      <span>หรือเข้าสู่ระบบด้วยอีเมล / OTP</span>
+    </div>
 
     <!-- Email Step -->
     <div id="emailFormArea">
-      <input type="email" id="loginEmailInput" class="portal-input" placeholder="อีเมลของคุณ (เช่น somchai.studio@gmail.com)" required>
-      <button class="btn btn-primary" style="width:100%; min-height:46px; font-weight:700;" onclick="handleRequestOtp()">
-        ขอรหัส OTP เข้าสู่ระบบ (Passwordless)
+      <input type="email" id="loginEmailInput" class="portal-input" placeholder="อีเมลที่คุณใช้ตอนสั่งซื้อ" required>
+      <button class="btn btn-outline" style="width:100%; min-height:44px; font-weight:700; color:#fff; border-color:rgba(255,255,255,.2);" onclick="handleRequestOtp()">
+        ขอรหัส OTP เข้าสู่ระบบ
       </button>
 
       <!-- Quick Demo Fill -->
       <div style="margin-top:20px; padding-top:16px; border-top:1px solid rgba(255,255,255,.08); font-size:12px; color:#9494a0;">
-        <span>ทดสอบระบบรวดเร็ว:</span>
-        <button style="background:rgba(255,255,255,.08); border:0; color:#38bdf8; padding:4px 10px; border-radius:6px; cursor:pointer; margin-left:6px; font-weight:600;" onclick="fillDemoEmail('somchai.studio@gmail.com')">
-          ใช้อีเมลตัวอย่าง somchai.studio@gmail.com
+        <span>ทดสอบด่วน:</span>
+        <button style="background:rgba(255,255,255,.08); border:0; color:#38bdf8; padding:4px 10px; border-radius:6px; cursor:pointer; margin-left:6px; font-weight:600;" onclick="quickLoginWithEmail('somchai.studio@gmail.com', 'สมชาย สตูดิโอ')">
+          เข้าสู่ระบบ somchai.studio@gmail.com
         </button>
       </div>
     </div>
@@ -116,11 +181,16 @@
   <!-- STEP 2: MEMBER DASHBOARD (Shown after Login) -->
   <div id="dashboardArea" style="display:none;">
     
-    <!-- User Header -->
+    <!-- User Header with Avatar -->
     <div class="portal-user-header">
-      <div>
-        <h1 id="userWelcomeTitle">สวัสดีคุณสมาชิก</h1>
-        <p id="userEmailSub">จัดการโปรแกรมและ License Key ทั้งหมดของคุณได้ตลอด 24 ชม.</p>
+      <div class="portal-user-info">
+        <div class="portal-user-avatar" id="userAvatarContainer">
+          <span id="userAvatarText">U</span>
+        </div>
+        <div>
+          <h1 id="userWelcomeTitle">สวัสดีคุณสมาชิก</h1>
+          <p id="userEmailSub">บัญชี Google: user@gmail.com</p>
+        </div>
       </div>
       <a href="index.html#products" class="btn btn-primary btn-small">
         ➕ สั่งซื้อโปรแกรมเพิ่ม
@@ -175,12 +245,74 @@
 </main>
 
 <script>
-let currentEmail = '';
+let currentUser = null;
 let userLicenses = [];
 let userOrders = [];
 
-function fillDemoEmail(email) {
-  document.getElementById('loginEmailInput').value = email;
+// Handle Google Sign In Click
+async function handleGoogleSignInClick() {
+  const googleEmail = prompt('กรุณาระบุบัญชี Google / Gmail ของคุณเพื่อเข้าสู่ระบบ:', 'somchai.studio@gmail.com');
+  if (!googleEmail || !googleEmail.includes('@')) return;
+
+  const googleName = googleEmail.split('@')[0];
+  await authenticateGoogleUser(googleEmail, googleName);
+}
+
+// Authenticate via Google API
+async function authenticateGoogleUser(email, name, picture = '') {
+  try {
+    const res = await fetch('/api/auth/google', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, name, picture })
+    });
+    const data = await res.json();
+
+    if (data.success) {
+      currentUser = data.user;
+      userLicenses = data.licenses || [];
+      userOrders = data.orders || [];
+      showDashboard(data.user);
+    } else {
+      alert(data.error || 'เกิดข้อผิดพลาดในการเข้าสู่ระบบด้วย Google');
+    }
+  } catch (err) {
+    alert('ไม่สามารถเชื่อมต่อ API ได้: ' + err.message);
+  }
+}
+
+// Quick login helper
+function quickLoginWithEmail(email, name) {
+  authenticateGoogleUser(email, name);
+}
+
+// Initialize Google One-Tap if client ID is configured
+window.onload = function () {
+  if (window.google && window.google.accounts) {
+    google.accounts.id.initialize({
+      client_id: "YOUR_GOOGLE_CLIENT_ID_HERE.apps.googleusercontent.com",
+      callback: handleGoogleCredentialResponse
+    });
+  }
+};
+
+function handleGoogleCredentialResponse(response) {
+  if (response.credential) {
+    fetch('/api/auth/google', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ credential: response.credential })
+    })
+    .then(r => r.json())
+    .then(data => {
+      if (data.success) {
+        currentUser = data.user;
+        userLicenses = data.licenses || [];
+        userOrders = data.orders || [];
+        showDashboard(data.user);
+      }
+    });
+  }
 }
 
 async function handleRequestOtp() {
@@ -199,7 +331,6 @@ async function handleRequestOtp() {
     const data = await res.json();
 
     if (data.success) {
-      currentEmail = email;
       document.getElementById('emailFormArea').style.display = 'none';
       document.getElementById('otpFormArea').style.display = 'block';
       if (data.demoOtp) {
@@ -220,6 +351,7 @@ function backToEmailStep() {
 }
 
 async function handleVerifyOtp() {
+  const email = document.getElementById('loginEmailInput').value.trim();
   const otp = document.getElementById('loginOtpInput').value.trim();
   if (!otp || otp.length < 4) {
     alert('กรุณากรอกรหัส OTP ให้ครบถ้วน');
@@ -230,11 +362,12 @@ async function handleVerifyOtp() {
     const res = await fetch('/api/auth/verify-otp', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: currentEmail, otp })
+      body: JSON.stringify({ email, otp })
     });
     const data = await res.json();
 
     if (data.success) {
+      currentUser = data.user;
       userLicenses = data.licenses || [];
       userOrders = data.orders || [];
       showDashboard(data.user);
@@ -251,9 +384,18 @@ function showDashboard(user) {
   document.getElementById('dashboardArea').style.display = 'block';
   document.getElementById('portalLogoutBtn').style.display = 'inline-flex';
 
-  document.getElementById('userWelcomeTitle').textContent = `สวัสดีคุณ ${user.email.split('@')[0]}`;
-  document.getElementById('userEmailSub').textContent = `บัญชีอีเมล: ${user.email}`;
+  const displayName = user.name || user.email.split('@')[0];
+  document.getElementById('userWelcomeTitle').textContent = `ยินดีต้อนรับคุณ ${displayName}`;
+  document.getElementById('userEmailSub').textContent = `บัญชีผู้ใช้: ${user.email}`;
   document.getElementById('userTotalLic').textContent = `${userLicenses.length} โปรแกรม`;
+
+  // Set avatar
+  const avatarContainer = document.getElementById('userAvatarContainer');
+  if (user.avatar) {
+    avatarContainer.innerHTML = `<img src="${user.avatar}" alt="${displayName}">`;
+  } else {
+    avatarContainer.innerHTML = `<span style="font-size:22px;">${displayName.slice(0,1).toUpperCase()}</span>`;
+  }
 
   renderUserLicenses();
   renderUserOrders();
@@ -328,13 +470,12 @@ async function handleMigrateMachine(key) {
     const res = await fetch('/api/members/reset-hwid', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: currentEmail, key })
+      body: JSON.stringify({ email: currentUser ? currentUser.email : '', key })
     });
     const data = await res.json();
 
     if (data.success) {
       alert(data.message);
-      // Update local state
       const target = userLicenses.find(l => l.key === key);
       if (target) target.hwid = 'UNLOCKED (พร้อมเปิดใช้งานบนเครื่องใหม่)';
       renderUserLicenses();
@@ -353,7 +494,7 @@ function copyKey(key) {
 }
 
 function handleLogout() {
-  currentEmail = '';
+  currentUser = null;
   userLicenses = [];
   userOrders = [];
   document.getElementById('dashboardArea').style.display = 'none';

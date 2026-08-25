@@ -133,10 +133,22 @@
 
   <!-- Navigation Tabs -->
   <div class="admin-tabs">
-    <button class="admin-tab-btn active" onclick="switchAdminTab('products')">📦 จัดการโปรแกรมเสริม</button>
-    <button class="admin-tab-btn" onclick="switchAdminTab('licenses')">🔑 จัดการ License Keys</button>
-    <button class="admin-tab-btn" onclick="switchAdminTab('orders')">💳 ประวัติการสั่งซื้อ (Orders)</button>
-    <button class="admin-tab-btn" onclick="switchAdminTab('settings')">⚙️ ตั้งค่าร้านค้า & พร้อมเพย์</button>
+    <button class="admin-tab-btn active" onclick="switchAdminTab('products')" style="display:inline-flex; align-items:center; gap:8px;">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+      <span>จัดการโปรแกรมเสริม</span>
+    </button>
+    <button class="admin-tab-btn" onclick="switchAdminTab('licenses')" style="display:inline-flex; align-items:center; gap:8px;">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21 2-2 2m-6 6a5 5 0 1 1-7-7 5 5 0 0 1 7 7Zm0 0 5 5 2-2 2 2v3h-3l-2-2-4-4Z"></path></svg>
+      <span>จัดการ License Keys</span>
+    </button>
+    <button class="admin-tab-btn" onclick="switchAdminTab('orders')" style="display:inline-flex; align-items:center; gap:8px;">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="5" rx="2"></rect><line x1="2" x2="22" y1="10" y2="10"></line></svg>
+      <span>ประวัติการสั่งซื้อ (Orders)</span>
+    </button>
+    <button class="admin-tab-btn" onclick="switchAdminTab('settings')" style="display:inline-flex; align-items:center; gap:8px;">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+      <span>ตั้งค่าร้านค้า & พร้อมเพย์</span>
+    </button>
   </div>
 
   <!-- TAB 1: PRODUCT MANAGER -->
@@ -146,7 +158,10 @@
         <h3>รายการโปรแกรมเสริมในสโตร์</h3>
         <span style="font-size:13px; color:#9494a0;">เพิ่ม แก้ไข หรือปรับราคาขายของโปรแกรม</span>
       </div>
-      <button class="btn btn-primary btn-small" onclick="openAddProductModal()">➕ เพิ่มโปรแกรมใหม่</button>
+      <button class="btn btn-primary btn-small" onclick="openAddProductModal()" style="display:inline-flex; align-items:center; gap:6px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+        <span>เพิ่มโปรแกรมใหม่</span>
+      </button>
     </div>
 
     <table class="admin-table">
@@ -172,7 +187,10 @@
         <h3>ทะเบียน License Key และสถานะเครื่อง (HWID)</h3>
         <span style="font-size:13px; color:#9494a0;">ตรวจสอบสิทธิ์ รีเซ็ตเครื่อง หรือออกคีย์ใหม่ให้ลูกค้า</span>
       </div>
-      <button class="btn btn-primary btn-small" onclick="openGenKeyModal()">⚡ ออก License Key ใหม่</button>
+      <button class="btn btn-primary btn-small" onclick="openGenKeyModal()" style="display:inline-flex; align-items:center; gap:6px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        <span>ออก License Key ใหม่</span>
+      </button>
     </div>
 
     <div style="margin-bottom:18px;">

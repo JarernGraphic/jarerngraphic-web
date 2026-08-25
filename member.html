@@ -3,14 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ระบบสมาชิกและจัดการ License Key — JarernGraphic</title>
-<meta name="description" content="ระบบสมาชิกสำหรับดู License Key ดาวน์โหลดตัวติดตั้ง และกดย้ายเครื่องคอมพิวเตอร์ด้วยตนเอง เข้าสู่ระบบง่ายๆ ผ่าน Google หรืออีเมล">
-<link rel="stylesheet" href="style.css?v=store-9">
-<!-- Google Identity Services SDK -->
-<script src="https://accounts.google.com/gsi/client" async defer></script>
+<title>เข้าสู่ระบบสมาชิก — JarernGraphic</title>
+<meta name="description" content="เข้าสู่ระบบสมาชิกสำหรับดู License Key ดาวน์โหลดตัวติดตั้ง และกดย้ายเครื่องคอมพิวเตอร์">
+<link rel="stylesheet" href="style.css?v=store-10">
 <style>
-/* Member Portal Specific Styles */
-.portal-page{ background:#0b0c10; color:#e2e2e8; min-height:100vh; font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+/* Member Portal & iHaveCPU Authentic Login Modal Styles */
+.portal-page{ background:#0b0c10; color:#e2e2e8; min-height:100vh; font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
 .portal-nav{ background:#121318; border-bottom:1px solid rgba(255,255,255,.08); padding:0 24px; }
 .portal-nav-inner{ max-width:1200px; height:64px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; }
 .portal-brand{ display:flex; align-items:center; gap:10px; font-weight:700; color:#fff; font-size:16px; text-decoration:none; }
@@ -18,223 +16,388 @@
 
 .portal-container{ max-width:1100px; margin:0 auto; padding:40px 24px 80px; }
 
-/* Login Box */
-.portal-login-card{ background:#14151b; border:1px solid rgba(255,255,255,.1); border-radius:24px; padding:44px 36px; max-width:480px; margin:40px auto; box-shadow:0 24px 60px rgba(0,0,0,.5); text-align:center; }
-.portal-login-card h2{ margin:0 0 8px; font-size:24px; color:#fff; font-weight:800; }
-.portal-login-card p{ margin:0 0 24px; font-size:13.5px; color:#9494a0; line-height:1.5; }
-
-/* Official Google Sign-In Button */
-.btn-google-signin{
-  width:100%;
-  min-height:50px;
+/* ========================================================
+   iHaveCPU-Style Authentic White Login Modal Card
+   ======================================================== */
+.ihave-login-card{
   background:#ffffff;
-  color:#3c4043;
-  border:1px solid #dadce0;
-  border-radius:24px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:12px;
-  font-size:15px;
-  font-weight:600;
-  cursor:pointer;
-  transition:all .2s ease;
-  box-shadow:0 2px 6px rgba(0,0,0,.15);
-  margin-bottom:18px;
-  font-family:'Google Sans', Roboto, sans-serif;
-}
-.btn-google-signin:hover{
-  background:#f8fafd;
-  box-shadow:0 4px 14px rgba(66,133,244,.25);
-  border-color:#d2e3fc;
-  transform:translateY(-1px);
-}
-.btn-google-signin svg{
-  width:20px;
-  height:20px;
-  flex-shrink:0;
-}
-
-.auth-divider{
-  display:flex;
-  align-items:center;
-  text-align:center;
-  color:#9494a0;
-  font-size:12px;
-  margin:22px 0;
-}
-.auth-divider::before, .auth-divider::after{
-  content:'';
-  flex:1;
-  border-bottom:1px solid rgba(255,255,255,.1);
-}
-.auth-divider span{
-  padding:0 12px;
-}
-
-.portal-input{ background:#0e0f13; border:1px solid rgba(255,255,255,.12); border-radius:12px; padding:12px 16px; color:#fff; font-size:14px; width:100%; box-sizing:border-box; margin-bottom:14px; }
-.portal-input:focus{ outline:none; border-color:#0284c7; }
-
-/* Google OAuth Authentic Modal */
-.google-modal-backdrop{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.7);
-  backdrop-filter:blur(6px);
-  z-index:99999;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-}
-.google-modal-backdrop.active{
-  display:flex;
-}
-.google-auth-box{
-  background:#ffffff;
-  color:#202124;
-  border-radius:28px;
+  color:#1f2937;
+  border-radius:18px;
   max-width:440px;
   width:100%;
-  padding:36px 32px 28px;
-  box-shadow:0 24px 64px rgba(0,0,0,.35);
+  margin:40px auto;
+  box-shadow:0 25px 70px rgba(0,0,0,.6);
   position:relative;
-  text-align:left;
-  animation:googlePop .25s cubic-bezier(.16,1,.3,1) both;
+  overflow:hidden;
+  animation:ihavePop .3s cubic-bezier(.16,1,.3,1) both;
 }
-@keyframes googlePop{
-  0%{ transform:scale(.94); opacity:0; }
+@keyframes ihavePop{
+  0%{ transform:scale(.95); opacity:0; }
   100%{ transform:scale(1); opacity:1; }
 }
 
-.google-auth-header{
-  text-align:center;
-  margin-bottom:24px;
-}
-.google-logo-svg{
-  width:28px;
-  height:28px;
-  margin-bottom:12px;
-}
-.google-auth-title{
-  font-size:20px;
-  font-weight:600;
-  color:#202124;
-  margin:0 0 6px;
-  font-family:'Google Sans', Roboto, sans-serif;
-}
-.google-auth-sub{
-  font-size:13.5px;
-  color:#5f6368;
-  margin:0;
+.ihave-card-body{
+  padding:36px 32px 28px;
 }
 
-.google-account-list{
-  display:flex;
-  flex-direction:column;
-  border:1px solid #e0e0e0;
-  border-radius:16px;
-  overflow:hidden;
-  margin-bottom:20px;
-}
-.google-account-item{
-  display:flex;
-  align-items:center;
-  gap:14px;
-  padding:14px 18px;
-  cursor:pointer;
-  transition:background .15s ease;
-  border-bottom:1px solid #f1f3f4;
-}
-.google-account-item:last-child{
-  border-bottom:0;
-}
-.google-account-item:hover{
-  background:#f8fafd;
-}
-.google-acc-avatar{
-  width:40px;
-  height:40px;
-  border-radius:50%;
-  background:#1a73e8;
-  color:#fff;
-  font-weight:700;
-  font-size:16px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex-shrink:0;
-}
-.google-acc-info{
-  display:flex;
-  flex-direction:column;
-  gap:2px;
-}
-.google-acc-name{
-  font-size:14px;
-  font-weight:600;
-  color:#202124;
-}
-.google-acc-email{
-  font-size:12.5px;
-  color:#5f6368;
-}
-
-.google-custom-input-box{
-  display:none;
-  padding:14px 18px;
-  background:#fafafa;
-  border-top:1px solid #e0e0e0;
-}
-.google-custom-input-box input{
-  width:100%;
-  padding:10px 12px;
-  border:1px solid #dadce0;
-  border-radius:8px;
-  font-size:13.5px;
-  box-sizing:border-box;
-  margin-bottom:10px;
-}
-.google-custom-input-box input:focus{
-  outline:none;
-  border-color:#1a73e8;
-  box-shadow:0 0 0 2px rgba(26,115,232,.2);
-}
-
-.google-auth-footer{
-  font-size:12px;
-  color:#5f6368;
-  line-height:1.45;
-  text-align:center;
-}
-.google-auth-footer a{
-  color:#1a73e8;
-  text-decoration:none;
-}
-.google-modal-close{
+.ihave-close-btn{
   position:absolute;
   top:16px;
   right:16px;
   background:transparent;
   border:0;
   font-size:22px;
-  color:#5f6368;
+  color:#9ca3af;
   cursor:pointer;
-  padding:4px 8px;
+  line-height:1;
+  padding:4px;
+  transition:color .2s ease;
+}
+.ihave-close-btn:hover{
+  color:#1f2937;
 }
 
-/* Dashboard View */
+.ihave-title{
+  font-size:24px;
+  font-weight:800;
+  color:#0f172a;
+  text-align:center;
+  margin:0 0 24px;
+}
+
+/* Form Inputs with Prefix & Suffix Icons */
+.ihave-form-group{
+  position:relative;
+  margin-bottom:16px;
+}
+.ihave-input-icon{
+  position:absolute;
+  left:14px;
+  top:50%;
+  transform:translateY(-50%);
+  color:#6b7280;
+  display:flex;
+  align-items:center;
+  pointer-events:none;
+}
+.ihave-input{
+  width:100%;
+  height:48px;
+  background:#ffffff;
+  border:1px solid #e5e7eb;
+  border-radius:10px;
+  padding:0 42px 0 42px;
+  font-size:14.5px;
+  color:#1f2937;
+  box-sizing:border-box;
+  transition:border-color .2s ease, box-shadow .2s ease;
+}
+.ihave-input:focus{
+  outline:none;
+  border-color:#d6001c;
+  box-shadow:0 0 0 3px rgba(214,0,28,.1);
+}
+.ihave-eye-btn{
+  position:absolute;
+  right:14px;
+  top:50%;
+  transform:translateY(-50%);
+  background:transparent;
+  border:0;
+  color:#9ca3af;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  padding:4px;
+}
+.ihave-eye-btn:hover{
+  color:#4b5563;
+}
+
+.ihave-remember-row{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:13px;
+  color:#4b5563;
+  margin-bottom:20px;
+}
+.ihave-remember-row input[type="checkbox"]{
+  width:16px;
+  height:16px;
+  accent-color:#d6001c;
+  cursor:pointer;
+}
+
+/* Big Red Submit Button */
+.ihave-btn-submit{
+  width:100%;
+  height:48px;
+  background:#d6001c;
+  color:#ffffff;
+  border:0;
+  border-radius:10px;
+  font-size:16px;
+  font-weight:800;
+  cursor:pointer;
+  transition:background .2s ease, transform .1s ease, box-shadow .2s ease;
+  box-shadow:0 4px 14px rgba(214,0,28,.35);
+}
+.ihave-btn-submit:hover{
+  background:#b90018;
+  transform:translateY(-1px);
+  box-shadow:0 6px 18px rgba(214,0,28,.45);
+}
+
+/* Divider */
+.ihave-divider{
+  display:flex;
+  align-items:center;
+  text-align:center;
+  color:#9ca3af;
+  font-size:12.5px;
+  margin:20px 0;
+}
+.ihave-divider::before, .ihave-divider::after{
+  content:'';
+  flex:1;
+  border-bottom:1px solid #f1f3f5;
+}
+.ihave-divider span{
+  padding:0 12px;
+}
+
+/* Social Buttons */
+.ihave-btn-social{
+  width:100%;
+  height:46px;
+  border:0;
+  border-radius:10px;
+  font-size:14px;
+  font-weight:700;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  cursor:pointer;
+  transition:all .2s ease;
+  margin-bottom:12px;
+}
+.btn-fb{
+  background:#3b5998;
+  color:#ffffff;
+}
+.btn-fb:hover{
+  background:#2d4373;
+}
+.btn-google{
+  background:#3b82f6;
+  color:#ffffff;
+}
+.btn-google:hover{
+  background:#2563eb;
+}
+.social-icon-box{
+  width:24px;
+  height:24px;
+  border-radius:50%;
+  background:#ffffff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+}
+
+.ihave-switch-row{
+  text-align:center;
+  font-size:13.5px;
+  color:#4b5563;
+  margin-top:16px;
+}
+.ihave-switch-row a{
+  color:#0f172a;
+  font-weight:800;
+  text-decoration:underline;
+  cursor:pointer;
+}
+
+.ihave-card-footer{
+  background:#f8fafc;
+  padding:16px;
+  text-align:center;
+  border-top:1px solid #f1f5f9;
+}
+.ihave-card-footer a{
+  color:#0f172a;
+  font-size:13px;
+  font-weight:700;
+  text-decoration:underline;
+  cursor:pointer;
+}
+
+/* ========================================================
+   Google Authentic Dark Mode Popup Window (Image 2 Replica)
+   ======================================================== */
+.google-dark-backdrop{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.75);
+  backdrop-filter:blur(8px);
+  z-index:99999;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+.google-dark-backdrop.active{
+  display:flex;
+}
+
+.google-dark-card{
+  background:#131314;
+  color:#e3e3e3;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:28px;
+  max-width:440px;
+  width:100%;
+  padding:36px 32px 32px;
+  box-shadow:0 24px 70px rgba(0,0,0,.8);
+  position:relative;
+  text-align:left;
+  animation:googleDarkPop .25s cubic-bezier(.16,1,.3,1) both;
+}
+@keyframes googleDarkPop{
+  0%{ transform:scale(.94); opacity:0; }
+  100%{ transform:scale(1); opacity:1; }
+}
+
+.g-dark-header{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:13px;
+  font-weight:600;
+  color:#c4c7c5;
+  margin-bottom:28px;
+}
+.g-dark-header svg{
+  width:18px;
+  height:18px;
+}
+
+.g-dark-title{
+  font-size:26px;
+  font-weight:500;
+  color:#e3e3e3;
+  margin:0 0 6px;
+  font-family:'Google Sans', Roboto, sans-serif;
+  letter-spacing:-.01em;
+}
+.g-dark-sub{
+  font-size:14px;
+  color:#8e918f;
+  margin:0 0 28px;
+}
+.g-dark-sub strong{
+  color:#c4c7c5;
+}
+
+.g-account-list{
+  display:flex;
+  flex-direction:column;
+  border:1px solid #444746;
+  border-radius:18px;
+  overflow:hidden;
+  margin-bottom:24px;
+}
+.g-account-row{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  padding:16px 20px;
+  cursor:pointer;
+  transition:background .15s ease;
+  border-bottom:1px solid #2e3130;
+}
+.g-account-row:last-child{
+  border-bottom:0;
+}
+.g-account-row:hover{
+  background:rgba(255,255,255,.06);
+}
+.g-avatar-circle{
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  background:#0284c7;
+  color:#ffffff;
+  font-size:16px;
+  font-weight:700;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+}
+.g-account-info{
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+}
+.g-account-name{
+  font-size:14.5px;
+  font-weight:600;
+  color:#e3e3e3;
+}
+.g-account-email{
+  font-size:12.5px;
+  color:#8e918f;
+}
+
+.g-custom-box{
+  display:none;
+  padding:16px 20px;
+  background:#1e1f20;
+  border-top:1px solid #444746;
+}
+.g-custom-input{
+  width:100%;
+  height:42px;
+  background:#131314;
+  border:1px solid #8e918f;
+  border-radius:8px;
+  padding:0 14px;
+  color:#fff;
+  font-size:14px;
+  box-sizing:border-box;
+  margin-bottom:10px;
+}
+.g-custom-input:focus{
+  outline:none;
+  border-color:#a8c7fa;
+}
+
+.g-dark-footer{
+  font-size:11.5px;
+  color:#8e918f;
+  line-height:1.45;
+}
+.g-dark-footer a{
+  color:#a8c7fa;
+  text-decoration:none;
+}
+
+/* ========================================================
+   Member Dashboard Styles
+   ======================================================== */
 .portal-user-header{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; margin-bottom:32px; padding-bottom:20px; border-bottom:1px solid rgba(255,255,255,.08); }
 .portal-user-info{ display:flex; align-items:center; gap:16px; }
-.portal-user-avatar{ width:56px; height:56px; border-radius:50%; background:#1a73e8; display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:800; color:#fff; overflow:hidden; border:2px solid rgba(255,255,255,.2); }
-.portal-user-avatar img{ width:100%; height:100%; object-fit:cover; }
+.portal-user-avatar{ width:56px; height:56px; border-radius:50%; background:#d6001c; display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:800; color:#fff; overflow:hidden; border:2px solid rgba(255,255,255,.2); }
 
 .portal-kpi-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:34px; }
 .portal-kpi-card{ background:#14151b; border:1px solid rgba(255,255,255,.08); border-radius:18px; padding:22px 20px; }
 .portal-kpi-card span{ font-size:12px; color:#9494a0; font-weight:700; text-transform:uppercase; letter-spacing:.04em; display:block; margin-bottom:6px; }
 .portal-kpi-card strong{ font-size:24px; color:#fff; font-weight:800; }
 
-/* License Cards Grid */
 .license-card-grid{ display:flex; flex-direction:column; gap:18px; margin-bottom:40px; }
 .license-item-card{ background:#14151b; border:1px solid rgba(255,255,255,.08); border-radius:20px; padding:26px; display:grid; grid-template-columns:1.2fr 1fr auto; gap:24px; align-items:center; transition:border-color .2s ease; }
 .license-item-card:hover{ border-color:rgba(2,132,199,.4); }
@@ -258,7 +421,7 @@
 </head>
 <body class="portal-page">
 
-<!-- Navbar -->
+<!-- Navigation -->
 <header class="portal-nav">
   <div class="portal-nav-inner">
     <a href="index.html" class="portal-brand">
@@ -276,62 +439,111 @@
 
 <main class="portal-container">
 
-  <!-- STEP 1: LOGIN BOX -->
-  <div id="loginStepBox" class="portal-login-card">
-    <img src="assets/logo.png" alt="Logo" style="width:48px; height:48px; margin-bottom:16px;">
-    <h2>เข้าสู่ระบบสมาชิก</h2>
-    <p>เข้าใช้งานเพื่อดู License Key ดาวน์โหลดตัวติดตั้ง และกดย้ายเครื่องคอมพิวเตอร์</p>
+  <!-- ========================================================
+       PHASE 1: AUTHENTIC LOGIN & REGISTER CARD (iHaveCPU Replica)
+       ======================================================== -->
+  <div id="loginStepBox" class="ihave-login-card">
+    <button class="ihave-close-btn" onclick="window.location.href='index.html'">&times;</button>
+    
+    <div class="ihave-card-body">
+      <!-- Title -->
+      <h2 class="ihave-title" id="authCardTitle">เข้าสู่ระบบ</h2>
 
-    <!-- Google Sign-in Official Button -->
-    <button class="btn-google-signin" onclick="openGoogleAuthModal()">
-      <svg viewBox="0 0 24 24">
-        <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
-        <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/>
-        <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.98 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
-        <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
-      </svg>
-      <span>ดำเนินการต่อด้วย Google</span>
-    </button>
+      <!-- LOGIN FORM -->
+      <form id="loginForm" onsubmit="event.preventDefault(); handleEmailLogin();">
+        
+        <!-- Registration Name (Only in Register mode) -->
+        <div class="ihave-form-group" id="regNameGroup" style="display:none;">
+          <div class="ihave-input-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          </div>
+          <input type="text" id="regNameInput" class="ihave-input" placeholder="ชื่อ-นามสกุล หรือชื่อร้าน">
+        </div>
 
-    <div class="auth-divider">
-      <span>หรือเข้าสู่ระบบด้วยอีเมล / OTP</span>
-    </div>
+        <!-- Email Input -->
+        <div class="ihave-form-group">
+          <div class="ihave-input-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"></circle><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94"></path></svg>
+          </div>
+          <input type="email" id="authEmailInput" class="ihave-input" placeholder="อีเมล" value="somchai.studio@gmail.com" required>
+        </div>
 
-    <!-- Email Step -->
-    <div id="emailFormArea">
-      <input type="email" id="loginEmailInput" class="portal-input" placeholder="อีเมลที่คุณใช้ตอนสั่งซื้อ" required>
-      <button class="btn btn-outline" style="width:100%; min-height:44px; font-weight:700; color:#fff; border-color:rgba(255,255,255,.2);" onclick="handleRequestOtp()">
-        ขอรหัส OTP เข้าสู่ระบบ
-      </button>
-    </div>
+        <!-- Password Input -->
+        <div class="ihave-form-group">
+          <div class="ihave-input-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"></circle><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94"></path></svg>
+          </div>
+          <input type="password" id="authPassInput" class="ihave-input" placeholder="รหัสผ่าน" value="123456" required>
+          <button type="button" class="ihave-eye-btn" onclick="togglePassVisibility()">
+            <svg id="eyeIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+          </button>
+        </div>
 
-    <!-- OTP Step -->
-    <div id="otpFormArea" style="display:none;">
-      <div style="background:rgba(2,132,199,.15); border:1px solid rgba(2,132,199,.3); border-radius:12px; padding:12px; margin-bottom:16px; font-size:13px; color:#38bdf8;" id="otpHintBox">
-        ระบบส่งรหัส OTP 6 หลักไปยังอีเมลของคุณแล้ว
+        <!-- Remember Me Checkbox -->
+        <div class="ihave-remember-row" id="rememberRow">
+          <input type="checkbox" id="rememberMe" checked>
+          <label for="rememberMe">จำฉันเข้าสู่ระบบ</label>
+        </div>
+
+        <!-- Primary Red Submit Button -->
+        <button type="submit" class="ihave-btn-submit" id="authSubmitBtn">
+          เข้าสู่ระบบ
+        </button>
+      </form>
+
+      <!-- Divider -->
+      <div class="ihave-divider">
+        <span>หรือเข้าสู่ระบบด้วย</span>
       </div>
-      <input type="text" id="loginOtpInput" class="portal-input" placeholder="กรอกรหัส OTP 6 หลัก" maxlength="6" style="text-align:center; letter-spacing:.2em; font-size:20px; font-weight:700;">
-      <button class="btn btn-primary" style="width:100%; min-height:46px; font-weight:700;" onclick="handleVerifyOtp()">
-        ยืนยันรหัส OTP และเข้าสู่ระบบ
+
+      <!-- Facebook Login Button -->
+      <button class="ihave-btn-social btn-fb" onclick="handleFacebookLogin()">
+        <div class="social-icon-box">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#3b5998"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        </div>
+        <span>เข้าสู่ระบบด้วย Facebook</span>
       </button>
-      <button style="background:transparent; border:0; color:#9494a0; font-size:12px; margin-top:12px; cursor:pointer;" onclick="backToEmailStep()">
-        เปลี่ยนอีเมล / ขอรหัสใหม่
+
+      <!-- Google Login Button (Opens Authentic Image 2 Popup) -->
+      <button class="ihave-btn-social btn-google" onclick="openGoogleDarkModal()">
+        <div class="social-icon-box">
+          <svg width="14" height="14" viewBox="0 0 24 24">
+            <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
+            <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/>
+            <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.98 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
+            <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+          </svg>
+        </div>
+        <span>เข้าสู่ระบบด้วย Google</span>
       </button>
+
+      <!-- Switch to Register Link -->
+      <div class="ihave-switch-row" id="switchModeRow">
+        <span>ไม่ใช่สมาชิก?</span> <a onclick="toggleAuthMode()">สมัครสมาชิก</a>
+      </div>
+
+    </div>
+
+    <!-- Bottom Light Gray Bar -->
+    <div class="ihave-card-footer">
+      <a onclick="alert('กรุณากรอกอีเมลของคุณ ระบบจะส่งลิงก์รีเซ็ตรหัสผ่านเข้าอีเมลทันทีครับ')">ลืมรหัสผ่าน ?</a>
     </div>
   </div>
 
-  <!-- STEP 2: MEMBER DASHBOARD (Shown after Login) -->
+  <!-- ========================================================
+       PHASE 2: MEMBER DASHBOARD (Shown after Login)
+       ======================================================== -->
   <div id="dashboardArea" style="display:none;">
     
     <!-- User Header with Avatar -->
     <div class="portal-user-header">
       <div class="portal-user-info">
         <div class="portal-user-avatar" id="userAvatarContainer">
-          <span id="userAvatarText">U</span>
+          <span id="userAvatarText">ส</span>
         </div>
         <div>
-          <h1 id="userWelcomeTitle">ยินดีต้อนรับ</h1>
-          <p id="userEmailSub">บัญชี Google: user@gmail.com</p>
+          <h1 id="userWelcomeTitle">ยินดีต้อนรับคุณ สมชาย</h1>
+          <p id="userEmailSub">อีเมล: somchai.studio@gmail.com</p>
         </div>
       </div>
       <a href="index.html#products" class="btn btn-primary btn-small">
@@ -386,66 +598,73 @@
 
 </main>
 
-<!-- AUTHENTIC GOOGLE ACCOUNT CHOOSER POPUP MODAL -->
-<div class="google-modal-backdrop" id="googleAuthModal">
-  <div class="google-auth-box">
-    <button class="google-modal-close" onclick="closeGoogleAuthModal()">&times;</button>
+<!-- ========================================================
+     GOOGLE AUTHENTIC DARK MODE ACCOUNT CHOOSER (Image 2 Replica)
+     ======================================================== -->
+<div class="google-dark-backdrop" id="googleDarkModal">
+  <div class="google-dark-card">
+    <button class="ihave-close-btn" style="color:#8e918f;" onclick="closeGoogleDarkModal()">&times;</button>
     
-    <div class="google-auth-header">
-      <svg class="google-logo-svg" viewBox="0 0 24 24">
+    <!-- Top Header -->
+    <div class="g-dark-header">
+      <svg viewBox="0 0 24 24">
         <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
         <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/>
         <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.98 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
         <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
       </svg>
-      <h3 class="google-auth-title">เลือกบัญชี Google</h3>
-      <p class="google-auth-sub">เพื่อดำเนินการต่อไปยัง <strong>JarernGraphic Store</strong></p>
+      <span>Sign in with Google</span>
     </div>
 
-    <!-- Account List -->
-    <div class="google-account-list">
+    <!-- Title & Subtitle -->
+    <h3 class="g-dark-title">Choose an account</h3>
+    <p class="g-dark-sub">to continue to <strong>jarerngraphic.com</strong></p>
+
+    <!-- Google Account List -->
+    <div class="g-account-list">
       
       <!-- Account 1 -->
-      <div class="google-account-item" onclick="selectGoogleAccount('somchai.studio@gmail.com', 'สมชาย สตูดิโอ', 'https://lh3.googleusercontent.com/a/default-user')">
-        <div class="google-acc-avatar" style="background:#0284c7;">ส</div>
-        <div class="google-acc-info">
-          <span class="google-acc-name">สมชาย สตูดิโอ</span>
-          <span class="google-acc-email">somchai.studio@gmail.com</span>
+      <div class="g-account-row" onclick="authenticateGoogleUser('somchai.studio@gmail.com', 'สมชาย สตูดิโอ')">
+        <div class="g-avatar-circle" style="background:#0284c7;">ส</div>
+        <div class="g-account-info">
+          <span class="g-account-name">สมชาย สตูดิโอ</span>
+          <span class="g-account-email">somchai.studio@gmail.com</span>
         </div>
       </div>
 
       <!-- Account 2 -->
-      <div class="google-account-item" onclick="selectGoogleAccount('laser.craft.bkk@gmail.com', 'Laser Craft Bangkok', 'https://lh3.googleusercontent.com/a/default-user')">
-        <div class="google-acc-avatar" style="background:#e11d48;">L</div>
-        <div class="google-acc-info">
-          <span class="google-acc-name">Laser Craft Bangkok</span>
-          <span class="google-acc-email">laser.craft.bkk@gmail.com</span>
+      <div class="g-account-row" onclick="authenticateGoogleUser('laser.craft.bkk@gmail.com', 'Laser Craft Bangkok')">
+        <div class="g-avatar-circle" style="background:#d6001c;">L</div>
+        <div class="g-account-info">
+          <span class="g-account-name">Laser Craft Bangkok</span>
+          <span class="g-account-email">laser.craft.bkk@gmail.com</span>
         </div>
       </div>
 
-      <!-- Account 3: Use custom Google Account -->
-      <div class="google-account-item" onclick="toggleCustomGoogleInput()">
-        <div class="google-acc-avatar" style="background:#5f6368;">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+      <!-- Account 3: Use another account -->
+      <div class="g-account-row" onclick="toggleDarkCustomInput()">
+        <div class="g-avatar-circle" style="background:#444746;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
         </div>
-        <div class="google-acc-info">
-          <span class="google-acc-name">ใช้บัญชี Google อื่น</span>
-          <span class="google-acc-email">กรอกอีเมล Gmail ของคุณ</span>
+        <div class="g-account-info">
+          <span class="g-account-name">Use another account</span>
+          <span class="g-account-email">Sign in with a different Gmail</span>
         </div>
       </div>
 
-      <!-- Custom Input Slide Down -->
-      <div class="google-custom-input-box" id="googleCustomBox">
-        <input type="email" id="customGoogleEmail" placeholder="อีเมลหรือโทรศัพท์ Gmail">
-        <button class="btn btn-primary" style="width:100%; min-height:38px; font-size:13px; font-weight:700;" onclick="submitCustomGoogle()">
-          ถัดไป
+      <!-- Slide down custom input -->
+      <div class="g-custom-box" id="darkCustomBox">
+        <input type="email" id="darkCustomEmail" class="g-custom-input" placeholder="Email or phone">
+        <button class="btn btn-primary" style="width:100%; min-height:38px; font-size:13px; font-weight:700;" onclick="submitDarkCustomGoogle()">
+          Next
         </button>
       </div>
 
     </div>
 
-    <div class="google-auth-footer">
-      ในการดำเนินการต่อ Google จะแชร์ชื่อ ที่อยู่อีเมล และรูปโปรไฟล์ของคุณกับ JarernGraphic ดู <a href="#">นโยบายความเป็นส่วนตัว</a> และ <a href="#">ข้อกำหนดในการให้บริการ</a>
+    <!-- Footer -->
+    <div class="g-dark-footer">
+      To continue, Google will share your name, email address, and profile picture with JarernGraphic. Before using this app, review its <a href="#">privacy policy</a> and <a href="#">terms of service</a>.
     </div>
 
   </div>
@@ -455,42 +674,112 @@
 let currentUser = null;
 let userLicenses = [];
 let userOrders = [];
+let isRegisterMode = false;
 
-function openGoogleAuthModal() {
-  document.getElementById('googleAuthModal').classList.add('active');
-}
+function toggleAuthMode() {
+  isRegisterMode = !isRegisterMode;
+  const title = document.getElementById('authCardTitle');
+  const submitBtn = document.getElementById('authSubmitBtn');
+  const regNameGroup = document.getElementById('regNameGroup');
+  const switchRow = document.getElementById('switchModeRow');
 
-function closeGoogleAuthModal() {
-  document.getElementById('googleAuthModal').classList.remove('active');
-}
-
-function toggleCustomGoogleInput() {
-  const box = document.getElementById('googleCustomBox');
-  box.style.display = box.style.display === 'block' ? 'none' : 'block';
-  if (box.style.display === 'block') {
-    document.getElementById('customGoogleEmail').focus();
+  if (isRegisterMode) {
+    title.textContent = 'สมัครสมาชิก';
+    submitBtn.textContent = 'สร้างบัญชีสมาชิก';
+    regNameGroup.style.display = 'block';
+    switchRow.innerHTML = '<span>มีบัญชีอยู่แล้ว?</span> <a onclick="toggleAuthMode()">เข้าสู่ระบบ</a>';
+  } else {
+    title.textContent = 'เข้าสู่ระบบ';
+    submitBtn.textContent = 'เข้าสู่ระบบ';
+    regNameGroup.style.display = 'none';
+    switchRow.innerHTML = '<span>ไม่ใช่สมาชิก?</span> <a onclick="toggleAuthMode()">สมัครสมาชิก</a>';
   }
 }
 
-function submitCustomGoogle() {
-  const email = document.getElementById('customGoogleEmail').value.trim();
+function togglePassVisibility() {
+  const passInput = document.getElementById('authPassInput');
+  passInput.type = passInput.type === 'password' ? 'text' : 'password';
+}
+
+// 1. Email + Password Login/Register
+async function handleEmailLogin() {
+  const email = document.getElementById('authEmailInput').value.trim();
+  const password = document.getElementById('authPassInput').value.trim();
+  const name = document.getElementById('regNameInput').value.trim();
+
+  if (!email || !password) {
+    alert('กรุณากรอกอีเมลและรหัสผ่าน');
+    return;
+  }
+
+  try {
+    const res = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        action: isRegisterMode ? 'register' : 'login',
+        email,
+        password,
+        name
+      })
+    });
+    const data = await res.json();
+
+    if (data.success) {
+      currentUser = data.user;
+      userLicenses = data.licenses || [];
+      userOrders = data.orders || [];
+      showDashboard(data.user);
+    } else {
+      alert(data.error || 'เข้าสู่ระบบไม่สำเร็จ');
+    }
+  } catch (err) {
+    alert('เกิดข้อผิดพลาดในการเชื่อมต่อ: ' + err.message);
+  }
+}
+
+// 2. Facebook Login
+function handleFacebookLogin() {
+  alert('กำลังเชื่อมต่อระบบ Facebook Login... เข้าสู่ระบบด้วย somchai.studio@gmail.com อัตโนมัติ');
+  authenticateGoogleUser('somchai.studio@gmail.com', 'สมชาย สตูดิโอ');
+}
+
+// 3. Google Dark Mode Modal Popup Handlers
+function openGoogleDarkModal() {
+  document.getElementById('googleDarkModal').classList.add('active');
+}
+
+function closeGoogleDarkModal() {
+  document.getElementById('googleDarkModal').classList.remove('active');
+}
+
+function toggleDarkCustomInput() {
+  const box = document.getElementById('darkCustomBox');
+  box.style.display = box.style.display === 'block' ? 'none' : 'block';
+  if (box.style.display === 'block') {
+    document.getElementById('darkCustomEmail').focus();
+  }
+}
+
+function submitDarkCustomGoogle() {
+  const email = document.getElementById('darkCustomEmail').value.trim();
   if (!email || !email.includes('@')) {
-    alert('กรุณากรอกอีเมล Google / Gmail ให้ถูกต้อง');
+    alert('กรุณากรอกอีเมล Gmail ให้ถูกต้อง');
     return;
   }
   const name = email.split('@')[0];
-  selectGoogleAccount(email, name);
+  authenticateGoogleUser(email, name);
 }
 
-// Authenticate selected Google Account
-async function selectGoogleAccount(email, name, picture = '') {
-  closeGoogleAuthModal();
+// Authenticate Google User
+async function authenticateGoogleUser(email, name) {
+  closeGoogleDarkModal();
 
   try {
     const res = await fetch('/api/auth/google', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, name, picture })
+      body: JSON.stringify({ email, name })
     });
     const data = await res.json();
 
@@ -507,70 +796,6 @@ async function selectGoogleAccount(email, name, picture = '') {
   }
 }
 
-async function handleRequestOtp() {
-  const email = document.getElementById('loginEmailInput').value.trim();
-  if (!email || !email.includes('@')) {
-    alert('กรุณากรอกอีเมลที่ถูกต้องครับ');
-    return;
-  }
-
-  try {
-    const res = await fetch('/api/auth/request-otp', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email })
-    });
-    const data = await res.json();
-
-    if (data.success) {
-      document.getElementById('emailFormArea').style.display = 'none';
-      document.getElementById('otpFormArea').style.display = 'block';
-      if (data.demoOtp) {
-        document.getElementById('otpHintBox').innerHTML = `ส่งรหัสไปยัง <strong>${email}</strong> แล้ว<br><span style="color:#fff;">(รหัส OTP สำหรับทดสอบ: <strong>${data.demoOtp}</strong>)</span>`;
-        document.getElementById('loginOtpInput').value = data.demoOtp;
-      }
-    } else {
-      alert(data.error || 'เกิดข้อผิดพลาดในการขอ OTP');
-    }
-  } catch (err) {
-    alert('ไม่สามารถเชื่อมต่อ API ได้: ' + err.message);
-  }
-}
-
-function backToEmailStep() {
-  document.getElementById('otpFormArea').style.display = 'none';
-  document.getElementById('emailFormArea').style.display = 'block';
-}
-
-async function handleVerifyOtp() {
-  const email = document.getElementById('loginEmailInput').value.trim();
-  const otp = document.getElementById('loginOtpInput').value.trim();
-  if (!otp || otp.length < 4) {
-    alert('กรุณากรอกรหัส OTP ให้ครบถ้วน');
-    return;
-  }
-
-  try {
-    const res = await fetch('/api/auth/verify-otp', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, otp })
-    });
-    const data = await res.json();
-
-    if (data.success) {
-      currentUser = data.user;
-      userLicenses = data.licenses || [];
-      userOrders = data.orders || [];
-      showDashboard(data.user);
-    } else {
-      alert(data.error || 'รหัส OTP ไม่ถูกต้อง');
-    }
-  } catch (err) {
-    alert('เกิดข้อผิดพลาด: ' + err.message);
-  }
-}
-
 function showDashboard(user) {
   document.getElementById('loginStepBox').style.display = 'none';
   document.getElementById('dashboardArea').style.display = 'block';
@@ -578,10 +803,9 @@ function showDashboard(user) {
 
   const displayName = user.name || user.email.split('@')[0];
   document.getElementById('userWelcomeTitle').textContent = `ยินดีต้อนรับคุณ ${displayName}`;
-  document.getElementById('userEmailSub').textContent = `บัญชี Google: ${user.email}`;
+  document.getElementById('userEmailSub').textContent = `บัญชีอีเมล: ${user.email}`;
   document.getElementById('userTotalLic').textContent = `${userLicenses.length} โปรแกรม`;
 
-  // Set avatar
   const avatarContainer = document.getElementById('userAvatarContainer');
   avatarContainer.innerHTML = `<span style="font-size:22px; font-weight:800;">${displayName.slice(0,1).toUpperCase()}</span>`;
 
@@ -687,8 +911,6 @@ function handleLogout() {
   userOrders = [];
   document.getElementById('dashboardArea').style.display = 'none';
   document.getElementById('loginStepBox').style.display = 'block';
-  document.getElementById('otpFormArea').style.display = 'none';
-  document.getElementById('emailFormArea').style.display = 'block';
   document.getElementById('portalLogoutBtn').style.display = 'none';
 }
 </script>

@@ -61,7 +61,7 @@
   .admin-kpi-grid{ grid-template-columns:repeat(2,1fr); }
   .admin-table{ display:block; overflow-x:auto; }
 }
-</style>
+<script src="theme.js"></script>
 </head>
 <body class="admin-page">
 
@@ -74,8 +74,9 @@
       <span class="admin-badge">REALTIME DB</span>
     </a>
     <div style="display:flex; align-items:center; gap:12px;">
-      <a href="member.html" class="btn btn-outline btn-small" style="color:#fff; border-color:rgba(255,255,255,.2);">หน้าสมาชิก</a>
-      <a href="index.html" class="btn btn-outline btn-small" style="color:#fff; border-color:rgba(255,255,255,.2);">ดูหน้าร้าน</a>
+      <button class="theme-toggle-btn" aria-label="Toggle Theme"></button>
+      <a href="member.html" class="btn btn-outline btn-small" style="color:var(--text-main); border-color:var(--border-color);">หน้าสมาชิก</a>
+      <a href="index.html" class="btn btn-outline btn-small" style="color:var(--text-main); border-color:var(--border-color);">ดูหน้าร้าน</a>
       <button class="btn btn-primary btn-small" id="adminLogoutBtn" style="display:none;" onclick="handleAdminLogout()">ออกจากระบบ</button>
     </div>
   </div>

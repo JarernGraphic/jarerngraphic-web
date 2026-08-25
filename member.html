@@ -417,7 +417,7 @@
   .license-item-card{ grid-template-columns:1fr; gap:16px; }
   .portal-kpi-grid{ grid-template-columns:1fr; }
 }
-</style>
+<script src="theme.js"></script>
 </head>
 <body class="portal-page">
 
@@ -430,8 +430,9 @@
       <span class="portal-badge">MEMBER PORTAL</span>
     </a>
     <div style="display:flex; align-items:center; gap:12px;">
-      <a href="index.html" class="btn btn-outline btn-small" style="color:#fff; border-color:rgba(255,255,255,.2);">หน้าร้าน</a>
-      <a href="admin.html" class="btn btn-outline btn-small" style="color:#fff; border-color:rgba(255,255,255,.2);">Admin</a>
+      <button class="theme-toggle-btn" aria-label="Toggle Theme"></button>
+      <a href="index.html" class="btn btn-outline btn-small" style="color:var(--text-main); border-color:var(--border-color);">หน้าร้าน</a>
+      <a href="admin.html" class="btn btn-outline btn-small" style="color:var(--text-main); border-color:var(--border-color);">Admin</a>
       <button class="btn btn-primary btn-small" id="portalLogoutBtn" style="display:none;" onclick="handleLogout()">ออกจากระบบ</button>
     </div>
   </div>
